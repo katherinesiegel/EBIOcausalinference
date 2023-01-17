@@ -23,6 +23,10 @@ website:
         text: Readings & Additional Materials
       - href: assignments.qmd
         text: Assignments & Evaluation
+      - href: coding_resources.qmd
+        text: Coding Resources
+      - href: policies.qmd
+        text: University Policies
 
 format:
   html:
