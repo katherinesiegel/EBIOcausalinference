@@ -2,14 +2,27 @@
 title: "Schedule"
 ---
 
-Example schedule:
+In general, on Mondays we will have brief lectures and demonstrations in R, while on Wednesdays, we will have student-led paper discussions and/or replication exercises of published papers. In the latter half of the course, we will shift to workshopping our own projects and discussing additional issues and considerations with applied causal inference. In this way, we will use a partially flipped classroom and strive to create a collaborative and inclusive classroom environment to discuss, ask questions, collaborate, and get feedback on your analyses. 
 
-|     |                Morning              |          Afternoon                     |
+The tentative schedule of content, subject to change based on student interests, is as follows: 
+
+|     |                Monday              |          Wednesday                     |
 |:---:|:-----------------------------------:|:--------------------------------------:|
-|  L  | Intro + Data manipulation           | git / GitHub                           |
-|  M  | Generalised Linear Models           | Data visualisation                     |
-|  X  | Mixed models / GAM / Bayes          | Functional programming + Students work |
-|  J  | Multivariate analyses               | Reproducible workflows                 |
-|  V  | Using R as GIS + Students work      | Project presentations                  |
+|  Week 1 (1/16)  | No class | Course intro |
+|  Week 2 (1/23)  | Intro to causal inference and counterfactual causality | Intro to the main frameworks for counterfactual causal inference  |
+|  Week 3 (1/30)  | Intro to DAGs | Workshopping DAGs |
+|  Week 4 (2/6)   | Randomized Controlled Experiments (or RCTs) and experimental design | Dissect experimental design with respect to assumptions required for causal inference  |
+|  Week 5 (2/13)  | Observational data and counterfactuals  | Introduction to quasi-experimental methods  |
+|  Week 6 (2/20)  | Pre-regression matching   | Paper discussion and replication exercise  |
+|  Week 7 (2/27)  | Difference in Difference (DiD)  | Paper discussion    |  
+|  Week 8 (3/6)   | Panel methods      | Paper discussion and replication exercise           |  
+|  Week 9 (3/13)  | Regression Discontinuity Designs (RDD)      | Paper discussion          |  
+|  Week 10 (3/20)  | Instrumental Variables      | Paper discussion                         |  
+|  Week 11 (3/27)  | Spring break (no class)      | Spring break (no class)                 |  
+|  Week 12 (4/3)  | Further topics      | Challenges for causal mechanisms OR heterogeneous treatment effects    |
+|  Week 13 (4/10)  | Applying methods through projects      | Presentations for feedback           |  
+|  Week 14 (4/17)  | Project work and workshopping      | Project work and workshopping OR special topics          |
+|  Week 15 (4/24)  | Project work and workshopping      | Project work and workshopping OR special topics                  |  
+|  Week 16 (5/1)  | Project presentations      | Project presentations                  |
 
 
