@@ -3,9 +3,10 @@ title: "EBIO 5460: Causal Inference in Ecology"
 ---
 
 ## Instructors
-Laura Dee & Katherine Siegel  
+[Laura Dee](https://www.colorado.edu/ebio/laura-dee)  
+[Katherine Siegel](https://katherinesiegel.github.io/)  
 
-## Time
+## Class Meetings
 Mondays & Wednesdays 3:30-4:45pm
 
 ## Course Description  
