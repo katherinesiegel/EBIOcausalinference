@@ -1,13 +1,7 @@
-# quarto-course-website-template
+# EBIO 5460: Causal Inference in Ecology
 
-A template for course websites developed with Quarto and hosted on GitHub
+Website for EBIO 5460 course, developed and taught by Laura Dee and Katherine Siegel at the University of Colorado-Boulder in Spring 2023.
 
-Only need to edit the source files in Quarto. The website is generated and hosted automatically by GitHub.
+Link to the site: https://katherinesiegel.github.io/EBIOcausalinference
 
-Website: https://pakillo.github.io/quarto-course-website-template
-
-See also https://github.com/rstudio-conf-2022/teach-ds-course-website for a more developed example
-
-Note: If using this repo as a template for a new repo of yours, remember to check 'Include all branches' when creating the repository (because we will need the gh-pages branch to host the website).
-
-Remember to also update the links to your GitHub repo in [_quarto.yml](https://github.com/Pakillo/quarto-course-website-template/blob/main/_quarto.yml)
+We made this course page using the template developed by Francisco Rodriguez-Sanchez (https://github.com/Pakillo/quarto-course-website-template).

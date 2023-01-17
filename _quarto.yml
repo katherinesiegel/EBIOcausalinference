@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Course Title"
+  title: "EBIO 5460: Causal Inference in Ecology"
   sidebar:
     background: primary
     # logo: "images/logo.png"
@@ -11,7 +11,7 @@ website:
     align: center
     tools:
       - icon: github
-        href: https://github.com/Pakillo/quarto-course-website-template
+        href: https://github.com/katherinesiegel/EBIOcausalinference
         text: GitHub
     style: docked
     contents:
@@ -21,8 +21,6 @@ website:
         text: Schedule
       - href: materials.qmd
         text: Materials
-      - href: https://github.com/Pakillo/quarto-course-website-template/discussions
-        text: Forum
 
 format:
   html:
