@@ -19,6 +19,8 @@ website:
         text: Course Overview
       - href: schedule.qmd
         text: Schedule
+      - href: readings.qmd
+        text: Readings & Additional Materials
       - href: assignments.qmd
         text: Assignments & Evaluation
 
