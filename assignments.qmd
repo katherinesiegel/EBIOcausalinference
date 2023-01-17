@@ -20,4 +20,23 @@ The course reading list will include journal articles and book chapters that we 
 
 The readings differ in their depth and use of math and notation. *You do not need to understand all the equations and notation to gain intuition about the material and concepts.* Try to learn it but try not to be too stressed by it. 
 
-
+* Suggestions for literature review topics  
+You are not limited to these topics, but here are some ideas:  
+1) Challenges and solutions for experimental designs and interpretation (choose one):
+    a) Non-compliance and attrition (this is a rich area!)
+    b) Interference between experimental units and spillovers (G&G Ch8)
+    c) Partial identification (excludability violations)
+    d) Mechanisms and mediation analysis (G&G Ch 10)
+    e) Limits to what experiments tell us about heterogenous treatment effects 
+    f) Integration of experimental findings (e.g., meta-analyses and extrapolation)
+2) New issues for difference-in-difference and two-way fixed effects estimators (e.g., staggered treatments and heterogeneity
+3) Synthetic control methods (https://mixtape.scunning.com/10-synthetic_control)
+4) Machine learning and causal inference
+5) Sensitivity analyses and/or placebo designs
+6) Weighted regression (extension of matching ideas)
+7) Mechanism (Mediation) Analysis; Sequential G estimation
+8) Remote sensing and causal inference
+9) Systematic measurement error
+10) Causal identification in time series
+11) Inferences in observational designs and networks
+12) Meta-analyses using observational data
