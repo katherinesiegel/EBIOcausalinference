@@ -10,7 +10,7 @@ As a 3-credit graduate course, our expectation is that you are here to learn, wh
 ### Final Project Option 1: Data analysis project  
 For the final project that takes the form of a data analysis, each student will complete a project according to the following process: identifying a research question, creating a DAG, choosing and applying a data analysis, and writing up a methods and results section that 1) articulates the causal relationship of interest, 2) describes the causal identification strategy and choice of study design/methods, 3) describes the implicit assumptions on which this strategy rests, and 4) interprets the results and their potential biases. *We encourage students to base this analysis on their thesis research to get the most out of the class.*  
 
-### Final Project Option 2: Literature review**  
+### Final Project Option 2: Literature review  
 Alternatively, students can complete a literature review that provides a deeper dive on a topic we do not cover in detail in this course (*some ideas are listed below). This direction may be more appropriate for students who are not at a stage of performing analyses for their thesis, who do not have a relevant project that is tackling an empirical causal question, or who are interested in learning more about a topic not covered under our guidance. 
 
 ## Additional assignments  
