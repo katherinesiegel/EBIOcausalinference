@@ -23,7 +23,8 @@ title: "Readings & Additional Materials"
 1) [Arif & MacNeil 2022](https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecm.1554)  
 2) Watch Hernan video: "3. Elements of DAGs" on Canvas
 3) Check out [DAG software](http://dagitty.net)  
-### Optional
+
+### Optional  
 For additional background on DAGs:  
 
 4) Morgan & Winship (2007) pgs. 29-34 and Ch. 3  
