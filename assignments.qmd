@@ -2,10 +2,11 @@
 title: "Assignments & Evaluation"
 ---
 
+## Overview  
+As a 3-credit graduate course, our expectation is that you are here to learn, which involves following along with the course through doing the reading and attending class meetings. We are less interested in grades and more interested in providing a venue to hold you accountable for learning the material. We will provide many opportunities for feedback and workshopping, so completing your assignments and making progress on your project will benefit your learning (and hopefully contribute to your progress on your thesis/dissertation). As such, attendance and participation is 25%, leading of paper discussion/presentation is 25%, and the final report and presentation are worth the remaining 50%. 
+
 ## Main assignment
 The main assignment will be either to complete and write up a data analysis or to do a literature review and deep dive on a particular subtopic (ideas listed below). The project or literature review will culminate in a presentation the last week of classes and a final written report.  
-
-As a 3-credit graduate course, our expectation is that you are here to learn, which involves following along with the course through doing the reading and attending class meetings. We are less interested in grades and more interested in providing a venue to hold you accountable for learning the material. We will provide many opportunities for feedback and workshopping, so completing your assignments and making progress on your project will benefit your learning (and hopefully contribute to your progress on your thesis/dissertation). As such, attendance and participation is 25%, leading of paper discussion/presentation is 25%, and the final report and presentation are worth the remaining 50%. 
 
 ### Final Project Option 1: Data analysis project  
 For the final project that takes the form of a data analysis, each student will complete a project according to the following process: identifying a research question, creating a DAG, choosing and applying a data analysis, and writing up a methods and results section that 1) articulates the causal relationship of interest, 2) describes the causal identification strategy and choice of study design/methods, 3) describes the implicit assumptions on which this strategy rests, and 4) interprets the results and their potential biases. *We encourage students to base this analysis on their thesis research to get the most out of the class.*  
@@ -21,7 +22,7 @@ The course reading list will include journal articles and book chapters that we 
 
 The readings differ in their depth and use of math and notation. *You do not need to understand all the equations and notation to gain intuition about the material and concepts.* Try to learn it but try not to be too stressed by it. 
 
-### Suggestions for literature review topics 
+## Suggestions for literature review topics (Final project option 2) 
 You are not limited to these topics, but here are some ideas:  
 1) Challenges and solutions for experimental designs and interpretation (choose one):
     a) Non-compliance and attrition (this is a rich area!)
@@ -41,3 +42,14 @@ You are not limited to these topics, but here are some ideas:
 10) Causal identification in time series
 11) Inferences in observational designs and networks
 12) Meta-analyses using observational data
+
+## Deadlines  
+|                Assignment              |          Deadline                     |
+|:-----------------------------------:|:--------------------------------------:|
+| [Pre-course survey](https://forms.gle/8bDyJH91EBHh5nWN8) | Friday 1/20 |
+| Causal research question + data context OR proposed literature review topic | Monday 4/10 (in class)  |
+| Short presentation on research questions + DAG OR literature review topic, its significance, + some potential applications | Wednesday 4/12 (in class) |
+| Draft of DAG OR literature review proposal | Friday 4/14 |
+| Revised DAG + proposed methods OR outline of literature review | Friday 4/21 |
+| Presentation of final project | Monday 5/1 and Wednesday 5/3 (in class) |
+| Final project write-up | Friday 5/5 |
