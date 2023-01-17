@@ -35,6 +35,20 @@
     "text": "Course Objectives\nThrough this course, students will gain:\n\nAn understanding of the main frameworks for counterfactual causal inference and how causal inference differs from other empirical research aims\nFamiliarity with how causal inference is applied in experimental and quasi-experimental study designs in ecology and evolution\nExperience reading the published literature in ecology and evolutionary biology with a critical eye towards appropriate use of methods for identifying causal relationships and mechanisms.\n\nThis course aims for students to learn how to:\n\nSummarize key threats to causal inference and identify these threats when evaluating their own and published study designs\nApply causal inference methods to real world research questions and datasets – either through applications to their thesis work or to other datasets – to mitigate threats to causal inference through research design\nIdentify the most appropriate study design(s) and methodology in non-experimental settings in light of the available data and the research question\nImplement these designs and methods in R and appropriately interpret the results and their potential biases\nWrite and speak clearly about these methods and the results they yield."
   },
   {
+    "objectID": "readings.html",
+    "href": "readings.html",
+    "title": "Readings & Additional Materials",
+    "section": "",
+    "text": "Hernan et al. 2019\nAngrist & Pischke 2008, Chapter 1\n\nGerber & Green, Chapter 1"
+  },
+  {
+    "objectID": "readings.html#due-wed.-125",
+    "href": "readings.html#due-wed.-125",
+    "title": "Readings & Additional Materials",
+    "section": "Due Wed. 1/25",
+    "text": "Due Wed. 1/25\n\nAngrist & Pischke 2008, Chapter 2\n\nHernan 2016"
+  },
+  {
     "objectID": "assignments.html",
     "href": "assignments.html",
     "title": "Assignments & Evaluation",
