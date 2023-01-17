@@ -60,7 +60,7 @@
     "href": "readings.html#due-wed.-21",
     "title": "Readings & Additional Materials",
     "section": "Due Wed. 2/1",
-    "text": "Due Wed. 2/1\n\nArif & MacNeil 2022\n\nWatch Hernan video: “3. Elements of DAGs” on Canvas\nCheck out DAG software\n\n\nOptional\nFor additional background on DAGs:\n\nMorgan & Winship (2007) pgs. 29-34 and Ch. 3\n\nCunningham (2021) Ch. 3"
+    "text": "Due Wed. 2/1\n\nArif & MacNeil 2022\n\nWatch Hernan video: “3. Elements of DAGs” on Canvas\nCheck out DAG software\n\n\nOptional\nFor additional background on DAGs:\n\nMorgan & Winship (2007) pgs. 29-34 and Ch. 3\n\nCunningham (2021) Ch. 3\n\nOther software for making DAGs:\n\nggdag is a nice R package based on dagitty but tidyverse-compatible and with much better plotting functionality\n\nshinydag is another GUI aimed at visualizing DAGs and exporting them in different publication-ready formats\n\nTETRAD\n\nDAG program\n\ndagR"
   },
   {
     "objectID": "readings.html#due-mon.-26",
@@ -95,7 +95,7 @@
     "href": "readings.html#due-mon.-220",
     "title": "Readings & Additional Materials",
     "section": "Due Mon. 2/20",
-    "text": "Due Mon. 2/20\n\nRamsey et al. 2018](https://doi.org/10.1111/2041-210X.13111)\nStuart 2010"
+    "text": "Due Mon. 2/20\n\nRamsey et al. 2018\nStuart 2010"
   },
   {
     "objectID": "readings.html#due-wed.-222",
