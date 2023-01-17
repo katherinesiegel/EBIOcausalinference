@@ -16,11 +16,11 @@ website:
     style: docked
     contents:
       - href: index.qmd
-        text: Home
+        text: Course Overview
       - href: schedule.qmd
         text: Schedule
-      - href: materials.qmd
-        text: Materials
+      - href: assignments.qmd
+        text: Assignments & Evaluation
 
 format:
   html:
