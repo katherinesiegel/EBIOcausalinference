@@ -1,5 +1,6 @@
 ---
-title: "Course Title"
+title: "EBIO 5460: Causal Inference in Ecology"
 ---
 
-Course info & details here
+**Instructors**: Laura Dee & Katherine Siegel  
+**Time**: Mondays & Wednesdays 3:30-4:45pm
