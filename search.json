@@ -1,17 +1,24 @@
 [
   {
+    "objectID": "coding_resources.html",
+    "href": "coding_resources.html",
+    "title": "Coding Resources",
+    "section": "",
+    "text": "Programming in R will be a key part of this course, and as most of you have probably experienced, R can cause headaches and stress! Files go missing, package dependencies spiral out of control, and minor code errors can cost us hours of troubleshooting. The point of this course is not to become an R whiz, and we don’t want code errors to get in the way of your learning and research progress.\nWe encourage you to use online resources for coding help if/when you get stuck. StackOverflow is a great resource for finding solutions to coding issues or asking a specific question, as is the RStudio Community. Twitter can also be a great resource: if you post a question with the hashtag #rstats, a kind soul might give you an answer. If you’re looking for help via Google, we recommend including in your query the package you’re using and if applicable, the error message you’re getting. Finally, if you are a visual learner, Allison Horst has some great learning tools for various R functions.\nIf you could use some more training and exposure to R, here are some resources to get started:\n* swirl teaches you R programming and data science interactively, at your own pace, and right in the R console! On this page, swirl will walk you through each of the steps required to begin using R and swirl today!\n* R for data science (R4DS). R4DS teaches you how to do data science with R: You’ll learn how to get your data into R, get it into the most useful structure, transform it, visualize it and model it. The book is available online, where you can find a practicum of skills for data science from visualization to wrangling and writing functions.\n* Have a favorite resource? Please send it to Laura and Katherine so we can post it!"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "EBIO 5460: Causal Inference in Ecology",
     "section": "",
-    "text": "Laura Dee\nKatherine Siegel"
+    "text": "Laura Dee (laura.dee@colorado.edu)\nKatherine Siegel (ksiegel@ucar.edu)"
   },
   {
     "objectID": "index.html#class-meetings",
     "href": "index.html#class-meetings",
     "title": "EBIO 5460: Causal Inference in Ecology",
     "section": "Class Meetings",
-    "text": "Class Meetings\nMondays & Wednesdays 3:30-4:45pm"
+    "text": "Class Meetings\nMondays & Wednesdays 3:30-4:45pm\n\nOffice Hours\nLaura: Wednesday 2:15-3:15 pm and by appointment\nKatherine: Tuesday 3-4pm and by appointment"
   },
   {
     "objectID": "index.html#course-description",
@@ -35,11 +42,74 @@
     "text": "Course Objectives\nThrough this course, students will gain:\n\nAn understanding of the main frameworks for counterfactual causal inference and how causal inference differs from other empirical research aims\nFamiliarity with how causal inference is applied in experimental and quasi-experimental study designs in ecology and evolution\nExperience reading the published literature in ecology and evolutionary biology with a critical eye towards appropriate use of methods for identifying causal relationships and mechanisms.\n\nThis course aims for students to learn how to:\n\nSummarize key threats to causal inference and identify these threats when evaluating their own and published study designs\nApply causal inference methods to real world research questions and datasets – either through applications to their thesis work or to other datasets – to mitigate threats to causal inference through research design\nIdentify the most appropriate study design(s) and methodology in non-experimental settings in light of the available data and the research question\nImplement these designs and methods in R and appropriately interpret the results and their potential biases\nWrite and speak clearly about these methods and the results they yield."
   },
   {
+    "objectID": "index.html#code-data",
+    "href": "index.html#code-data",
+    "title": "EBIO 5460: Causal Inference in Ecology",
+    "section": "Code & Data",
+    "text": "Code & Data\nWe will make RMarkdown Files, datasets, and code available at https://github.com/LauraDee/CausalEcology"
+  },
+  {
+    "objectID": "policies.html",
+    "href": "policies.html",
+    "title": "University Policies",
+    "section": "",
+    "text": "Both students and faculty are responsible for maintaining an appropriate learning environment in all instructional settings, whether in person, remote or online. Those who fail to adhere to such behavioral standards may be subject to discipline. Professional courtesy and sensitivity are especially important with respect to individuals and topics dealing with race, color, national origin, sex, pregnancy, age, disability, creed, religion, sexual orientation, gender identity, gender expression, veteran status, political affiliation or political philosophy. For more information, see the classroom behavior policy, the Student Code of Conduct, and the Office of Institutional Equity and Compliance."
+  },
+  {
+    "objectID": "policies.html#requirements-for-covid-19",
+    "href": "policies.html#requirements-for-covid-19",
+    "title": "University Policies",
+    "section": "Requirements for COVID-19",
+    "text": "Requirements for COVID-19\nAs a matter of public health and safety, all members of the CU Boulder community and all visitors to campus must follow university, department and building requirements and all public health orders in place to reduce the risk of spreading infectious disease. CU Boulder currently requires COVID-19 vaccination and boosters for all faculty, staff and students. Students, faculty and staff must upload proof of vaccination and boosters or file for an exemption based on medical, ethical or moral grounds through the MyCUHealth portal.\nThe CU Boulder campus is currently mask-optional. However, if public health conditions change and masks are again required in classrooms, students who fail to adhere to masking requirements will be asked to leave class, and students who do not leave class when asked or who refuse to comply with these requirements will be referred to Student Conduct and Conflict Resolution. For more information, see the policy on classroom behavior and the Student Code of Conduct. If you require accommodation because a disability prevents you from fulfilling these safety measures, please follow the steps in the “Accommodation for Disabilities” statement on this syllabus.\nIf you feel ill and think you might have COVID-19, if you have tested positive for COVID-19, or if you are unvaccinated or partially vaccinated and have been in close contact with someone who has COVID-19, you should stay home and follow the further guidance of the Public Health Office (contacttracing@colorado.edu). If you are fully vaccinated and have been in close contact with someone who has COVID-19, you do not need to stay home; rather, you should self-monitor for symptoms and follow the further guidance of the Public Health Office (contacttracing@colorado.edu)."
+  },
+  {
+    "objectID": "policies.html#accommodation-for-disabilities",
+    "href": "policies.html#accommodation-for-disabilities",
+    "title": "University Policies",
+    "section": "Accommodation for Disabilities",
+    "text": "Accommodation for Disabilities\nIf you qualify for accommodations because of a disability, please submit your accommodation letter from Disability Services to your faculty member in a timely manner so that your needs can be addressed. Disability Services determines accommodations based on documented disabilities in the academic environment. Information on requesting accommodations is located on the Disability Services website. Contact Disability Services at 303-492-8671 or dsinfo@colorado.edu for further assistance. If you have a temporary medical condition, see Temporary Medical Conditions on the Disability Services website."
+  },
+  {
+    "objectID": "policies.html#preferred-student-names-and-pronouns",
+    "href": "policies.html#preferred-student-names-and-pronouns",
+    "title": "University Policies",
+    "section": "Preferred Student Names and Pronouns",
+    "text": "Preferred Student Names and Pronouns\nCU Boulder recognizes that students’ legal information doesn’t always align with how they identify. Students may update their preferred names and pronouns via the student portal; those preferred names and pronouns are listed on instructors’ class rosters. In the absence of such updates, the name that appears on the class roster is the student’s legal name."
+  },
+  {
+    "objectID": "policies.html#honor-code",
+    "href": "policies.html#honor-code",
+    "title": "University Policies",
+    "section": "Honor Code",
+    "text": "Honor Code\nAll students enrolled in a University of Colorado Boulder course are responsible for knowing and adhering to the Honor Code. Violations of the Honor Code may include, but are not limited to: plagiarism, cheating, fabrication, lying, bribery, threat, unauthorized access to academic materials, clicker fraud, submitting the same or similar work in more than one course without permission from all course instructors involved, and aiding academic dishonesty. All incidents of academic misconduct will be reported to Student Conduct & Conflict Resolution (honor@colorado.edu); 303-492-5550). Students found responsible for violating the Honor Code will be assigned resolution outcomes from the Student Conduct & Conflict Resolution as well as be subject to academic sanctions from the faculty member. Additional information regarding the Honor Code academic integrity policy can be found on the Honor Code website."
+  },
+  {
+    "objectID": "policies.html#sexual-misconduct-discrimination-harassment-andor-related-retaliation",
+    "href": "policies.html#sexual-misconduct-discrimination-harassment-andor-related-retaliation",
+    "title": "University Policies",
+    "section": "Sexual Misconduct, Discrimination, Harassment and/or Related Retaliation",
+    "text": "Sexual Misconduct, Discrimination, Harassment and/or Related Retaliation\nCU Boulder is committed to fostering an inclusive and welcoming learning, working, and living environment. University policy prohibits sexual misconduct (harassment, exploitation, and assault), intimate partner violence (dating or domestic violence), stalking, protected-class discrimination and harassment, and related retaliation by or against members of our community on- and off-campus. These behaviors harm individuals and our community. The Office of Institutional Equity and Compliance (OIEC) addresses these concerns, and individuals who believe they have been subjected to misconduct can contact OIEC at 303-492-2127 or email cureport@colorado.edu. Information about university policies, reporting options, and support resources can be found on the OIEC website.\nPlease know that faculty and graduate instructors have a responsibility to inform OIEC when they are made aware of any issues related to these policies regardless of when or where they occurred to ensure that individuals impacted receive information about their rights, support resources, and resolution options. To learn more about reporting and support options for a variety of concerns, visit Don’t Ignore It."
+  },
+  {
+    "objectID": "policies.html#religious-holidays",
+    "href": "policies.html#religious-holidays",
+    "title": "University Policies",
+    "section": "Religious Holidays",
+    "text": "Religious Holidays\nCampus policy regarding religious observances requires that faculty make every effort to deal reasonably and fairly with all students who, because of religious obligations, have conflicts with scheduled exams, assignments or required attendance. See the campus policy regarding religious observances for full details."
+  },
+  {
     "objectID": "readings.html",
     "href": "readings.html",
     "title": "Readings & Additional Materials",
     "section": "",
-    "text": "Hernan et al. 2019\nAngrist & Pischke 2008, Chapter 1\n\nGerber & Green, Chapter 1"
+    "text": "Morgan, SL and C Winship. 2007. Counterfactuals and Causal Inference: methods and principles for social research.\n\nGerber, AS and DP Green. 2012. Field Experiments: design, analysis and interpretation. (especially useful if you plan to do field experiments in your research)\n\nCunningham, S. 2021. Causal Inference: The Mixtape (New Haven, CT: Yale University Press), https://mixtape.scunning.com/. (Also free(!))\nAngrist, JD and JS Pischke. 2015. Mastering ’Metrics: The Path from Cause to Effect (Princeton, NJ: Princeton University Press).\nAngrist, JD and JS Pischke. 2008. Mostly Harmless Econometrics: an empiricist’s companion. (Princeton, NJ: Princeton University Press).\n*Rosenbaum, P. 2010. Observational Studies. Springer.\n\nFor more technical discussions of causality, see Holland (1986; JASA), Heckman (2000; QJE), and, especially, J. Pearl’s book Causality.\n\nA more popular science book is The Book of Why, by Judea Pearl."
+  },
+  {
+    "objectID": "readings.html#due-mon.-123",
+    "href": "readings.html#due-mon.-123",
+    "title": "Readings & Additional Materials",
+    "section": "Due Mon. 1/23",
+    "text": "Due Mon. 1/23\n\nHernan et al. 2019\nAngrist & Pischke 2008, Chapter 1\n\nGerber & Green, Chapter 1"
   },
   {
     "objectID": "readings.html#due-wed.-125",
