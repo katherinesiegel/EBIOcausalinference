@@ -28,7 +28,15 @@ title: "Readings & Additional Materials"
 For additional background on DAGs:  
 
 4) Morgan & Winship (2007) pgs. 29-34 and Ch. 3  
-5) [Cunningham (2021) Ch. 3](https://mixtape.scunning.com/03-directed_acyclical_graphs)
+5) [Cunningham (2021) Ch. 3](https://mixtape.scunning.com/03-directed_acyclical_graphs)  
+
+Other software for making DAGs:  
+
+a) [ggdag](https://cran.r-project.org/web/packages/ggdag/vignettes/intro-to-ggdag.html) is a nice R package based on dagitty but tidyverse-compatible and with much better plotting functionality    
+b) [shinydag](https://www.gerkelab.com/project/shinydag/) is another GUI aimed at visualizing DAGs and exporting them in different publication-ready formats  
+c) [TETRAD](https://sites.google.com/view/tetradcausal)  
+d) [DAG program](https://hsz.dife.de/dag/)  
+e) [dagR](https://journals.lww.com/epidem/Fulltext/2010/07000/dagR__A_Suite_of_R_Functions_for_Directed_Acyclic.26.aspx)
 
 ## Due Mon. 2/6  
 
@@ -51,7 +59,7 @@ For additional background on DAGs:
 
 ## Due Mon. 2/20  
 
-1) Ramsey et al. 2018](https://doi.org/10.1111/2041-210X.13111)
+1) [Ramsey et al. 2018](https://doi.org/10.1111/2041-210X.13111)
 2) [Stuart 2010](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/)  
 
 ## Due Wed. 2/22  
