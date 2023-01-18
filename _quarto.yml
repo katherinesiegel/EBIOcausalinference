@@ -5,7 +5,7 @@ project:
 website:
   title: "EBIO 5460: Causal Inference in Ecology"
   sidebar:
-    background: primary
+    background: "#20618D"
     # logo: "images/logo.png"
     pinned: true
     align: center
