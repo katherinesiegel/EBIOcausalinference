@@ -46,7 +46,7 @@ You are not limited to these topics, but here are some ideas:
 ## Deadlines  
 |                Assignment              |          Deadline                     |
 |:-----------------------------------:|:--------------------------------------:|
-| [Pre-course survey](https://forms.gle/8bDyJH91EBHh5nWN8) | Friday 1/20 |
+| [Pre-course survey](https://forms.gle/zQr2Mp14bVnJecYaA) | Friday 1/20 |
 | Causal research question + data context OR proposed literature review topic | Monday 4/10 (in class)  |
 | Short presentation on research questions + DAG OR literature review topic, its significance, + some potential applications | Wednesday 4/12 (in class) |
 | Draft of DAG OR literature review proposal | Friday 4/14 |
