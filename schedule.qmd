@@ -9,20 +9,20 @@ The tentative schedule of content, subject to change based on student interests,
 |     |     Monday     |     Wednesday     |     Goals/Topics     |
 |:---:|:--------------:|:-----------------:|:--------------------:|
 |  Week 1 (1/16)  | No class | Course intro | • Intro to course and goals <br> • Understand students’ goals for the course <br> • Set norms and expectations |
-|  Week 2 (1/23)  | Intro to causal inference and counterfactual causality | Intro to the main frameworks for counterfactual causal inference  |
-|  Week 3 (1/30)  | Intro to DAGs | Workshopping DAGs |
-|  Week 4 (2/6)   | Randomized Controlled Experiments (or RCTs) and experimental design | Dissect experimental design with respect to assumptions required for causal inference  |
-|  Week 5 (2/13)  | Observational data and counterfactuals  | Introduction to quasi-experimental methods  |
-|  Week 6 (2/20)  | Pre-regression matching   | Paper discussion and replication exercise  |
-|  Week 7 (2/27)  | Difference in Difference (DiD)  | Paper discussion    |  
-|  Week 8 (3/6)   | Panel methods      | Paper discussion and replication exercise           |  
-|  Week 9 (3/13)  | Regression Discontinuity Designs (RDD)      | Paper discussion          |  
-|  Week 10 (3/20)  | Instrumental Variables      | Paper discussion                         |  
-|  Week 11 (3/27)  | Spring break (no class)      | Spring break (no class)                 |  
-|  Week 12 (4/3)  | Further topics      | Challenges for causal mechanisms OR heterogeneous treatment effects    |
-|  Week 13 (4/10)  | Applying methods through projects      | Presentations for feedback           |  
-|  Week 14 (4/17)  | Project work and workshopping      | Project work and workshopping OR special topics          |
-|  Week 15 (4/24)  | Project work and workshopping      | Project work and workshopping OR special topics                  |  
-|  Week 16 (5/1)  | Project presentations      | Project presentations                  |
+|  Week 2 (1/23)  | Intro to causal inference and counterfactual causality | Intro to the main frameworks for counterfactual causal inference  | • Intro to concepts in causal inference and motivation for applying it to ecology and evolution <br> • Introduction to two main frameworks for counterfactual causality (potential outcomes and graphical causal modeling frameworks) |
+|  Week 3 (1/30)  | Intro to DAGs | Workshopping DAGs | • DAGs as a tool from the graphical causal modeling framework <br> • Students create and workshop DAGs for their own research/study systems |
+|  Week 4 (2/6)   | Randomized Controlled Experiments (or RCTs) and experimental design | Dissect experimental design with respect to assumptions required for causal inference  | • Application of potential outcomes framework to RCTs <br> • Review key assumptions of RCTs <br> • Critique experimental designs in ecology and identify solutions |
+|  Week 5 (2/13)  | Observational data and counterfactuals  | Introduction to quasi-experimental methods  | • Articulate how and why observational data deviates from assumptions of RCTs <br> • Understand challenges of applying causal inference to observational data, including confounding and selection bias <br> • Get a sense of the landscape of tools for overcoming challenges |
+|  Week 6 (2/20)  | Pre-regression matching   | Paper discussion and replication exercise  | • Learn pre-regression matching as a method <br> • Demo application in R <br> • See & critique how it is applied in the literature |
+|  Week 7 (2/27)  | Difference in Difference (DiD)  | Paper discussion    | • Learn DiD designs, including identification assumptions and interpretation <br> • Demo application in R <br> • Compare DiD to matching and experiments <br> • See & critique how it is applied in the literature |  
+|  Week 8 (3/6)   | Panel methods      | Paper discussion and replication exercise           | • Learn within estimators (two-way fixed effects) including identification assumptions and interpretation <br> • Compare panel designs with conditioning on observables designs and with random effect/mixed effect models in R and understand the differences in assumptions  <br> • Compare applications in literature and the assumptions required for the conclusions drawn |  
+|  Week 9 (3/13)  | Regression Discontinuity Designs (RDD)      | Paper discussion          | • Learn RDD as a method <br> • Demo application in R <br> • See & critique how it is applied in the literature |    
+|  Week 10 (3/20)  | Instrumental Variables      | Paper discussion                         | • Learn IV as a method <br> • Demo application in R <br> • See & critique how it is applied in the literature |  
+|  Week 11 (3/27)  | Spring break (no class)      | Spring break (no class)                 |   |  
+|  Week 12 (4/3)  | Further topics      | Challenges for causal mechanisms OR heterogeneous treatment effects    | • Overview of other, emerging methods <br> • Demo application in R <br> • See & critique how they are applied in the literature |
+|  Week 13 (4/10)  | Applying methods through projects      | Presentations for feedback           | • Using existing data and research question, as a class we will create a DAG, determine appropriate causal inference methods, and run the analyses |  
+|  Week 14 (4/17)  | Project work and workshopping      | Project work and workshopping OR special topics          | • Present proposed research design and challenges so far to get feedback from peers  |
+|  Week 15 (4/24)  | Project work and workshopping      | Project work and workshopping OR special topics                  |           |
+|  Week 16 (5/1)  | Project presentations      | Project presentations                  |         |
 
 
