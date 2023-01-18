@@ -144,4 +144,4 @@ e) [dagR](https://journals.lww.com/epidem/Fulltext/2010/07000/dagR__A_Suite_of_R
 ### Replication/Reproducibility/Pre-registration  
 1) Kimmel et al., in press
 
-
+### Deeper dive into mechanisms and mediation analysis 
