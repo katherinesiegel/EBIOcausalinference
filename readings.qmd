@@ -3,14 +3,18 @@ title: "Readings & Additional Materials"
 ---
 
 ## Recommended Textbooks (not required)    
-* Morgan, SL and C Winship. 2007. Counterfactuals and Causal Inference: methods and principles for social research.  
-* Gerber, AS and DP Green. 2012. Field Experiments: design, analysis and interpretation. (especially useful if you plan to do field experiments in your research)  
-* Cunningham, S. 2021. Causal Inference: The Mixtape (New Haven, CT: Yale University Press), https://mixtape.scunning.com/. (Also free(!))
-* Angrist, JD and JS Pischke. 2015. Mastering ’Metrics: The Path from Cause to Effect (Princeton, NJ: Princeton University Press).
-* Angrist, JD and JS Pischke. 2008. Mostly Harmless Econometrics: an empiricist’s companion. (Princeton, NJ: Princeton University Press).  
-*Rosenbaum, P.  2010. Observational Studies. Springer.  
-* For more technical discussions of causality, see Holland (1986; JASA), Heckman (2000; QJE), and, especially, J. Pearl’s book Causality.  
-* A more popular science book is The Book of Why, by Judea Pearl.
+We do not expect you to buy any/all of these books. We will provide the sections that are assigned for class. But if you want to explore topics of causal inference further, we recommend these books!  
+* Morgan, SL and C Winship. 2007. [*Counterfactuals and Causal Inference: methods and principles for social research*](https://doi.org/10.1017/CBO9781107587991).  
+* Gerber, AS and DP Green. 2012. [*Field Experiments: design, analysis and interpretation*](https://wwnorton.com/books/9780393979954). (especially useful if you plan to do field experiments in your research)  
+* Cunningham, S. 2021. [*Causal Inference: The Mixtape*](https://mixtape.scunning.com/) (New Haven, CT: Yale University Press). [Available online for free](https://mixtape.scunning.com/)
+* Angrist, JD and JS Pischke. 2015. [*Mastering ’Metrics: The Path from Cause to Effect*](https://www.masteringmetrics.com/) (Princeton, NJ: Princeton University Press).
+* Angrist, JD and JS Pischke. 2008. [*Mostly Harmless Econometrics: an empiricist’s companion*](https://www.mostlyharmlesseconometrics.com/). (Princeton, NJ: Princeton University Press).  
+* Rosenbaum, P.  2010. [*Observational Studies*](https://doi.org/10.1007/978-1-4757-3692-2). Springer.  
+* For more technical discussions of causality:  
+    - [Holland 1986, JASA](https://doi.org/10.2307/2289064)  
+    - [Heckman 2000, QJE](https://www.jstor.org/stable/2586935)    
+    - Pearl, J. 2009. [*Causality*](https://doi.org/10.1017/CBO9780511803161). (Cambridge, UK: Cambridge University Press).  
+* Pearl, J. and D. Mackenzie. 2018. [*The Book of Why*](https://dl.acm.org/doi/10.5555/3238230). (New York, NY: Basic Books, Inc.) (A more popular science book)
 
 ## Due Mon. 1/23  
 
