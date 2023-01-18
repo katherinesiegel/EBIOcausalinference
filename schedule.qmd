@@ -6,9 +6,9 @@ In general, on Mondays we will have brief lectures and demonstrations in R, whil
 
 The tentative schedule of content, subject to change based on student interests, is as follows: 
 
-|     |                Monday              |          Wednesday                     |
-|:---:|:-----------------------------------:|:--------------------------------------:|
-|  Week 1 (1/16)  | No class | Course intro |
+|     |     Monday     |     Wednesday     |     Goals/Topics     |
+|:---:|:--------------:|:-----------------:|:--------------------:|
+|  Week 1 (1/16)  | No class | Course intro | • Intro to course and goals <br> • Understand students’ goals for the course <br> • Set norms and expectations |
 |  Week 2 (1/23)  | Intro to causal inference and counterfactual causality | Intro to the main frameworks for counterfactual causal inference  |
 |  Week 3 (1/30)  | Intro to DAGs | Workshopping DAGs |
 |  Week 4 (2/6)   | Randomized Controlled Experiments (or RCTs) and experimental design | Dissect experimental design with respect to assumptions required for causal inference  |
