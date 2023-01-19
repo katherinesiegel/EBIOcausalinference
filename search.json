@@ -42,6 +42,13 @@
     "text": "Code & Data\nWe will make RMarkdown Files, datasets, and code available at https://github.com/LauraDee/CausalEcology"
   },
   {
+    "objectID": "index.html#a-note-on-inclusion",
+    "href": "index.html#a-note-on-inclusion",
+    "title": "EBIO 5460: Causal Inference in Ecology",
+    "section": "A Note on Inclusion",
+    "text": "A Note on Inclusion\nSome of these texts that we will read in class use examples to illustrate their points that are problematic (e.g., treating gender as a binary or studying post-colonial economic development without considering the violence of colonialism). We do not agree with the assumptions underlying these examples and we acknowledge the problems with them. The descriptions of methods are still some of the easiest to read out there. At the same time, policy decisions are being made based on these and similar analyses, so we need train people who can use these methods for causal inference and approach this work through a lens of diversity, equity, inclusion, and justice.\nIn this class, we aim to foster discussions of how bias shapes the causal models in science and in our own heads, the questions we ask, the analyses we do, who does them, and our interpretation of these results. We are also always open to feedback on these subjects."
+  },
+  {
     "objectID": "schedule.html",
     "href": "schedule.html",
     "title": "Schedule",
@@ -151,7 +158,7 @@
     "href": "readings.html",
     "title": "Readings & Additional Materials",
     "section": "",
-    "text": "We do not expect you to buy any/all of these books. We will provide the sections that are assigned for class. But if you want to explore topics of causal inference further, we recommend these books!\n\nMorgan, SL and C Winship. 2007. Counterfactuals and Causal Inference: methods and principles for social research.\n\nGerber, AS and DP Green. 2012. Field Experiments: design, analysis and interpretation. (especially useful if you plan to do field experiments in your research)\n\nCunningham, S. 2021. Causal Inference: The Mixtape (New Haven, CT: Yale University Press). Available online for free\n\nAngrist, JD and JS Pischke. 2015. Mastering ’Metrics: The Path from Cause to Effect (Princeton, NJ: Princeton University Press).\n\nAngrist, JD and JS Pischke. 2008. Mostly Harmless Econometrics: an empiricist’s companion. (Princeton, NJ: Princeton University Press).\n\nRosenbaum, P. 2010. Observational Studies. Springer.\n\nPearl, J. and D. Mackenzie. 2018. The Book of Why. (New York, NY: Basic Books, Inc.) (A more popular science book)\n\nFor more technical discussions of causality:\n\nHolland 1986, JASA\n\nHeckman 2000, QJE\n\nPearl, J. 2009. Causality. (Cambridge, UK: Cambridge University Press)."
+    "text": "We do not expect you to buy any/all of these books. We will provide the sections that are assigned for class. But if you want to explore topics of causal inference further, we recommend these books!\nNote: Some of these texts use examples to illustrate their points that are problematic (e.g., treating gender as a binary or studying post-colonial economic development without considering the violence of colonialism). We do not agree with the assumptions underlying these examples and we acknowledge the problems with them. The descriptions of methods are still some of the easiest to read out there.\n\nMorgan, SL and C Winship. 2007. Counterfactuals and Causal Inference: methods and principles for social research.\n\nGerber, AS and DP Green. 2012. Field Experiments: design, analysis and interpretation. (especially useful if you plan to do field experiments in your research)\n\nCunningham, S. 2021. Causal Inference: The Mixtape (New Haven, CT: Yale University Press). Available online for free\n\nAngrist, JD and JS Pischke. 2015. Mastering ’Metrics: The Path from Cause to Effect (Princeton, NJ: Princeton University Press).\n\nAngrist, JD and JS Pischke. 2008. Mostly Harmless Econometrics: an empiricist’s companion. (Princeton, NJ: Princeton University Press).\n\nRosenbaum, P. 2010. Observational Studies. Springer.\n\nPearl, J. and D. Mackenzie. 2018. The Book of Why. (New York, NY: Basic Books, Inc.) (A more popular science book)\n\nFor more technical discussions of causality:\n\nHolland 1986, JASA\n\nHeckman 2000, QJE\n\nPearl, J. 2009. Causality. (Cambridge, UK: Cambridge University Press)."
   },
   {
     "objectID": "readings.html#due-mon.-123",
