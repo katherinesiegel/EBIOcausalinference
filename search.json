@@ -123,14 +123,14 @@
     "href": "readings.html#due-mon.-130",
     "title": "Readings & Additional Materials",
     "section": "Due Mon. 1/30",
-    "text": "Due Mon. 1/30\n\nRohrer 2018\nLaubach et al. 2021"
+    "text": "Due Mon. 1/30\nGuest speaker: Dr. Zach Laubach\n\nRohrer 2018\nLaubach et al. 2021"
   },
   {
     "objectID": "readings.html#due-wed.-21",
     "href": "readings.html#due-wed.-21",
     "title": "Readings & Additional Materials",
     "section": "Due Wed. 2/1",
-    "text": "Due Wed. 2/1\n\nArif & MacNeil 2022\n\nWatch Hernan video: “3. Elements of DAGs” on Canvas\nCheck out DAG software\n\n\nOptional\nFor additional background on DAGs:\n\nMorgan & Winship (2007) pgs. 29-34 and Ch. 3\n\nCunningham (2021) Ch. 3\n\nOther software for making DAGs:\n\nggdag is a nice R package based on dagitty but tidyverse-compatible and with much better plotting functionality\n\nshinydag is another GUI aimed at visualizing DAGs and exporting them in different publication-ready formats\n\nTETRAD\n\nDAG program\n\ndagR"
+    "text": "Due Wed. 2/1\nCome to class prepared to present and discuss your DAG.\n\nArif & MacNeil 2022\n\nWatch Hernan video: “3. Elements of DAGs” on Canvas\nCheck out DAG software\n\n\nOptional\nFor additional background on DAGs:\n\nMorgan & Winship (2007) pgs. 29-34 and Ch. 3 - see Canvas\nCunningham (2021) Ch. 3\n\nOther software for making DAGs:\na) ggdag is a nice R package based on dagitty but tidyverse-compatible and with much better plotting functionality\nb) shinydag is another GUI aimed at visualizing DAGs and exporting them in different publication-ready formats\nc) TETRAD\nd) DAG program\ne) dagR"
   },
   {
     "objectID": "readings.html#due-mon.-26",
@@ -144,7 +144,7 @@
     "href": "readings.html#due-wed.-28",
     "title": "Readings & Additional Materials",
     "section": "Due Wed. 2/8",
-    "text": "Due Wed. 2/8\n\nTBD"
+    "text": "Due Wed. 2/8\n\nTBD - Experimental paper(s) to review and critique"
   },
   {
     "objectID": "readings.html#due-mon.-213",
