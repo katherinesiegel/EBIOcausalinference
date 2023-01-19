@@ -5,6 +5,8 @@ title: "Readings & Additional Materials"
 ## Recommended Textbooks (not required)    
 We do not expect you to buy any/all of these books. We will provide the sections that are assigned for class. But if you want to explore topics of causal inference further, we recommend these books!  
 
+*Note: Some of these texts use examples to illustrate their points that are problematic (e.g., treating gender as a binary or studying post-colonial economic development without considering the violence of colonialism). We do not agree with the assumptions underlying these examples and we acknowledge the problems with them. The descriptions of methods are still some of the easiest to read out there.*
+
 * Morgan, SL and C Winship. 2007. [*Counterfactuals and Causal Inference: methods and principles for social research*](https://doi.org/10.1017/CBO9781107587991).  
 * Gerber, AS and DP Green. 2012. [*Field Experiments: design, analysis and interpretation*](https://wwnorton.com/books/9780393979954). (especially useful if you plan to do field experiments in your research)  
 * Cunningham, S. 2021. [*Causal Inference: The Mixtape*](https://mixtape.scunning.com/) (New Haven, CT: Yale University Press). [Available online for free](https://mixtape.scunning.com/)  
