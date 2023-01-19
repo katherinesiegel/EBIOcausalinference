@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "coding_resources.html",
-    "href": "coding_resources.html",
-    "title": "Coding Resources",
-    "section": "",
-    "text": "Programming in R will be a key part of this course, and as most of you have probably experienced, R can cause headaches and stress! Files go missing, package dependencies spiral out of control, and minor code errors can cost us hours of troubleshooting. The point of this course is not to become an R whiz, and we don’t want code errors to get in the way of your learning and research progress.\nWe encourage you to use online resources for coding help if/when you get stuck. StackOverflow is a great resource for finding solutions to coding issues or asking a specific question, as is the RStudio Community. Twitter can also be a great resource: if you post a question with the hashtag #rstats, a kind soul might give you an answer. If you’re looking for help via Google, we recommend including in your query the package you’re using and if applicable, the error message you’re getting. Finally, if you are a visual learner, Allison Horst has some great learning tools for various R functions.\nIf you could use some more training and exposure to R, here are some resources to get started:\n\nswirl teaches you R programming and data science interactively, at your own pace, and right in the R console! On this page, swirl will walk you through each of the steps required to begin using R and swirl today!\n\nR for data science (R4DS). R4DS teaches you how to do data science with R: You’ll learn how to get your data into R, get it into the most useful structure, transform it, visualize it and model it. The book is available online, where you can find a practicum of skills for data science from visualization to wrangling and writing functions.\n\nHave a favorite resource? Please send it to Laura and Katherine so we can post it!"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "EBIO 5460: Causal Inference in Ecology",
@@ -47,6 +40,62 @@
     "title": "EBIO 5460: Causal Inference in Ecology",
     "section": "Code & Data",
     "text": "Code & Data\nWe will make RMarkdown Files, datasets, and code available at https://github.com/LauraDee/CausalEcology"
+  },
+  {
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "In general, on Mondays we will have brief lectures and demonstrations in R, while on Wednesdays, we will have student-led paper discussions and/or replication exercises of published papers. In the latter half of the course, we will shift to workshopping our own projects and discussing additional issues and considerations with applied causal inference. In this way, we will use a partially flipped classroom and strive to create a collaborative and inclusive classroom environment to discuss, ask questions, collaborate, and get feedback on your analyses.\nThe tentative schedule of content, subject to change based on student interests, is as follows:\n\n\n\n\n\n\n\n\n\n\nMonday\nWednesday\nGoals/Topics\n\n\n\n\nWeek 1 (1/16)\nNo class\nCourse intro\n• Intro to course and goals  • Understand students’ goals for the course  • Set norms and expectations\n\n\nWeek 2 (1/23)\nIntro to causal inference and counterfactual causality\nIntro to the main frameworks for counterfactual causal inference\n• Intro to concepts in causal inference and motivation for applying it to ecology and evolution  • Introduction to two main frameworks for counterfactual causality (potential outcomes and graphical causal modeling frameworks)\n\n\nWeek 3 (1/30)\nIntro to DAGs\nWorkshopping DAGs: come prepared to present and share/discuss your DAG\n• DAGs as a tool from the graphical causal modeling framework  • Students create and workshop DAGs for their own research/study systems\n\n\nWeek 4 (2/6)\nRandomized Controlled Experiments (or RCTs) and experimental design\nDissect experimental design with respect to assumptions required for causal inference\n• Application of potential outcomes framework to RCTs  • Review key assumptions of RCTs  • Critique experimental designs in ecology and identify solutions\n\n\nWeek 5 (2/13)\nObservational data and counterfactuals\nIntroduction to quasi-experimental methods\n• Articulate how and why observational data deviates from assumptions of RCTs  • Understand challenges of applying causal inference to observational data, including confounding and selection bias  • Get a sense of the landscape of tools for overcoming challenges\n\n\nWeek 6 (2/20)\nPre-regression matching\nPaper discussion and replication exercise\n• Learn pre-regression matching as a method  • Demo application in R  • See & critique how it is applied in the literature\n\n\nWeek 7 (2/27)\nDifference in Difference (DiD)\nPaper discussion\n• Learn DiD designs, including identification assumptions and interpretation  • Demo application in R  • Compare DiD to matching and experiments  • See & critique how it is applied in the literature\n\n\nWeek 8 (3/6)\nPanel methods\nPaper discussion and replication exercise\n• Learn within estimators (two-way fixed effects) including identification assumptions and interpretation  • Compare panel designs with conditioning on observables designs and with random effect/mixed effect models in R and understand the differences in assumptions  • Compare applications in literature and the assumptions required for the conclusions drawn\n\n\nWeek 9 (3/13)\nRegression Discontinuity Designs (RDD)\nPaper discussion\n• Learn RDD as a method  • Demo application in R  • See & critique how it is applied in the literature\n\n\nWeek 10 (3/20)\nInstrumental Variables\nPaper discussion\n• Learn IV as a method  • Demo application in R  • See & critique how it is applied in the literature\n\n\nWeek 11 (3/27)\nSpring break (no class)\nSpring break (no class)\n\n\n\nWeek 12 (4/3)\nFurther topics\nChallenges for causal mechanisms OR heterogeneous treatment effects\n• Overview of other, emerging methods  • Demo application in R  • See & critique how they are applied in the literature\n\n\nWeek 13 (4/10)\nApplying methods through projects\nPresentations for feedback\n• Get feedback from peers on proposed research design and challenges so far\n\n\nWeek 14 (4/17)\nProject work and workshopping\nProject work and workshopping OR special topics\n• Make progress on project and get feedback from class\n\n\nWeek 15 (4/24)\nProject work and workshopping\nProject work and workshopping OR special topics\n• Make progress on project and get feedback from class\n\n\nWeek 16 (5/1)\nProject presentations\nProject presentations\n• Clearly communicate the application of causal inference methods to a research question in ecology OR present a topic we did not cover as a class"
+  },
+  {
+    "objectID": "materials.html",
+    "href": "materials.html",
+    "title": "Course Materials",
+    "section": "",
+    "text": "Datasets\nSlides"
+  },
+  {
+    "objectID": "assignments.html",
+    "href": "assignments.html",
+    "title": "Assignments & Evaluation",
+    "section": "",
+    "text": "As a 3-credit graduate course, our expectation is that you are here to learn, which involves following along with the course through doing the reading and attending class meetings. We are less interested in grades and more interested in providing a venue to hold you accountable for learning the material. We will provide many opportunities for feedback and workshopping, so completing your assignments and making progress on your project will benefit your learning (and hopefully contribute to your progress on your thesis/dissertation). As such, attendance and participation is 25%, leading of paper discussion/presentation is 25%, and the final report and presentation are worth the remaining 50%."
+  },
+  {
+    "objectID": "assignments.html#main-assignment",
+    "href": "assignments.html#main-assignment",
+    "title": "Assignments & Evaluation",
+    "section": "Main assignment",
+    "text": "Main assignment\nThe main assignment will be either to complete and write up a data analysis or to do a literature review and deep dive on a particular subtopic (ideas listed below). The project or literature review will culminate in a presentation the last week of classes and a final written report.\n\nFinal Project Option 1: Data analysis project\nFor the final project that takes the form of a data analysis, each student will complete a project according to the following process: identifying a research question, creating a DAG, choosing and applying a data analysis, and writing up a methods and results section that 1) articulates the causal relationship of interest, 2) describes the causal identification strategy and choice of study design/methods, 3) describes the implicit assumptions on which this strategy rests, and 4) interprets the results and their potential biases. We encourage students to base this analysis on their thesis research to get the most out of the class.\n\n\nFinal Project Option 2: Literature review\nAlternatively, students can complete a literature review that provides a deeper dive on a topic we do not cover in detail in this course (*some ideas are listed below). This direction may be more appropriate for students who are not at a stage of performing analyses for their thesis, who do not have a relevant project that is tackling an empirical causal question, or who are interested in learning more about a topic not covered under our guidance."
+  },
+  {
+    "objectID": "assignments.html#additional-assignments",
+    "href": "assignments.html#additional-assignments",
+    "title": "Assignments & Evaluation",
+    "section": "Additional assignments",
+    "text": "Additional assignments\nIn addition to the project/literature review, each student will also lead a paper(s) discussion during the semester, which will be either a discussion of a paper describing or applying a study design or a critique of a paper aiming to address a causal question. When leading the paper discussions, we recommend starting off with drawing a diagram of the causal relationships in question in the paper."
+  },
+  {
+    "objectID": "assignments.html#readings",
+    "href": "assignments.html#readings",
+    "title": "Assignments & Evaluation",
+    "section": "Readings",
+    "text": "Readings\nThe course reading list will include journal articles and book chapters that we will make available to you on our course website. Throughout the semester, the class will compile a running glossary of “jargon” and terms and concepts in causal inference to provide notes as reference. We (the instructors) will provide a bibliography of additional readings and coding resources on various topics for students as reference.\nThe readings differ in their depth and use of math and notation. You do not need to understand all the equations and notation to gain intuition about the material and concepts. Try to learn it but try not to be too stressed by it."
+  },
+  {
+    "objectID": "assignments.html#suggestions-for-literature-review-topics-final-project-option-2",
+    "href": "assignments.html#suggestions-for-literature-review-topics-final-project-option-2",
+    "title": "Assignments & Evaluation",
+    "section": "Suggestions for literature review topics (Final project option 2)",
+    "text": "Suggestions for literature review topics (Final project option 2)\nYou are not limited to these topics, but here are some ideas:\n\nChallenges and solutions for experimental designs and interpretation (choose one):\n\nNon-compliance and attrition (this is a rich area!)\n\nInterference between experimental units and spillovers (G&G Ch8)\n\nPartial identification (excludability violations)\n\nMechanisms and mediation analysis (G&G Ch 10)\n\nLimits to what experiments tell us about heterogenous treatment effects\n\nIntegration of experimental findings (e.g., meta-analyses and extrapolation)\n\n\nNew issues for difference-in-difference and two-way fixed effects estimators (e.g., staggered treatments and heterogeneity\n\nSynthetic control methods (https://mixtape.scunning.com/10-synthetic_control)\n\nMachine learning and causal inference\n\nSensitivity analyses and/or placebo designs\n\nWeighted regression (extension of matching ideas)\n\nMechanism (Mediation) Analysis; Sequential G estimation\n\nRemote sensing and causal inference\n\nSystematic measurement error\n\nCausal identification in time series\n\nInferences in observational designs and networks\n\nMeta-analyses using observational data"
+  },
+  {
+    "objectID": "assignments.html#deadlines",
+    "href": "assignments.html#deadlines",
+    "title": "Assignments & Evaluation",
+    "section": "Deadlines",
+    "text": "Deadlines\n\n\n\nAssignment\nDeadline\n\n\n\n\nPre-course survey\nFriday 1/20\n\n\nStudents create and workshop DAGs for their own research/study. Come to class prepared to present and share/discuss your DAG\nWednesday 2/1\n\n\nCausal research question + data context OR proposed literature review topic\nMonday 4/10 (in class)\n\n\nShort presentation on research questions + DAG OR literature review topic, its significance, + some potential applications\nWednesday 4/12 (in class)\n\n\nDraft of DAG OR literature review proposal\nFriday 4/14\n\n\nRevised DAG + proposed methods OR outline of literature review\nFriday 4/21\n\n\nPresentation of final project\nMonday 5/1 and Wednesday 5/3 (in class)\n\n\nFinal project write-up\nFriday 5/5"
   },
   {
     "objectID": "policies.html",
@@ -252,59 +301,10 @@
     "text": "Potential additional units\n\nGeneralizability in experimental and observational studies\n\nKorell et al. 2019\n\nSpake et al. 2022\n\nSpake et al. 2021\n\n\n\nHeterogeneous treatment effects\n\n\nReplication/Reproducibility/Pre-registration\n\nKimmel et al., in press\n\n\n\nDeeper dive into mechanisms and mediation analysis"
   },
   {
-    "objectID": "assignments.html",
-    "href": "assignments.html",
-    "title": "Assignments & Evaluation",
+    "objectID": "coding_resources.html",
+    "href": "coding_resources.html",
+    "title": "Coding Resources",
     "section": "",
-    "text": "As a 3-credit graduate course, our expectation is that you are here to learn, which involves following along with the course through doing the reading and attending class meetings. We are less interested in grades and more interested in providing a venue to hold you accountable for learning the material. We will provide many opportunities for feedback and workshopping, so completing your assignments and making progress on your project will benefit your learning (and hopefully contribute to your progress on your thesis/dissertation). As such, attendance and participation is 25%, leading of paper discussion/presentation is 25%, and the final report and presentation are worth the remaining 50%."
-  },
-  {
-    "objectID": "assignments.html#main-assignment",
-    "href": "assignments.html#main-assignment",
-    "title": "Assignments & Evaluation",
-    "section": "Main assignment",
-    "text": "Main assignment\nThe main assignment will be either to complete and write up a data analysis or to do a literature review and deep dive on a particular subtopic (ideas listed below). The project or literature review will culminate in a presentation the last week of classes and a final written report.\n\nFinal Project Option 1: Data analysis project\nFor the final project that takes the form of a data analysis, each student will complete a project according to the following process: identifying a research question, creating a DAG, choosing and applying a data analysis, and writing up a methods and results section that 1) articulates the causal relationship of interest, 2) describes the causal identification strategy and choice of study design/methods, 3) describes the implicit assumptions on which this strategy rests, and 4) interprets the results and their potential biases. We encourage students to base this analysis on their thesis research to get the most out of the class.\n\n\nFinal Project Option 2: Literature review\nAlternatively, students can complete a literature review that provides a deeper dive on a topic we do not cover in detail in this course (*some ideas are listed below). This direction may be more appropriate for students who are not at a stage of performing analyses for their thesis, who do not have a relevant project that is tackling an empirical causal question, or who are interested in learning more about a topic not covered under our guidance."
-  },
-  {
-    "objectID": "assignments.html#additional-assignments",
-    "href": "assignments.html#additional-assignments",
-    "title": "Assignments & Evaluation",
-    "section": "Additional assignments",
-    "text": "Additional assignments\nIn addition to the project/literature review, each student will also lead a paper(s) discussion during the semester, which will be either a discussion of a paper describing or applying a study design or a critique of a paper aiming to address a causal question. When leading the paper discussions, we recommend starting off with drawing a diagram of the causal relationships in question in the paper."
-  },
-  {
-    "objectID": "assignments.html#readings",
-    "href": "assignments.html#readings",
-    "title": "Assignments & Evaluation",
-    "section": "Readings",
-    "text": "Readings\nThe course reading list will include journal articles and book chapters that we will make available to you on our course website. Throughout the semester, the class will compile a running glossary of “jargon” and terms and concepts in causal inference to provide notes as reference. We (the instructors) will provide a bibliography of additional readings and coding resources on various topics for students as reference.\nThe readings differ in their depth and use of math and notation. You do not need to understand all the equations and notation to gain intuition about the material and concepts. Try to learn it but try not to be too stressed by it."
-  },
-  {
-    "objectID": "assignments.html#suggestions-for-literature-review-topics-final-project-option-2",
-    "href": "assignments.html#suggestions-for-literature-review-topics-final-project-option-2",
-    "title": "Assignments & Evaluation",
-    "section": "Suggestions for literature review topics (Final project option 2)",
-    "text": "Suggestions for literature review topics (Final project option 2)\nYou are not limited to these topics, but here are some ideas:\n\nChallenges and solutions for experimental designs and interpretation (choose one):\n\nNon-compliance and attrition (this is a rich area!)\n\nInterference between experimental units and spillovers (G&G Ch8)\n\nPartial identification (excludability violations)\n\nMechanisms and mediation analysis (G&G Ch 10)\n\nLimits to what experiments tell us about heterogenous treatment effects\n\nIntegration of experimental findings (e.g., meta-analyses and extrapolation)\n\n\nNew issues for difference-in-difference and two-way fixed effects estimators (e.g., staggered treatments and heterogeneity\n\nSynthetic control methods (https://mixtape.scunning.com/10-synthetic_control)\n\nMachine learning and causal inference\n\nSensitivity analyses and/or placebo designs\n\nWeighted regression (extension of matching ideas)\n\nMechanism (Mediation) Analysis; Sequential G estimation\n\nRemote sensing and causal inference\n\nSystematic measurement error\n\nCausal identification in time series\n\nInferences in observational designs and networks\n\nMeta-analyses using observational data"
-  },
-  {
-    "objectID": "assignments.html#deadlines",
-    "href": "assignments.html#deadlines",
-    "title": "Assignments & Evaluation",
-    "section": "Deadlines",
-    "text": "Deadlines\n\n\n\nAssignment\nDeadline\n\n\n\n\nPre-course survey\nFriday 1/20\n\n\nCausal research question + data context OR proposed literature review topic\nMonday 4/10 (in class)\n\n\nShort presentation on research questions + DAG OR literature review topic, its significance, + some potential applications\nWednesday 4/12 (in class)\n\n\nDraft of DAG OR literature review proposal\nFriday 4/14\n\n\nRevised DAG + proposed methods OR outline of literature review\nFriday 4/21\n\n\nPresentation of final project\nMonday 5/1 and Wednesday 5/3 (in class)\n\n\nFinal project write-up\nFriday 5/5"
-  },
-  {
-    "objectID": "materials.html",
-    "href": "materials.html",
-    "title": "Course Materials",
-    "section": "",
-    "text": "Datasets\nSlides"
-  },
-  {
-    "objectID": "schedule.html",
-    "href": "schedule.html",
-    "title": "Schedule",
-    "section": "",
-    "text": "In general, on Mondays we will have brief lectures and demonstrations in R, while on Wednesdays, we will have student-led paper discussions and/or replication exercises of published papers. In the latter half of the course, we will shift to workshopping our own projects and discussing additional issues and considerations with applied causal inference. In this way, we will use a partially flipped classroom and strive to create a collaborative and inclusive classroom environment to discuss, ask questions, collaborate, and get feedback on your analyses.\nThe tentative schedule of content, subject to change based on student interests, is as follows:\n\n\n\n\n\n\n\n\n\n\nMonday\nWednesday\nGoals/Topics\n\n\n\n\nWeek 1 (1/16)\nNo class\nCourse intro\n• Intro to course and goals  • Understand students’ goals for the course  • Set norms and expectations\n\n\nWeek 2 (1/23)\nIntro to causal inference and counterfactual causality\nIntro to the main frameworks for counterfactual causal inference\n• Intro to concepts in causal inference and motivation for applying it to ecology and evolution  • Introduction to two main frameworks for counterfactual causality (potential outcomes and graphical causal modeling frameworks)\n\n\nWeek 3 (1/30)\nIntro to DAGs\nWorkshopping DAGs: come prepared to present and share/discuss your DAG\n• DAGs as a tool from the graphical causal modeling framework  • Students create and workshop DAGs for their own research/study systems\n\n\nWeek 4 (2/6)\nRandomized Controlled Experiments (or RCTs) and experimental design\nDissect experimental design with respect to assumptions required for causal inference\n• Application of potential outcomes framework to RCTs  • Review key assumptions of RCTs  • Critique experimental designs in ecology and identify solutions\n\n\nWeek 5 (2/13)\nObservational data and counterfactuals\nIntroduction to quasi-experimental methods\n• Articulate how and why observational data deviates from assumptions of RCTs  • Understand challenges of applying causal inference to observational data, including confounding and selection bias  • Get a sense of the landscape of tools for overcoming challenges\n\n\nWeek 6 (2/20)\nPre-regression matching\nPaper discussion and replication exercise\n• Learn pre-regression matching as a method  • Demo application in R  • See & critique how it is applied in the literature\n\n\nWeek 7 (2/27)\nDifference in Difference (DiD)\nPaper discussion\n• Learn DiD designs, including identification assumptions and interpretation  • Demo application in R  • Compare DiD to matching and experiments  • See & critique how it is applied in the literature\n\n\nWeek 8 (3/6)\nPanel methods\nPaper discussion and replication exercise\n• Learn within estimators (two-way fixed effects) including identification assumptions and interpretation  • Compare panel designs with conditioning on observables designs and with random effect/mixed effect models in R and understand the differences in assumptions  • Compare applications in literature and the assumptions required for the conclusions drawn\n\n\nWeek 9 (3/13)\nRegression Discontinuity Designs (RDD)\nPaper discussion\n• Learn RDD as a method  • Demo application in R  • See & critique how it is applied in the literature\n\n\nWeek 10 (3/20)\nInstrumental Variables\nPaper discussion\n• Learn IV as a method  • Demo application in R  • See & critique how it is applied in the literature\n\n\nWeek 11 (3/27)\nSpring break (no class)\nSpring break (no class)\n\n\n\nWeek 12 (4/3)\nFurther topics\nChallenges for causal mechanisms OR heterogeneous treatment effects\n• Overview of other, emerging methods  • Demo application in R  • See & critique how they are applied in the literature\n\n\nWeek 13 (4/10)\nApplying methods through projects\nPresentations for feedback\n• Get feedback from peers on proposed research design and challenges so far\n\n\nWeek 14 (4/17)\nProject work and workshopping\nProject work and workshopping OR special topics\n• Make progress on project and get feedback from class\n\n\nWeek 15 (4/24)\nProject work and workshopping\nProject work and workshopping OR special topics\n• Make progress on project and get feedback from class\n\n\nWeek 16 (5/1)\nProject presentations\nProject presentations\n• Clearly communicate the application of causal inference methods to a research question in ecology OR present a topic we did not cover as a class"
+    "text": "Programming in R will be a key part of this course, and as most of you have probably experienced, R can cause headaches and stress! Files go missing, package dependencies spiral out of control, and minor code errors can cost us hours of troubleshooting. The point of this course is not to become an R whiz, and we don’t want code errors to get in the way of your learning and research progress.\nWe encourage you to use online resources for coding help if/when you get stuck. StackOverflow is a great resource for finding solutions to coding issues or asking a specific question, as is the RStudio Community. Twitter can also be a great resource: if you post a question with the hashtag #rstats, a kind soul might give you an answer. If you’re looking for help via Google, we recommend including in your query the package you’re using and if applicable, the error message you’re getting. Finally, if you are a visual learner, Allison Horst has some great learning tools for various R functions.\nIf you could use some more training and exposure to R, here are some resources to get started:\n\nswirl teaches you R programming and data science interactively, at your own pace, and right in the R console! On this page, swirl will walk you through each of the steps required to begin using R and swirl today!\n\nR for data science (R4DS). R4DS teaches you how to do data science with R: You’ll learn how to get your data into R, get it into the most useful structure, transform it, visualize it and model it. The book is available online, where you can find a practicum of skills for data science from visualization to wrangling and writing functions.\n\nHave a favorite resource? Please send it to Laura and Katherine so we can post it!"
   }
 ]
