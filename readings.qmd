@@ -30,11 +30,13 @@ We do not expect you to buy any/all of these books. We will provide the sections
 3) [Hernan 2016](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5207342/)  
 
 ## Due Mon. 1/30  
+Guest speaker: Dr. Zach Laubach
 
 1) [Rohrer 2018](https://journals.sagepub.com/doi/epub/10.1177/2515245917745629)
 2) [Laubach et al. 2021](https://doi.org/10.1098/rspb.2020.2815)  
 
 ## Due Wed. 2/1  
+Come to class prepared to present and discuss your DAG.
 
 1) [Arif & MacNeil 2022](https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecm.1554)  
 2) Watch Hernan video: "3. Elements of DAGs" on Canvas
@@ -43,11 +45,10 @@ We do not expect you to buy any/all of these books. We will provide the sections
 #### Optional  
 For additional background on DAGs:  
 
-4) Morgan & Winship (2007) pgs. 29-34 and Ch. 3  
+4) Morgan & Winship (2007) pgs. 29-34 and Ch. 3 - see Canvas
 5) [Cunningham (2021) Ch. 3](https://mixtape.scunning.com/03-directed_acyclical_graphs)  
 
 Other software for making DAGs:  
-
 a) [ggdag](https://cran.r-project.org/web/packages/ggdag/vignettes/intro-to-ggdag.html) is a nice R package based on dagitty but tidyverse-compatible and with much better plotting functionality    
 b) [shinydag](https://www.gerkelab.com/project/shinydag/) is another GUI aimed at visualizing DAGs and exporting them in different publication-ready formats  
 c) [TETRAD](https://sites.google.com/view/tetradcausal)  
@@ -61,7 +62,8 @@ e) [dagR](https://journals.lww.com/epidem/Fulltext/2010/07000/dagR__A_Suite_of_R
 
 ## Due Wed. 2/8  
 
-1) TBD 
+1) TBD -	Experimental paper(s) to review and critique
+
 
 ## Due Mon. 2/13  
 
