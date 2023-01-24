@@ -7,7 +7,7 @@ title: "EBIO 5460: Causal Inference in Ecology"
 [Katherine Siegel](https://katherinesiegel.github.io/) (ksiegel@ucar.edu)   
 
 ## Class Meetings
-Mondays & Wednesdays 3:30-4:45pm  
+Mondays & Wednesdays 3:35-4:50pm, Environmental Design Building 122    
 
 ### Office Hours  
 Laura: Wednesday 2:15-3:15 pm and by appointment  
