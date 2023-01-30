@@ -25,6 +25,20 @@ The readings differ in their depth and use of math and notation. *You do not nee
 ## Course glossary
 As noted above, as a class we will compile a running [glossary](https://docs.google.com/document/d/1xX4oVDA8wKwlI5HFK8FcSJGba88oYzpfn-PcEAPcYII/edit?usp=sharing) of “jargon” and terms and concepts in causal inference to provide notes as reference.  
 
+### Glossary assignments:  
+
+* Week 2: Tyler and Hilary  
+* Week 3: John S.  
+* Week 4: Sam  
+* Week 5: Casey and Aly  
+* Week 6: Katie  
+* Week 7: Alec and Henry  
+* Week 8: 
+* Week 9: Tom and Brendan H.  
+* Week 10: Max  
+* Week 12: Meghan H.  
+
+
 ## Suggestions for literature review topics (Final project option 2) 
 You are not limited to these topics, but here are some ideas:  
 
