@@ -88,7 +88,7 @@ e) [dagR](https://journals.lww.com/epidem/Fulltext/2010/07000/dagR__A_Suite_of_R
 
 1) [Siegel et al. 2022](https://doi.org/10.1007/s10113-022-01950-y)  
 2) [Xu et al. 2022](https://www.science.org/doi/10.1126/sciadv.abo0119)  
-3) Siegel et al. 2023, in prep.
+3) Siegel et al. 2023, submitted (available on Canvas)
 
 ## Due Mon. 2/27  
 
