@@ -1,0 +1,131 @@
+---
+title: "Matching in R"
+author: "Katherine Siegel"
+date: "2023-02-16"
+output: html_document
+---
+
+## Description
+Code to demonstrate matching in R. Adapted from the supplementary materials from Butsic, V. et al. (2017): Quasi-experimental methods enable stronger inferences from observational data in ecology. (c) Matthias Baumann (2017-01-10).	
+
+## Set up
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+### Load libraries
+library(tidyverse)
+library(MatchIt)
+```
+
+## Simulate data
+Simulated data is handy because we know the true effect of the treatment variable.
+```{r}
+### Function to simulate data and write it as a dataframe
+simulate_data <- function(){
+  
+  ### Create variables within dataframe
+  
+  ### Make column for observation ID
+  df <- data.frame(id = seq(1,1000),
+                   
+                   ### Add columns for explanatory variables
+                   
+                   ### Add column for treatment variable
+                   fire = c(rep(0,500), rep(1,500)),
+                   
+                   ### And the rest of the covariates
+                   slope = c(runif(500, min = 50, max = 90), 
+                             runif(500, min = 65, max = 150)),
+                   elevation = c(runif(500, min = 150, max = 185), 
+                                 runif(500, min = 165, max = 200)),
+                   stream = runif(1000, min = 0, max = 1),
+                   
+                   ### And the error term
+                   error = rnorm(1000, mean = 0, sd = 5))
+  
+  ### Add a slope*slope variable
+  df <- df %>%
+    mutate(slope2 = slope^2)
+  
+  ### Make column for outcome variable (species richness) 
+  df <- df %>%
+    mutate(species_richness = 1 + 5*fire + 0.07*slope + 0.05*elevation + 2*stream - 0.005*slope2 + error)
+  return(df)
+}
+```
+*We know that the true effect of the treatment variable (fire) is a 5x increase in the response variable (species richness).*
+
+## Estimate the effect using ordinary least squares
+```{r}
+### Write a function to generate data and analyze using OLS 
+ols_fun <- function(){
+  
+  ### Simulate the dataset
+  data <- simulate_data()
+  
+  ### Run OLS regression
+  ols <- lm(species_richness ~ fire + slope + elevation + stream, 
+            data = data)
+  
+  ### Extract model coefficients and standard error
+  fire_coeff <- coef(summary(ols))["fire", "Estimate"]
+  fire_se <- coef(summary(ols))["fire", "Std. Error"]
+  list <- list(fire_coeff, fire_se)
+}
+
+### Apply the function to 1000 replicates
+ols_sim <- replicate(1000, ols_fun())
+
+### Extract the model estimates
+ols_fire_est <- unlist(ols_sim[1, ])
+
+### Print mean, standard deviation, minimum, and maximum values for coefficient estimates
+c(mean(ols_fire_est), sd(ols_fire_est), 
+  min(ols_fire_est), max(ols_fire_est))
+
+### Extract the standard deviations
+ols_fire_sd <- unlist(ols_sim[2,])
+
+### Print mean, standard deviation, minimum, and maximum standard deviation of coefficient estimates
+c(mean(ols_fire_sd), sd(ols_fire_sd), 
+  min(ols_fire_sd), max(ols_fire_sd))
+```
+*The effect estimated by OLS is incorrect-- it should be 5.*
+
+## Use matching prior to regression
+```{r}
+### Write a function to generate the data, use matching to subset the data, and run a regression on the matched data
+pps_fun <- function(){
+  
+  ### Simulate the dataset
+  data <- simulateData_PPS()
+  
+  ### Match the data on the observed covariates
+  match <- matchit(fire ~ slope + 
+                     elevation + 
+                     stream, 
+                   method = "nearest", 
+                   data = data, 
+                   distance="probit", 
+                   discard="both")
+  
+  ### Extract the matched data from the full dataset
+  matched_data = match.data(match)
+  
+  ### Run OLS on matched dataset
+  ols <- lm(species_richness ~ fire + slope + 
+              elevation + stream, 
+            data = matched_data)
+  
+  ### Extract model coefficients
+  fire_coeff <- coef(summary(ols))["fire", "Estimate"]
+  fire_se <- coef(summary(ols))["fire", "Std. Error"]
+  list <- list(fire_coeff, fire_se) 
+}
+pps_sim <- replicate(1000, pps_fun())
+pps_fire_est <- unlist(pps_sim[1,])
+c(mean(pps_fire_est), sd(pps_fire_est), min(pps_fire_est), max(pps_fire_est))
+pps_fire_sd <- unlist(pps_sim[2,])
+c(mean(pps_fire_sd), sd(pps_fire_sd), min(pps_fire_sd), max(pps_fire_sd))
+```
+
