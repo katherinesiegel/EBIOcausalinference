@@ -32,6 +32,11 @@ jobs:
         with:
           packages: any::rmarkdown
 
+       - name: Install rmarkdown
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: any::tidyverse
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
