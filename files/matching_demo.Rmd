@@ -2,7 +2,7 @@
 title: "Matching in R"
 author: "Katherine Siegel"
 date: "2023-02-16"
-output: html_document
+output: pdf
 ---
 
 ## Description
