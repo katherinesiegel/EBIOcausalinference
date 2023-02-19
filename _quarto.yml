@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - "files/"
 
 website:
   title: "EBIO 5460: Causal Inference in Ecology"
@@ -23,10 +25,22 @@ website:
         text: Readings & Additional Materials
       - href: assignments.qmd
         text: Assignments & Evaluation
+      - href: exercises/index.qmd
+        text: Exercises
       - href: coding_resources.qmd
         text: Coding Resources
       - href: policies.qmd
         text: University Policies
+
+ - title: "Exercises"
+      contents:
+        - section: "Overview"
+          contents:
+            - exercises/index.qmd
+        - section: "Exercises"
+          contents:
+            - text: "Matching"
+              file: exercises/matching.qmd
 
 format:
   html:

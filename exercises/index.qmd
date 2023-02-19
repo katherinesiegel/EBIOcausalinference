@@ -1,0 +1,5 @@
+---
+title: "Exercises in R"
+---
+
+This section has files for the demos and replication exercises that we will do in class. Here, you will find files with annotated code and functions for simulating data, as well as csv files with data for the replication exercises.
