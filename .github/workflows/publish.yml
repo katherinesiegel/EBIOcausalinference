@@ -32,7 +32,7 @@ jobs:
         with:
           packages: any::rmarkdown
 
-       - name: Install rmarkdown
+      - name: Install tidyverse
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: any::tidyverse
