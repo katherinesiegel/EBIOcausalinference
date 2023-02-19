@@ -39,8 +39,7 @@ website:
             - exercises/index.qmd
         - section: "Matching"
           contents:
-            - text: "Matching demonstration"
-              file: exercises/matching_demo.qmd
+            - exercises/matching_demo.qmd
 
 format:
   html:
