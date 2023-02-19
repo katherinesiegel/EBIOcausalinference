@@ -34,12 +34,10 @@ website:
 
     - title: "Exercises"
       contents:
-        - section: "Overview"
-          contents:
-            - exercises/index.qmd
-        - section: "Matching"
-          contents:
-            - exercises/matching_demo.qmd
+        - href: exercises/index.qmd
+          text: "Overview"
+        - href: exercises/matching_demo.qmd
+          text: "Matching"
 
 format:
   html:
