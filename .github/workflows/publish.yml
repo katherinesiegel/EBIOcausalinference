@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        uses: r-lib/actions/setup-r-dependencies@v2
+          with:
+            packages:
+              any::knitr
+              any::rmarkdown
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
