@@ -16,7 +16,8 @@ Load required packages. In this demo, we will use the package "MatchIt" for the 
 knitr::opts_chunk$set(echo = TRUE)
 
 ### Install MatchIt if you need to
-install.packages("MatchIt")
+install.packages("MatchIt",
+                 repos = "http://cran.us.r-project.org")
 
 ### Load libraries
 library(tidyverse)
