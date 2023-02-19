@@ -29,7 +29,7 @@ website:
         text: Exercises
         contents:
           - text: Matching demonstration
-            file: exercises/matching_demo.qmd
+            file: exercises/matching.qmd
       - href: coding_resources.qmd
         text: Coding Resources
       - href: policies.qmd
