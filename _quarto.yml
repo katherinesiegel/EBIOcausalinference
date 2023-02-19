@@ -6,16 +6,17 @@ project:
 
 website:
   title: "EBIO 5460: Causal Inference in Ecology"
-  site-url: "https://katherinesiegel.github.io/EBIOcausalinference/"
-
-  navbar:
-    pinned: true
+  sidebar:
     background: "#20618D"
+    # logo: "images/logo.png"
+    pinned: true
+    align: center
     tools:
       - icon: github
         href: https://github.com/katherinesiegel/EBIOcausalinference
         text: GitHub
-    right:
+    style: docked
+    contents:
       - href: index.qmd
         text: Course Overview
       - href: schedule.qmd
@@ -26,27 +27,13 @@ website:
         text: Assignments & Evaluation
       - href: exercises/index.qmd
         text: Exercises
+        contents:
+          - text: Matching demonstration
+            file: exercises/matching_demo.qmd
       - href: coding_resources.qmd
         text: Coding Resources
       - href: policies.qmd
         text: University Policies
-
-  sidebar:
-    # background: "#20618D"
-    # pinned: true
-    # align: center
-    # style: docked
-    - title: "Exercises"
-      style: "docked"
-      search: false
-      background: dark
-      contents:
-        - section: "Overview"
-          contents:
-            - exercises/index.qmd
-        - section: "Matching"
-          contents:
-            - exercises/matching_demo.qmd
 
 format:
   html:
