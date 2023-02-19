@@ -193,7 +193,7 @@ covariate_summ <- data_for_match %>%
             elevation_sd = sd(elevation),
             stream_mean = mean(stream),
             stream_sd = sd(stream))
-View(covariate_summ)
+covariate_summ
 ```
 We can see that there are issues with the balance between the burned and unburned sample units. The burned areas are on steeper slopes and higher elevations, on average.
 
@@ -226,20 +226,20 @@ match_quality <- summary(match,
 
 ### Let's see how many points were matched
 match_quality_nn <- as.data.frame(match_quality$nn)
-View(match_quality_nn)
+match_quality_nn
 
 ### Let's look at the pre-match covariate balance
 match_quality_unmatched <- as.data.frame(match_quality$sum.all)
-View(match_quality_unmatched)
+match_quality_unmatched
 
 ### What does the covariate balance look like after matching?
 match_quality_summary <- as.data.frame(match_quality$sum.matched)
-View(match_quality_summary)
+match_quality_summary
 ### Ideally, you want the standardized mean differences in the matched dataset to be < 0.25 (reference: Schleicher et al. 2020. Statistical matching for conservation science. Conserv. Biol. 34:538–549. https://doi.org/10.1111/cobi.13448).
 
 ### You can also look at the amount of bias reduction achieved through matching
 match_quality_reduction <- as.data.frame(match_quality$reduction)
-View(match_quality_reduction)
+match_quality_reduction
 
 ### You can also use a fun interactive command to visualize the pre- and post-match covariate spread
 plot(match, interactive = FALSE)
