@@ -32,15 +32,15 @@ website:
       - href: policies.qmd
         text: University Policies
 
- - title: "Exercises"
+    - title: "Exercises"
       contents:
         - section: "Overview"
           contents:
             - exercises/index.qmd
-        - section: "Exercises"
+        - section: "Matching"
           contents:
-            - text: "Matching"
-              file: exercises/matching.qmd
+            - text: "Matching demonstration"
+              file: exercises/matching_demo.qmd
 
 format:
   html:
