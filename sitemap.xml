@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.com/katherinesiegel/EBIOcausalinference/index.html</loc>
-    <lastmod>2023-02-09T00:22:59.043Z</lastmod>
+    <loc>https://github.com/katherinesiegel/EBIOcausalinference/assignments.html</loc>
+    <lastmod>2023-02-20T02:15:19.504Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/katherinesiegel/EBIOcausalinference/files/matching_demo.html</loc>
+    <lastmod>2023-02-20T02:18:23.454Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/schedule.html</loc>
-    <lastmod>2023-02-09T00:23:01.043Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/katherinesiegel/EBIOcausalinference/materials.html</loc>
-    <lastmod>2023-02-09T00:23:01.375Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/katherinesiegel/EBIOcausalinference/assignments.html</loc>
-    <lastmod>2023-02-09T00:23:01.799Z</lastmod>
+    <lastmod>2023-02-20T02:18:23.814Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/policies.html</loc>
-    <lastmod>2023-02-09T00:23:02.195Z</lastmod>
+    <lastmod>2023-02-20T02:18:24.174Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/katherinesiegel/EBIOcausalinference/index.html</loc>
+    <lastmod>2023-02-20T02:18:24.530Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/readings.html</loc>
-    <lastmod>2023-02-09T00:23:02.635Z</lastmod>
+    <lastmod>2023-02-20T02:18:24.910Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/katherinesiegel/EBIOcausalinference/materials.html</loc>
+    <lastmod>2023-02-20T02:18:25.194Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/coding_resources.html</loc>
-    <lastmod>2023-02-09T00:23:03.015Z</lastmod>
+    <lastmod>2023-02-20T02:18:25.494Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/index.html</loc>
+    <lastmod>2023-02-20T02:18:25.822Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/matching.html</loc>
+    <lastmod>2023-02-20T02:18:26.706Z</lastmod>
   </url>
 </urlset>
