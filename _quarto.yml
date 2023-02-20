@@ -27,9 +27,9 @@ website:
         text: Assignments & Evaluation
       - href: exercises/index.qmd
         text: Exercises
-        contents:
-          - text: Matching demonstration
-            file: exercises/matching.qmd
+        # contents:
+        #   - text: Matching demonstration
+        #     file: exercises/matching.qmd
       - href: coding_resources.qmd
         text: Coding Resources
       - href: policies.qmd
