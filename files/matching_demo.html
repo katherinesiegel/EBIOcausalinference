@@ -178,21 +178,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="../assignments.html" class="sidebar-item-text sidebar-link">Assignments &amp; Evaluation</a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../exercises/index.html" class="sidebar-item-text sidebar-link">Exercises</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../exercises/matching.html" class="sidebar-item-text sidebar-link">Matching demonstration</a>
+  <a href="../exercises/index.html" class="sidebar-item-text sidebar-link">Exercises</a>
   </div>
 </li>
-      </ul>
-  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../coding_resources.html" class="sidebar-item-text sidebar-link">Coding Resources</a>
@@ -334,7 +324,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(ols_fire_est), <span class="fu">sd</span>(ols_fire_est), </span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_fire_est), <span class="fu">max</span>(ols_fire_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.1303593 0.5608342 4.8690296 9.0115260</code></pre>
+<pre><code>[1] 7.1050702 0.5590439 5.5350537 9.4344782</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the standard deviations</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ols_fire_sd <span class="ot">&lt;-</span> <span class="fu">unlist</span>(ols_sim[<span class="dv">2</span>, ])</span>
@@ -343,7 +333,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(ols_fire_sd), <span class="fu">sd</span>(ols_fire_sd), </span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_fire_sd), <span class="fu">max</span>(ols_fire_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6049609 0.0182360 0.5562830 0.6669750</code></pre>
+<pre><code>[1] 0.6054753 0.0174423 0.5607805 0.6624600</code></pre>
 </div>
 </div>
 <p><em>The effect estimated by OLS is incorrect– it should be 5.</em></p>
@@ -402,7 +392,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(pps_fire_est), <span class="fu">sd</span>(pps_fire_est), </span>
 <span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(pps_fire_est), <span class="fu">max</span>(pps_fire_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.8831021 0.6929074 2.8190014 6.9373459</code></pre>
+<pre><code>[1] 4.8461746 0.6697322 2.6346263 7.0222698</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the standard deviations</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pps_fire_sd <span class="ot">&lt;-</span> <span class="fu">unlist</span>(pps_sim[<span class="dv">2</span>,])</span>
@@ -411,7 +401,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(pps_fire_sd), <span class="fu">sd</span>(pps_fire_sd), </span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(pps_fire_sd), <span class="fu">max</span>(pps_fire_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.67787593 0.04336097 0.54919312 0.87753424</code></pre>
+<pre><code>[1] 0.67711812 0.04642564 0.55548572 0.84495781</code></pre>
 </div>
 </div>
 </section>
