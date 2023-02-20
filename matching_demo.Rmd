@@ -20,8 +20,8 @@ install.packages("MatchIt",
                  repos = "http://cran.us.r-project.org")
 
 ### Packages for the purposes of the quarto website (no need to download these to run the example)
-install.packages(c("jsonlite", "rmarkdown"),
-                 repos = "http://cran.us.r-project.org")
+# install.packages(c("jsonlite", "rmarkdown"),
+#                  repos = "http://cran.us.r-project.org")
 
 ### Load libraries
 library(tidyverse)
