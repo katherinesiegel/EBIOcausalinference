@@ -84,8 +84,8 @@ ols_fun <- function(){
   list <- list(fire_coeff, fire_se)
 }
 
-### Apply the function to 1000 replicates
-ols_sim <- replicate(1000, ols_fun())
+### Apply the function to 100 replicates
+ols_sim <- replicate(100, ols_fun())
 
 ### Extract the model estimates
 ols_fire_est <- unlist(ols_sim[1, ])
@@ -146,8 +146,8 @@ pps_fun <- function(){
   list <- list(fire_coeff, fire_se) 
 }
 
-### Apply the function to 1000 replicates
-pps_sim <- replicate(1000, pps_fun())
+### Apply the function to 100 replicates
+pps_sim <- replicate(100, pps_fun())
 
 ### Extract the model estimates
 pps_fire_est <- unlist(pps_sim[1,])
@@ -209,7 +209,7 @@ match <- matchit(fire ~ slope +
                  ### tell it what data source to draw matches from
                  data = data_for_match, 
                  
-                 ### tell it to use logistic regression for the matching
+                 ### tell it to use logistic regression for calculating the propensity scores 
                  distance = "glm", 
                  link = "probit",
                  
@@ -234,10 +234,28 @@ match_quality_summary <- as.data.frame(match_quality$sum.matched)
 ### Ideally, you want the standardized mean differences in the matched dataset to be < 0.25 (reference: Schleicher et al. 2020. Statistical matching for conservation science. Conserv. Biol. 34:538–549. https://doi.org/10.1111/cobi.13448).
 
 ### You can also look at the amount of bias reduction achieved through matching
-match_quality_reduction <- as.data.frame(match_quality$reduction)
+# match_quality_reduction <- as.data.frame(match_quality$reduction)
+```
 
+#### Visualizing the match quality
+```{r}
 ### You can also use a fun interactive command to visualize the pre- and post-match covariate spread
 # plot(match, interactive = FALSE)
+
+### And you can compare the propensity scores visually
+# plot(match, type = "jitter", interactive = FALSE)
 ```
+
+### Analyzing the matched subset of data
+```{r}
+### First, extract the matches from the full dataset
+demo_matched <- match.data(match)
+
+### Then run the regression, including the covariates in the model
+fit_matched <- lm(species_richness ~ fire + slope + 
+                    elevation + stream, 
+                  data = demo_matched)
+```
+
 
 
