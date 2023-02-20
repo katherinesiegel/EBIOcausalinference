@@ -124,7 +124,7 @@ e) [dagR](https://journals.lww.com/epidem/Fulltext/2010/07000/dagR__A_Suite_of_R
 ## Due Mon. 3/20  
 
 1) Angrist & Pischke **2015**, Chapter 3 (note: this is in *Mastering ‘Metrics*)   
-2) Kendall book chapter  
+2) Kendall book chapter (on Canvas) 
 
 ## Due Wed. 3/22 [Aly & Katie]    
 

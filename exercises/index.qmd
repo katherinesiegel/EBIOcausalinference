@@ -8,5 +8,6 @@ This section has link to the files for the demos and replication exercises that 
 [Matching demo in R](https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/matching_demo.Rmd). I couldn't figure out a cute way for you to be able to download this directly as a RMarkdown file (thwarted by quarto...). But this link will take you to the page in the course's GitHub repository where the RMarkdown file is stored. Click on "Raw," then you can copy and paste the code into an RMarkdown on your computer.
 
 ## Monday 3/6
-[Panel regression demo in R] (https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/Panel_demo/Rmarkdown_panel_designs_Dee_and_Severen.html)
-This tutorial replicates the main analyses in Dee et al, contrasted with common approaches in ecology (mixed effect models and conditioning on observable covariates. For the rest of the supplemental analyses in Dee et al, see [L.Dee's GitHub] (https://github.com/LauraDee/NutNetCausalinf)
+[Panel regression demo in R](https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/Panel_demo/Rmarkdown_panel_designs_Dee_and_Severen.html)
+This tutorial replicates the main analyses in Dee et al, contrasted with common approaches in ecology (mixed effect models and conditioning on observable covariates. For the rest of the supplemental analyses in Dee et al, see [*L.Dee's GitHub](https://github.com/LauraDee/NutNetCausalinf)
+
