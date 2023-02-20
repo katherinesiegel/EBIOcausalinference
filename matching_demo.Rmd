@@ -237,7 +237,7 @@ match_quality_summary <- as.data.frame(match_quality$sum.matched)
 match_quality_reduction <- as.data.frame(match_quality$reduction)
 
 ### You can also use a fun interactive command to visualize the pre- and post-match covariate spread
-plot(match, interactive = FALSE)
+# plot(match, interactive = FALSE)
 ```
 
 
