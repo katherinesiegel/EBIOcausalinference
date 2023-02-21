@@ -1,0 +1,152 @@
+---
+title: "Replication exercise for matching methods"
+author: "Katherine Siegel"
+date: "2023-02-21"
+output: html_document
+---
+
+## Description
+In this replication exercise, you will use some of the data from Siegel et al. 2022 (https://doi.org/10.1007/s10113-022-01950-y). The dataset for the entire western US is very large and unwieldy, so you'll work with data from a single state: Colorado. 
+
+## Set up
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+### load libraries
+library(tidyverse)
+library(sf)
+library(MatchIt)
+```
+
+## Prep the data
+```{r}
+### dataset before matching
+colo_dat <- read.csv("E:/old_harddrive/western_fire/all_forests/colo_allfor_for_match.csv") 
+
+### Select cols
+colo_dat <- colo_dat %>%
+  dplyr::select(-burned, -fire_type, 
+                -forest_class, -prot_cat,
+                -aspect)
+```
+
+## Check out the full, unmatched dataset
+```{r}
+### Make fire a factor variable
+colo_dat <- colo_dat %>%
+  mutate_at(vars(prot_cat_recl), 
+            funs(factor))
+
+### See how many treated (federal) and control (private) sample points we have
+table(colo_dat$prot_cat_recl)
+
+### Take a look at the balance of the covariates before matching
+# colo_dat %>%
+#   dplyr::select(UID, prot_cat_recl, elev_km, 
+#                 dist_rds_km) %>%
+#   gather(variable, value, elev_km:dist_rds_km, 
+#          factor_key = TRUE) %>%
+#   ggplot(aes(x = variable, y = value, color = prot_cat_recl)) +
+#   geom_boxplot() +
+#   xlab("Variable") + ylab("Value")
+# colo_dat %>%
+#   dplyr::select(UID, prot_cat_recl, elev_km, 
+#                 dist_rds_km) %>%
+#   gather(variable, value, elev_km:dist_rds_km, 
+#          factor_key = TRUE) %>%
+#   ggplot(aes(x = value, 
+#              color = prot_cat_recl,
+#              fill = prot_cat_recl)) +
+#   geom_histogram(binwidth = 0.1, 
+#                  alpha = 0.1, 
+#                  position = "identity") +
+#   scale_color_manual(values = c("#4281A4", "#C08497")) +
+#   scale_fill_manual(values = c("#4281A4", "#C08497")) +
+#   facet_wrap(~variable, ncol = 2) +
+#   NULL
+### ownership: 0 = private, 1 = federal
+
+plot_multi_histogram <- function(df, feature, label_column) {
+    plt <- ggplot(df, aes(x=eval(parse(text=feature)), fill=eval(parse(text=label_column)))) +
+    geom_histogram(alpha=0.7, position="identity", aes(y = ..density..), color="black") +
+    geom_density(alpha=0.7) +
+    geom_vline(aes(xintercept=mean(eval(parse(text=feature)))), color="black", linetype="dashed", size=1) +
+    labs(x=feature, y = "Density")
+    plt + guides(fill=guide_legend(title=label_column))
+}
+plot_multi_histogram(colo_dat, 'elev_km', 'prot_cat_recl')
+
+
+### You can also look at it in table form
+covariate_summ <- colo_dat %>%
+  group_by(prot_cat_recl) %>%
+  summarise(slope_mean = mean(slope),
+            slope_sd = sd(slope),
+            elevation_mean = mean(elev_km),
+            elevation_sd = sd(elev_km),
+            dist_rds_mean = mean(dist_rds_km),
+            dist_rds_sd = sd(dist_rds_km))
+
+```
+
+### Match the data
+```{r}
+### Match the data on the observed covariates
+match <- matchit(prot_cat_recl ~ lightning_5 +
+                   elev_km + dist_rds_km +
+                   slope + aspect_srai + 
+                   lon + lat +
+                   popdens_1990 + popdens_2000 + popdens_2010 +
+                   vs_max_fall_5 + vs_max_winter_5 +
+                   vs_max_spring_5 + vs_max_summer_5 +
+                   pr_total_fall_5 + pr_total_winter_5 +
+                   pr_total_spring_5 + pr_total_summer_5 +
+                   tmmx_avg_fall_5 + tmmx_avg_winter_5 +
+                   tmmx_avg_spring_5 + tmmx_avg_summer_5 +
+                   tmmn_avg_fall_5 + tmmn_avg_winter_5 +
+                   tmmn_avg_spring_5 + tmmn_avg_summer_5 +
+                   pdsi_avg_fall_5 + pdsi_avg_winter_5 +
+                   pdsi_avg_spring_5 + pdsi_avg_summer_5 +
+                   soil_avg_fall_5 + soil_avg_winter_5 + 
+                   soil_avg_spring_5 + soil_avg_summer_5, 
+                 
+                 ### set method to use for matching
+                 method = "nearest", 
+                 
+                 ### tell it what data source to draw matches from
+                 data = colo_dat, 
+                 
+                 ### tell it to use logistic regression for calculating the propensity scores 
+                 distance = "glm", 
+                 link = "probit",
+                 
+                 ### specify which order to draw potential points from the full dataset
+                 m.order = "random",
+                 
+                 ### set a maximum distance for the matches
+                 caliper = 0.10)
+
+### Take a look at the quality of the matches
+match_quality <- summary(match, 
+                         standardize = TRUE)
+
+### Let's see how many points were matched
+match_quality_nn <- as.data.frame(match_quality$nn)
+
+### Let's look at the pre-match covariate balance
+match_quality_unmatched <- as.data.frame(match_quality$sum.all)
+
+### What does the covariate balance look like after matching?
+match_quality_summary <- as.data.frame(match_quality$sum.matched)
+### Ideally, you want the standardized mean differences in the matched dataset to be < 0.25 (reference: Schleicher et al. 2020. Statistical matching for conservation science. Conserv. Biol. 34:538–549. https://doi.org/10.1111/cobi.13448).
+
+```
+
+#### Visualizing the match quality
+```{r}
+### You can also use a fun interactive command to visualize the pre- and post-match covariate spread
+# plot(match, interactive = FALSE)
+
+### And you can compare the propensity scores visually
+# plot(match, type = "jitter", interactive = FALSE)
+```
