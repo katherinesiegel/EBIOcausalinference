@@ -334,7 +334,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_fire_est), <span class="fu">max</span>(ols_fire_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.1763030 0.5855844 5.9116125 9.4590968</code></pre>
+<pre><code>[1] 7.1350197 0.6245983 5.4305933 8.5604036</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -346,7 +346,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_fire_sd), <span class="fu">max</span>(ols_fire_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.60669153 0.01663981 0.56566479 0.65195372</code></pre>
+<pre><code>[1] 0.60539224 0.01656972 0.56283397 0.64692694</code></pre>
 </div>
 </div>
 <p><em>The effect estimated by OLS is incorrect– it should be 5.</em></p>
@@ -408,7 +408,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(pps_fire_est), <span class="fu">max</span>(pps_fire_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.7611336 0.6842218 2.8172669 6.4966153</code></pre>
+<pre><code>[1] 4.7888536 0.7793786 3.2061156 6.8973081</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -420,7 +420,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(pps_fire_sd), <span class="fu">max</span>(pps_fire_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.66681008 0.04442171 0.57376834 0.79928417</code></pre>
+<pre><code>[1] 0.67850295 0.03774726 0.58236480 0.76317465</code></pre>
 </div>
 </div>
 </section>
@@ -519,7 +519,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>match_quality_summary <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(match_quality<span class="sc">$</span>sum.matched)</span>
 <span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="do">### Ideally, you want the standardized mean differences in the matched dataset to be &lt; 0.25 (reference: Schleicher et al. 2020. Statistical matching for conservation science. Conserv. Biol. 34:538–549. https://doi.org/10.1111/cobi.13448).</span></span>
 <span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="do">### You can also look at the amount of bias reduction achieved through matching</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="do">### You can also look at the amount of bias *reduction achieved through matching</span></span>
 <span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="co"># match_quality_reduction &lt;- as.data.frame(match_quality$reduction)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -978,7 +978,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb17-243"><a href="#cb17-243" aria-hidden="true" tabindex="-1"></a>match_quality_summary <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(match_quality<span class="sc">$</span>sum.matched)</span>
 <span id="cb17-244"><a href="#cb17-244" aria-hidden="true" tabindex="-1"></a><span class="do">### Ideally, you want the standardized mean differences in the matched dataset to be &lt; 0.25 (reference: Schleicher et al. 2020. Statistical matching for conservation science. Conserv. Biol. 34:538–549. https://doi.org/10.1111/cobi.13448).</span></span>
 <span id="cb17-245"><a href="#cb17-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-246"><a href="#cb17-246" aria-hidden="true" tabindex="-1"></a><span class="do">### You can also look at the amount of bias reduction achieved through matching</span></span>
+<span id="cb17-246"><a href="#cb17-246" aria-hidden="true" tabindex="-1"></a><span class="do">### You can also look at the amount of bias *reduction achieved through matching</span></span>
 <span id="cb17-247"><a href="#cb17-247" aria-hidden="true" tabindex="-1"></a><span class="co"># match_quality_reduction &lt;- as.data.frame(match_quality$reduction)</span></span>
 <span id="cb17-248"><a href="#cb17-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb17-249"><a href="#cb17-249" aria-hidden="true" tabindex="-1"></a></span>
