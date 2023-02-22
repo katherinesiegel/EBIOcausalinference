@@ -18,6 +18,55 @@ library(sf)
 library(MatchIt)
 ```
 
+## The data
+There are two data files you can play around with for this exercise: *colo_dat_full.csv* and *colo_data_for_matching.csv*. *colo_dat_full.csv* has the entire time series of data for the full (unmatched) dataset of federal and private forests in Colorado. *colo_data_for_matching.csv* is a file that's ready for the matching process without additional pre-processing: it has a row for each sample point in Colorado and five-year averages for the climate variables. 
+
+### Variable names in colo_dat_full  
+
+* state: the state the sample is from (it should always be Colorado in this file)  
+* UID: a unique identifier for each sample point  
+* year: the year that the fire and climate data is from  
+* burned: whether or not the site burned in that year (0 = unburned, 1 = burned)  
+* prot_cat_recl: the ownership class. 0 = private, 1 = federal  
+* dist_rds_km: distance to the nearest road, in km  
+* slope: slope, in degrees  
+* aspect_srai: aspect  
+* elev_km: elevation, in 1000 m  
+* lon: longitude  
+* lat: latitude  
+* lightning: county-level lightning strikes    
+* pdsi_avg_season: seasonal average Palmer Drought Severity Index value  
+* soil_avg_season: seasonal average soil moisture  
+* tmmn_avg_season: seasonal average minimum temperature
+* tmmx_avg_season: seasonal average maximum temperature  
+* vs_max_season: seasonal average maximum wind speed  
+* total_precip_season: total seasonal precipitation    
+* prev_yr_precip: total precipitation in the previous year
+
+### Variable names in colo_data_for_matching  
+
+All the climate variables are variablename_5 to indicate that they are 5-year average values
+* UID: a unique identifier for each sample point  
+* state: the state the sample is from  
+* prot_cat_recl: the ownership class. 0 = private, 1 = federal  
+* lightning_5: 5 year average for lightning strikes  
+* vs_max_season: seasonal average maximum wind speed  
+* pr_total_season: total seasonal precipitation    
+* tmmx_avg_season: seasonal average maximum temperature  
+* tmmn_avg_season: seasonal average minimum temperature
+* pdsi_avg_season: seasonal average Palmer Drought Severity Index value  
+* soil_avg_season: seasonal average soil moisture  
+* slope: slope, in degrees  
+* aspect_srai: aspect  
+* elev_km: elevation, in 1000 m  
+* lon: longitude  
+* lat: latitude  
+* dist_rds_km: distance to the nearest road, in km  
+* popdens_1990: population density (per km2) in 1990  
+* popdens_2000: population density (per km2) in 2000  
+* popdens_2010: population density (per km2) in 2010  
+
+
 ## Prep the data
 ```{r}
 ### dataset before matching
