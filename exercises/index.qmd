@@ -16,6 +16,6 @@ In this replication exercise, you will use a subset of the data from [Siegel et 
 
 
 ## Monday 3/6
-[Panel regression demo in R] (https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/Panel_demo/Rmarkdown_panel_designs_Dee_and_Severen.Rmd)
+[Panel regression demo in R](https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/Panel_demo/Rmarkdown_panel_designs_Dee_and_Severen.Rmd)
 
-This tutorial replicates the main analyses in Dee et al, contrasted with common approaches in ecology (mixed effect models and conditioning on observable covariates. For the rest of the supplemental analyses in Dee et al, see [Dee GitHub] (https://github.com/LauraDee/NutNetCausalinf)
+This tutorial replicates the main analyses in Dee et al, contrasted with common approaches in ecology (mixed effect models and conditioning on observable covariates. For the rest of the supplemental analyses in Dee et al, see [Dee GitHub](https://github.com/LauraDee/NutNetCausalinf)

@@ -9,7 +9,7 @@ output:
     theme: flatly
     toc: true
     toc_float: true
-bibliography: [FE.bib]
+# bibliography: [FE.bib]
 biblio-style: "apalike"
 link-citations: true
 ---
