@@ -233,7 +233,7 @@ match_quality_unmatched <- as.data.frame(match_quality$sum.all)
 match_quality_summary <- as.data.frame(match_quality$sum.matched)
 ### Ideally, you want the standardized mean differences in the matched dataset to be < 0.25 (reference: Schleicher et al. 2020. Statistical matching for conservation science. Conserv. Biol. 34:538–549. https://doi.org/10.1111/cobi.13448).
 
-### You can also look at the amount of bias reduction achieved through matching
+### You can also look at the amount of bias *reduction achieved through matching
 # match_quality_reduction <- as.data.frame(match_quality$reduction)
 ```
 

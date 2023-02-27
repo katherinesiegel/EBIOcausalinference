@@ -9,7 +9,7 @@ output:
     theme: flatly
     toc: true
     toc_float: true
-bibliography: [FE.bib]
+# bibliography: [FE.bib]
 biblio-style: "apalike"
 link-citations: true
 ---
@@ -40,22 +40,22 @@ The data used in this tutorial comes from the [Nutrient Network](https://nutnet.
 
 We'll primarily use the *fixest* package for analysis; the other packages (*tidyverse*, *data.table*, *lme4*) aid data wrangling and comparing research designs.
 ```{r setup, message=FALSE, warning=FALSE}
-library(tidyverse) #v 1.3.2
-library(data.table) # v 1.14.6
-library(fixest) # v 0.11
-library(lme4)  # Need at least version 1.1-26
-library(knitr) #v1.41
-library(ggplot2) # v 3.4.0
-
-cdir <- getwd()
-comb <- fread(paste(cdir,"/cleaned_comb_data.csv",sep=""),na.strings='NA')
-comb$V1 = NULL
-comb$site <- comb$site_code
-## Make dummy variables for panel regression ##
-# make year a character, to be a dummy variable: 
- comb$year <- as.character(comb$year)
-#make a factor that is site by year
-comb[, site.by.yeardummy := paste(site_code, year, sep = "_")]
+# library(tidyverse) #v 1.3.2
+# library(data.table) # v 1.14.6
+# library(fixest) # v 0.11
+# library(lme4)  # Need at least version 1.1-26
+# library(knitr) #v1.41
+# library(ggplot2) # v 3.4.0
+# 
+# cdir <- getwd()
+# comb <- fread(paste(cdir,"/cleaned_comb_data.csv",sep=""),na.strings='NA')
+# comb$V1 = NULL
+# comb$site <- comb$site_code
+# ## Make dummy variables for panel regression ##
+# # make year a character, to be a dummy variable: 
+#  comb$year <- as.character(comb$year)
+# #make a factor that is site by year
+# comb[, site.by.yeardummy := paste(site_code, year, sep = "_")]
 
 ```
 
@@ -75,7 +75,7 @@ Dr. Paul Allison has an excellent [blog post](https://statisticalhorizons.com/pr
 Let's begin by looking at simple correlations. We will examine both the overall correlation and correlations within a single year (i.e., using cross-sectional variation). We proceed with a linear regression framework \@ref(eq:eq1), using the log of productivity (measured as live aboveground biomass) as the outcome and the log species richness as the explanatory variable.  We've found that a log-log specification captures the nature of the relationship in our data well (see Figure \@ref(fig:graphbiomasssp) below and the paper for details).
 
 ```{r graphbiomasssp, echo = F, out.width = '60%', fig.align = "center", fig.cap="log(Live Mass) as a function of log(Richness)."}
-ggplot(comb, aes(x=log(rich), y = log(live_mass))) + geom_point()
+# ggplot(comb, aes(x=log(rich), y = log(live_mass))) + geom_point()
 ```
 
 We initially estimate and report $\beta$ in:
@@ -88,20 +88,20 @@ where $p$ indexes plots, $s$ indexes sites, and $t$ indexes years. The unobserve
 We report results below using all years of data first, and then report results using two individual years: 2012 and 2013. Here, as everywhere below, we [**cluster standard errors**](#clusterse) by plot to reflect serial correlation in errors terms within a plot across years (we do not assume that errors are iid). Note that when we use only a single year of data, this is equivalent to using heteroskedasticity-robust errors. 
 
 ```{r message=FALSE, warning=FALSE}
-SimpleCorrAll <- feols(log(live_mass) ~ log(rich), comb, cluster = "newplotid") 
-
-SimpleCorr2012 <- comb %>%
-  filter(year==2012) %>%
-  feols(log(live_mass) ~ log(rich), ., cluster = "newplotid") 
-
-SimpleCorr2013 <- comb %>%
-  filter(year==2013) %>%
-  feols(log(live_mass) ~ log(rich), ., cluster = "newplotid") 
-
-etable(SimpleCorrAll, SimpleCorr2012, SimpleCorr2013, 
-          cluster = "newplotid", 
-          drop = "Intercept", 
-          subtitles = c("Data All Years", "Data in 2012", "Data in 2013"))  
+# SimpleCorrAll <- feols(log(live_mass) ~ log(rich), comb, cluster = "newplotid") 
+# 
+# SimpleCorr2012 <- comb %>%
+#   filter(year==2012) %>%
+#   feols(log(live_mass) ~ log(rich), ., cluster = "newplotid") 
+# 
+# SimpleCorr2013 <- comb %>%
+#   filter(year==2013) %>%
+#   feols(log(live_mass) ~ log(rich), ., cluster = "newplotid") 
+# 
+# etable(SimpleCorrAll, SimpleCorr2012, SimpleCorr2013, 
+#           cluster = "newplotid", 
+#           drop = "Intercept", 
+#           subtitles = c("Data All Years", "Data in 2012", "Data in 2013"))  
 ```
 
 As you can see, using all years of data gives a non-significant positive relationship between productivity and richness. In just the 2012 data, the coefficient is larger in magnitude, but still not significant. Finally, just using 2013 data, the coefficient switches signs and becomes significant. 
@@ -147,31 +147,31 @@ A common response to this problem is to try to measure these differences and inc
 To explore the consequences of adding in covariates, we show the results of five models below. The first column repeats the first column from above. The second column adds in soil chemistry covariates, the third column instead adds weather covariates, and the fourth instead adds management variables plus habitat. The last columns adds in everything. For the purposes of this tutorial, we only show coefficient estimates for richness in the following table, even though the other terms are included in the model.
 
 ```{r message=FALSE, warning=FALSE}
-SoilCovars <- feols(log(live_mass) ~ log(rich) +
-                      pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +
-                      pH + PercentSand + PercentSilt + PercentClay, 
-                    comb, cluster = "newplotid") 
-
-WeatherCovars <- feols(log(live_mass) ~ log(rich) +
-                         elevation + TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 + 
-                         TEMP_COLD_Q_v2, 
-                       comb, cluster = "newplotid") 
-
-MgmtCovars <- feols(log(live_mass) ~ log(rich) +
-                      as.factor(habitat) + managed + burned + grazed + anthropogenic, 
-                    comb, cluster = "newplotid") 
-
-AllCovars <- feols(log(live_mass) ~ log(rich) +
-                     pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +
-                     pH + PercentSand + PercentSilt + PercentClay +
-                     elevation + TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 +
-                     TEMP_COLD_Q_v2 + as.factor(habitat) + managed + burned + grazed + anthropogenic, 
-                   comb, cluster = "newplotid") 
-
-etable(SimpleCorrAll, SoilCovars, WeatherCovars, MgmtCovars, AllCovars,
-          cluster = "newplotid", 
-          drop = "!rich", 
-          subtitles = c("Data All Years", "+ Soil", "+ Weather", "+ Management", "+ All")) 
+# SoilCovars <- feols(log(live_mass) ~ log(rich) +
+#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +
+#                       pH + PercentSand + PercentSilt + PercentClay, 
+#                     comb, cluster = "newplotid") 
+# 
+# WeatherCovars <- feols(log(live_mass) ~ log(rich) +
+#                          elevation + TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 + 
+#                          TEMP_COLD_Q_v2, 
+#                        comb, cluster = "newplotid") 
+# 
+# MgmtCovars <- feols(log(live_mass) ~ log(rich) +
+#                       as.factor(habitat) + managed + burned + grazed + anthropogenic, 
+#                     comb, cluster = "newplotid") 
+# 
+# AllCovars <- feols(log(live_mass) ~ log(rich) +
+#                      pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +
+#                      pH + PercentSand + PercentSilt + PercentClay +
+#                      elevation + TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 +
+#                      TEMP_COLD_Q_v2 + as.factor(habitat) + managed + burned + grazed + anthropogenic, 
+#                    comb, cluster = "newplotid") 
+# 
+# etable(SimpleCorrAll, SoilCovars, WeatherCovars, MgmtCovars, AllCovars,
+#           cluster = "newplotid", 
+#           drop = "!rich", 
+#           subtitles = c("Data All Years", "+ Soil", "+ Weather", "+ Management", "+ All")) 
 ```
 
 Estimates jump around depending on which covariates are used! This is likely a sign of some sort of omitted variables bias. Even though we consecutively explain more and more of the variation in the data, we are not necessarily any closer to a causal relationship.
@@ -229,46 +229,46 @@ What's the cost? Well, there are a few to consider, but some really aren't much 
 Figures \@ref(fig:graphrawvary) and \@ref(fig:graphdeplotFE) illustrate graphically what the plot fixed effects do to the outcome variable (productivity). Figures \@ref(fig:graphrawvary) is just the raw data, and shows log(live mass) in four plots split between two sites (at the Sedgwick Reserve [sedg.us] and at the Sevilleta LTER [sevi.us]). Sedgwick has higher productivity on average. The productivity at these sites also appear to be following different trajectories through time (e.g., note the dip in productivity at Sevilleta in 2009). The plot fixed effects remove the average productivity in each site, as shown in Figure \@ref(fig:graphdeplotFE). They do not remove site-and-year specific sources of confounding variation (e.g., if a more extreme drought happened at Sevilleta than at Sedgwick in 2009 affecting both productivity and richness); we turn to eliminating site and year specific confounding variables below in \@ref(fig:graphdeplotsiteyearFE).
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
-comb$site <- comb$site_code
-comb$plot = as.factor(comb$plot)
-
-comb[,dm.changerich:=changerich-mean(changerich, na.rm=T), by=.(site,year)]
-comb[,dm.changelive_mass:=changelive_mass-mean(changelive_mass, na.rm=T), by=.(site,year)]
-
-comb[,`:=`(log.rich=log(rich), log.live_mass=log(live_mass))]
-comb[order(year), change.log.rich := log(rich)-shift(log(rich)), by =.(plot, site_code)]
-comb[order(year), change.log.live_mass := log(live_mass)-shift(log(live_mass)), by =.(plot, site_code)]
-comb[,dm.change.log.rich:=change.log.rich-mean(change.log.rich, na.rm=T), by=.(site,year)]
-comb[,dm.change.log.live_mass:=change.log.live_mass-mean(change.log.live_mass, na.rm=T), by=.(site,year)]
-
-comb[,singledm.log.live_mass:=log.live_mass-mean(log.live_mass, na.rm=T), by=.(site, plot)]
-comb[,doubledm.log.live_mass:=singledm.log.live_mass-mean(singledm.log.live_mass, na.rm=T), by=.(site, year)]
+# comb$site <- comb$site_code
+# comb$plot = as.factor(comb$plot)
+# 
+# comb[,dm.changerich:=changerich-mean(changerich, na.rm=T), by=.(site,year)]
+# comb[,dm.changelive_mass:=changelive_mass-mean(changelive_mass, na.rm=T), by=.(site,year)]
+# 
+# comb[,`:=`(log.rich=log(rich), log.live_mass=log(live_mass))]
+# comb[order(year), change.log.rich := log(rich)-shift(log(rich)), by =.(plot, site_code)]
+# comb[order(year), change.log.live_mass := log(live_mass)-shift(log(live_mass)), by =.(plot, site_code)]
+# comb[,dm.change.log.rich:=change.log.rich-mean(change.log.rich, na.rm=T), by=.(site,year)]
+# comb[,dm.change.log.live_mass:=change.log.live_mass-mean(change.log.live_mass, na.rm=T), by=.(site,year)]
+# 
+# comb[,singledm.log.live_mass:=log.live_mass-mean(log.live_mass, na.rm=T), by=.(site, plot)]
+# comb[,doubledm.log.live_mass:=singledm.log.live_mass-mean(singledm.log.live_mass, na.rm=T), by=.(site, year)]
 
 ```
 
 
 ```{r graphrawvary, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Raw variation in live mass at four plots across two sites."}
-# plot raw variation - no fixed effects
-ggplot(comb[(site=="sedg.us" & plot %in% c("1","17")) | (site=="sevi.us" & plot %in% c("8","12")),],
-       aes(x=year, y=log.live_mass, group=plot, linetype=plot, color = site)) + 
-  geom_line() +   scale_color_manual(values=c('#999999','#E69F00')) +
-  ggtitle("Raw Variation in log(live biomass)") + 
-  theme_bw() + 
-  ylim(c(-1,7)) + labs(y = "log(Live biomass)") +  labs(x = "Year") + 
-  theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +
-  theme(axis.text.y = element_text(size = 14)) 
+# # plot raw variation - no fixed effects
+# ggplot(comb[(site=="sedg.us" & plot %in% c("1","17")) | (site=="sevi.us" & plot %in% c("8","12")),],
+#        aes(x=year, y=log.live_mass, group=plot, linetype=plot, color = site)) + 
+#   geom_line() +   scale_color_manual(values=c('#999999','#E69F00')) +
+#   ggtitle("Raw Variation in log(live biomass)") + 
+#   theme_bw() + 
+#   ylim(c(-1,7)) + labs(y = "log(Live biomass)") +  labs(x = "Year") + 
+#   theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +
+#   theme(axis.text.y = element_text(size = 14)) 
 ```
 
 ```{r graphdeplotFE, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Variation demaned by plot in live mass at four plots across two sites."}
 
-ggplot(comb[site=="sedg.us" & plot %in% c("1","17") | (site=="sevi.us" & plot %in% c("8","12")), ],
-       aes(x=year, y=singledm.log.live_mass, group=plot, linetype=plot, color = site)) + 
-  geom_line() +    scale_color_manual(values=c('#999999','#E69F00')) +
-  ggtitle("Variation in log(live biomass) after removing plot fixed effects") + 
-  theme_bw() + 
-  ylim(c(-5,7)) + labs(y = "log(Live biomass)") +  labs(x = "Year") + 
-  theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +
-  theme(axis.text.y = element_text(size = 14)) 
+# ggplot(comb[site=="sedg.us" & plot %in% c("1","17") | (site=="sevi.us" & plot %in% c("8","12")), ],
+#        aes(x=year, y=singledm.log.live_mass, group=plot, linetype=plot, color = site)) + 
+#   geom_line() +    scale_color_manual(values=c('#999999','#E69F00')) +
+#   ggtitle("Variation in log(live biomass) after removing plot fixed effects") + 
+#   theme_bw() + 
+#   ylim(c(-5,7)) + labs(y = "log(Live biomass)") +  labs(x = "Year") + 
+#   theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +
+#   theme(axis.text.y = element_text(size = 14)) 
 ```
 
 
@@ -280,30 +280,30 @@ The year fixed effects $\mu_t$ control for *time-varying* factors (observed or u
 Because what happens at one site in a year is probably very different from what happens at a different site in the same year, we estimate these separately for each site. This will make the point estimates for each site less precise (especially because we're clustering by plot), but this is just for illustration's sake.
 
 ```{r message=FALSE, warning=FALSE}
-PlotFE_1 <- comb %>%
-  filter(site_code=="cdcr.us") %>%
-  feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
-
-PlotFE_2 <- comb %>%
-  filter(site_code=="cdpt.us") %>%
-  feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
-
-PlotFE_3 <- comb %>%
-  filter(site_code=="koffler.ca") %>%
-  feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
-
-PlotFE_4 <- comb %>%
-  filter(site_code=="sedg.us") %>%
-  feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
-
-PlotFE_5 <- comb %>%
-  filter(site_code=="sier.us") %>%
-  feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
-
-etable(SimpleCorrAll, PlotFE_1, PlotFE_2, PlotFE_3, PlotFE_4, PlotFE_5,
-          cluster = "newplotid", 
-          drop = "!rich", 
-          subtitles = c("Data All Years","US - CDCR", "US - CDPT", "CA - Koffler", "US - SEDG", "US - SIER" )) 
+# PlotFE_1 <- comb %>%
+#   filter(site_code=="cdcr.us") %>%
+#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
+# 
+# PlotFE_2 <- comb %>%
+#   filter(site_code=="cdpt.us") %>%
+#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
+# 
+# PlotFE_3 <- comb %>%
+#   filter(site_code=="koffler.ca") %>%
+#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
+# 
+# PlotFE_4 <- comb %>%
+#   filter(site_code=="sedg.us") %>%
+#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
+# 
+# PlotFE_5 <- comb %>%
+#   filter(site_code=="sier.us") %>%
+#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")
+# 
+# etable(SimpleCorrAll, PlotFE_1, PlotFE_2, PlotFE_3, PlotFE_4, PlotFE_5,
+#           cluster = "newplotid", 
+#           drop = "!rich", 
+#           subtitles = c("Data All Years","US - CDCR", "US - CDPT", "CA - Koffler", "US - SEDG", "US - SIER" )) 
 ```
 
 We again show the bivariate correlation on all sites first (SimpleCorrAll), and then the estimate for each site. **Whoa!** Now we're getting some negative coefficients (though mostly insignificant due to smaller effective sample sizes). We're controlling for lots and lots of things that we couldn't control for before, either because we didn't think to include them or we couldn't collect data on them. The R-squared values confirm that this is the case; we're generally explaining much more of the data than before (but note: R-squared values are NOT important for causal interpretations generally). *Note that, with the plot fixed effects, we do not have much statistical power estimating sites individually.*
@@ -329,21 +329,21 @@ To get a sense for what these site-by-year effects do, first recall Figure \@ref
 
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
-comb[,doubledm.log.live_mass:=singledm.log.live_mass-mean(singledm.log.live_mass, na.rm=T), by=.(site, year)]
+# comb[,doubledm.log.live_mass:=singledm.log.live_mass-mean(singledm.log.live_mass, na.rm=T), by=.(site, year)]
 ```
 
 ```{r graphdeplotsiteyearFE, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Variation demaned by plot and site-by-year effects in live mass at four plots across two sites."}
-sitebyyear = ggplot(comb[site=="sedg.us" & plot %in% c("1","17") | (site=="sevi.us" & plot %in% c("8","12")),],
-       aes(x=year, y=doubledm.log.live_mass, group=plot, linetype=plot, color = site)) + 
-  geom_line() +   scale_color_manual(values=c('#999999','#E69F00')) +
-  ggtitle("Variation in log(live biomass) after removing plot fixed and site by year effects") +
-  theme_bw() +  
-  ylim(c(-5,7)) 
-
-sitebyyear +
-  labs(y = "log(Live biomass)") +  labs(x = "Year") + 
-   theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +
-  theme(axis.text.y = element_text(size = 14)) 
+# sitebyyear = ggplot(comb[site=="sedg.us" & plot %in% c("1","17") | (site=="sevi.us" & plot %in% c("8","12")),],
+#        aes(x=year, y=doubledm.log.live_mass, group=plot, linetype=plot, color = site)) + 
+#   geom_line() +   scale_color_manual(values=c('#999999','#E69F00')) +
+#   ggtitle("Variation in log(live biomass) after removing plot fixed and site by year effects") +
+#   theme_bw() +  
+#   ylim(c(-5,7)) 
+# 
+# sitebyyear +
+#   labs(y = "log(Live biomass)") +  labs(x = "Year") + 
+#    theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +
+#   theme(axis.text.y = element_text(size = 14)) 
 ```
 
 
@@ -351,18 +351,18 @@ sitebyyear +
 To provide confidence that the results are robust, we will also include a couple of time-varying controls, evenness and lagged richness. NB: To make sure we don't drop locations with values of zero evenness, we use the inverse hyperbolic sine instead of the natural log. Note that we don't need to worry about that for productivity or richness because they never take a zero value.
 ```{r message=FALSE, warning=FALSE}
 
-ihs <- function(x) {
-  y <- log(x+sqrt(x^2 + 1))
-}
-
-
-MainMod_Rich     <- feols(log(live_mass) ~ log(rich)  | newplotid + site.by.yeardummy, comb) 
-MainMod_RichEven <- feols(log(live_mass) ~ log(rich) + ihs(even) | newplotid + site.by.yeardummy, comb) 
-MainMod_RichLag  <- feols(log(live_mass) ~ log(rich) + log(laggedrich) | newplotid + site.by.yeardummy, comb) 
-MainMod_RichEvenLag <- feols(log(live_mass) ~ log(rich) + log(laggedrich) + ihs(even) | newplotid + site.by.yeardummy, comb)
-
-etable(MainMod_Rich, MainMod_RichEven, MainMod_RichLag, MainMod_RichEvenLag,
-          cluster = "newplotid")
+# ihs <- function(x) {
+#   y <- log(x+sqrt(x^2 + 1))
+# }
+# 
+# 
+# MainMod_Rich     <- feols(log(live_mass) ~ log(rich)  | newplotid + site.by.yeardummy, comb) 
+# MainMod_RichEven <- feols(log(live_mass) ~ log(rich) + ihs(even) | newplotid + site.by.yeardummy, comb) 
+# MainMod_RichLag  <- feols(log(live_mass) ~ log(rich) + log(laggedrich) | newplotid + site.by.yeardummy, comb) 
+# MainMod_RichEvenLag <- feols(log(live_mass) ~ log(rich) + log(laggedrich) + ihs(even) | newplotid + site.by.yeardummy, comb)
+# 
+# etable(MainMod_Rich, MainMod_RichEven, MainMod_RichLag, MainMod_RichEvenLag,
+#           cluster = "newplotid")
 
 ```
 
@@ -389,47 +389,47 @@ Figure \@ref(fig:RawBivariate) just shows the raw bivariate correlation, and is 
 
 ```{r RawBivariate, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="The bivariate relationship with no controls."}
 # Cross-sectional analog - ignoring fixed effects and any other covariates
-comb[,`:=`(log.rich=log(rich), log.live_mass=log(live_mass))]
-ggplot(comb[!is.na(log.rich) & !is.na(log.live_mass),], 
-       aes(x=log.rich, 
-           y=log.live_mass)) + 
-  geom_smooth(method="lm", se=T) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + 
-  theme_bw() +
-  geom_point()
+# comb[,`:=`(log.rich=log(rich), log.live_mass=log(live_mass))]
+# ggplot(comb[!is.na(log.rich) & !is.na(log.live_mass),], 
+#        aes(x=log.rich, 
+#            y=log.live_mass)) + 
+#   geom_smooth(method="lm", se=T) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + 
+#   theme_bw() +
+#   geom_point()
 ```
 
 Figure \@ref(fig:plotFixedEffects) shows the relationship conditional on plot fixed effects. Note that this collapses the range of variation substantially. Recall that the plot fixed effects remove factors that are time-invariant and plot-specific. However, this graph still reflects the variation in sites across years.
 
 ```{r plotFixedEffects, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Controlling for only plot-level attributes that do not change through time"}
-# Plot FE only
-# We'll also do (double) demeaning of logged values to mimic 
-# what's done in log-log model
-comb[order(year), change.log.rich := log(rich)-shift(log(rich)), by =.(plot, site_code)]
-comb[order(year), change.log.live_mass := log(live_mass)-shift(log(live_mass)), by =.(plot, site_code)]
-
-ggplot(comb[!is.na(change.log.rich) & !is.na(change.log.live_mass),], 
-       aes(x=change.log.rich, 
-           y=change.log.live_mass)) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + 
-  geom_smooth(method="lm", se=F) + 
-  theme_bw() +
-  geom_point()
+# # Plot FE only
+# # We'll also do (double) demeaning of logged values to mimic 
+# # what's done in log-log model
+# comb[order(year), change.log.rich := log(rich)-shift(log(rich)), by =.(plot, site_code)]
+# comb[order(year), change.log.live_mass := log(live_mass)-shift(log(live_mass)), by =.(plot, site_code)]
+# 
+# ggplot(comb[!is.na(change.log.rich) & !is.na(change.log.live_mass),], 
+#        aes(x=change.log.rich, 
+#            y=change.log.live_mass)) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + 
+#   geom_smooth(method="lm", se=F) + 
+#   theme_bw() +
+#   geom_point()
 ```
 
 Figure \@ref(fig:siteyrplotFixedEffects) continues to control for plot fixed effects, but also removes site-by-year variation via site-by-year fixed effects. This shifts the variation negative as factors that are common to sites within years no longer confound the relationship.
 
 ```{r siteyrplotFixedEffects, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Controlling for plot attributes and attributes of sites that change through time"}
-comb[,dm.changerich:=changerich-mean(changerich, na.rm=T), by=.(site,year)]
-comb[,dm.changelive_mass:=changelive_mass-mean(changelive_mass, na.rm=T), by=.(site,year)]
-comb[,dm.change.log.rich:=change.log.rich-mean(change.log.rich, na.rm=T), by=.(site,year)]
-comb[,dm.change.log.live_mass:=change.log.live_mass-mean(change.log.live_mass, na.rm=T), by=.(site,year)]
-
-# Panel analog (plot FE and site-year effects)
-ggplot(comb[!is.na(dm.change.log.rich) & !is.na(dm.change.log.live_mass),], 
-       aes(x=dm.change.log.rich, 
-           y=dm.change.log.live_mass)) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + 
-  geom_smooth(method="lm", se=F) +
-  theme_bw() +
-  geom_point()
+# comb[,dm.changerich:=changerich-mean(changerich, na.rm=T), by=.(site,year)]
+# comb[,dm.changelive_mass:=changelive_mass-mean(changelive_mass, na.rm=T), by=.(site,year)]
+# comb[,dm.change.log.rich:=change.log.rich-mean(change.log.rich, na.rm=T), by=.(site,year)]
+# comb[,dm.change.log.live_mass:=change.log.live_mass-mean(change.log.live_mass, na.rm=T), by=.(site,year)]
+# 
+# # Panel analog (plot FE and site-year effects)
+# ggplot(comb[!is.na(dm.change.log.rich) & !is.na(dm.change.log.live_mass),], 
+#        aes(x=dm.change.log.rich, 
+#            y=dm.change.log.live_mass)) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + 
+#   geom_smooth(method="lm", se=F) +
+#   theme_bw() +
+#   geom_point()
 
 ```
 
@@ -450,21 +450,21 @@ By contrast, recall that the fixed effects assumption allows for arbitrary corre
 Check out how the results below change (or not) in response to fixed effects (references for more details on the mathematics behind this are listed later on). First, consider the two linear models (without random effects) with different sets of soil variables:
 ```{r message=FALSE, warning=FALSE}
 
-## Linear Model with Soil Covariates
-SoilCovars <- feols(log(live_mass) ~ log(rich) +
-                      pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B, 
-                    comb, cluster = "newplotid") 
-
-## Linear Model with More Soil Covariates
-SoilCovars_More <- feols(log(live_mass) ~ log(rich) +
-                      pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +
-                      pH + PercentSand + PercentSilt + PercentClay, 
-                    comb, cluster = "newplotid") 
-
-etable(SoilCovars, SoilCovars_More,
-          cluster = "newplotid", 
-          drop = "!rich", 
-          subtitles = c("Some soil covariates","More soil covariates")) 
+# ## Linear Model with Soil Covariates
+# SoilCovars <- feols(log(live_mass) ~ log(rich) +
+#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B, 
+#                     comb, cluster = "newplotid") 
+# 
+# ## Linear Model with More Soil Covariates
+# SoilCovars_More <- feols(log(live_mass) ~ log(rich) +
+#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +
+#                       pH + PercentSand + PercentSilt + PercentClay, 
+#                     comb, cluster = "newplotid") 
+# 
+# etable(SoilCovars, SoilCovars_More,
+#           cluster = "newplotid", 
+#           drop = "!rich", 
+#           subtitles = c("Some soil covariates","More soil covariates")) 
 
 ```
 
@@ -474,24 +474,24 @@ So, that's our baseline. Now let's see what happens with random effects!
 
 ```{r message=FALSE, warning=FALSE}
 
-## First, characteristics of soil influence both productivity and richness. We use covariates that characterize several aspects of the soil fertility and nutrients. We include plot and site random effects.
-MixedMod_Rich_soil <- lmer(log(live_mass) ~ log(rich) + 
-                             pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +   (1|site_code), comb, REML = F)
-summary(MixedMod_Rich_soil)
-
-
-## We now bring in management variables, and retain the plot and site random effects.
-MixedMod_Rich2 <- lmer(log(live_mass) ~ log(rich) + 
-                         managed + burned + grazed + anthropogenic + 
-                         pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +                             (1|site_code), comb, REML = F)
-summary(MixedMod_Rich2 )
-
-
-## we also can bring in controls for country, habitat, and year, again retaining the plot and site random effects. 
-MixedMod_Rich <- lmer(log(live_mass) ~ log(rich) + as.factor(country) + as.factor(habitat) + as.factor(year) + 
-                        elevation + managed + burned + grazed + anthropogenic + 
-                        TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 +                            TEMP_COLD_Q_v2 +   pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +            ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +                             (1|site_code), comb, REML = F)
-summary(MixedMod_Rich )
+# ## First, characteristics of soil influence both productivity and richness. We use covariates that characterize several aspects of the soil fertility and nutrients. We include plot and site random effects.
+# MixedMod_Rich_soil <- lmer(log(live_mass) ~ log(rich) + 
+#                              pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +   (1|site_code), comb, REML = F)
+# summary(MixedMod_Rich_soil)
+# 
+# 
+# ## We now bring in management variables, and retain the plot and site random effects.
+# MixedMod_Rich2 <- lmer(log(live_mass) ~ log(rich) + 
+#                          managed + burned + grazed + anthropogenic + 
+#                          pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +                             (1|site_code), comb, REML = F)
+# summary(MixedMod_Rich2 )
+# 
+# 
+# ## we also can bring in controls for country, habitat, and year, again retaining the plot and site random effects. 
+# MixedMod_Rich <- lmer(log(live_mass) ~ log(rich) + as.factor(country) + as.factor(habitat) + as.factor(year) + 
+#                         elevation + managed + burned + grazed + anthropogenic + 
+#                         TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 +                            TEMP_COLD_Q_v2 +   pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +            ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +                             (1|site_code), comb, REML = F)
+# summary(MixedMod_Rich )
 
 ```
 
