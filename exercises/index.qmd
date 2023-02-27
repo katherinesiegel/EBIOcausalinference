@@ -11,6 +11,8 @@ This section has link to the files for the demos and replication exercises that 
 [Diff-in-Diff regression demo in R](https://github.com/katherinesiegel/EBIOcausalinference/tree/main/exercises/DiD_demo)
 Application and interpretation of differences-in-differences to examine effects of the Marshall Fire on vegetation in Boulder, CO. Data file is on Canvas course page. 
 
+Optional: Review of difference-in-difference covered in lecture in RMarkdown, [see here](https://ds4ps.org/pe4ps-textbook/docs/p-030-diff-in-diff.html)
+
 ## Monday 3/6
 [Panel regression demo in R](https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/Panel_demo/Rmarkdown_panel_designs_Dee_and_Severen.html)
 This tutorial replicates the main analyses in Dee et al, contrasted with common approaches in ecology (mixed effect models and conditioning on observable covariates. For the rest of the supplemental analyses in Dee et al, see [L.Dee's GitHub](https://github.com/LauraDee/NutNetCausalinf)
