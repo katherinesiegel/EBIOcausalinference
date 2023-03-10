@@ -201,6 +201,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#monday-220" id="toc-monday-220" class="nav-link active" data-scroll-target="#monday-220">Monday 2/20</a></li>
+  <li><a href="#wednesday-222" id="toc-wednesday-222" class="nav-link" data-scroll-target="#wednesday-222">Wednesday 2/22</a></li>
   <li><a href="#monday-227" id="toc-monday-227" class="nav-link" data-scroll-target="#monday-227">Monday 2/27</a></li>
   <li><a href="#monday-36" id="toc-monday-36" class="nav-link" data-scroll-target="#monday-36">Monday 3/6</a></li>
   </ul>
@@ -230,6 +231,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="monday-220" class="level2">
 <h2 class="anchored" data-anchor-id="monday-220">Monday 2/20</h2>
 <p><a href="https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/matching_demo.Rmd">Matching demo in R</a>. I couldn’t figure out a cute way for you to be able to download this directly as a RMarkdown file (thwarted by quarto…). But this link will take you to the page in the course’s GitHub repository where the RMarkdown file is stored. Click on “Raw,” then you can copy and paste the code into an RMarkdown on your computer.</p>
+</section>
+<section id="wednesday-222" class="level2">
+<h2 class="anchored" data-anchor-id="wednesday-222">Wednesday 2/22</h2>
+<p><a href="https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/matching_replication.Rmd">Matching replication exercise</a></p>
+<p>In this replication exercise, you will use a subset of the data from <a href="https://doi.org/10.1007/s10113-022-01950-y">Siegel et al.&nbsp;2022</a> to play around with matching using a real dataset. The data are available for download on the course <a href="https://canvas.colorado.edu/courses/92330">Canvas page</a>, under the header “IV Quasi Experimental Designs: Matching.” There are two csv files of data: <em>colo_dat_full.csv</em> and <em>colo_data_for_matching.csv</em>. <em>colo_dat_full.csv</em> has the entire time series of data for the full (unmatched) dataset of federal and private forests in Colorado. <em>colo_data_for_matching.csv</em> is a file that’s ready for the matching process without additional pre-processing: it has a row for each sample point in Colorado and five-year averages for the climate variables.</p>
 </section>
 <section id="monday-227" class="level2">
 <h2 class="anchored" data-anchor-id="monday-227">Monday 2/27</h2>
@@ -439,15 +445,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monday 2/20</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Matching demo in R</span><span class="co">](https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/matching_demo.Rmd)</span>. I couldn't figure out a cute way for you to be able to download this directly as a RMarkdown file (thwarted by quarto...). But this link will take you to the page in the course's GitHub repository where the RMarkdown file is stored. Click on "Raw," then you can copy and paste the code into an RMarkdown on your computer.</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monday 2/27</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Diff-in-Diff regression demo in R</span><span class="co">](https://github.com/katherinesiegel/EBIOcausalinference/tree/main/exercises/DiD_demo)</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Application and interpretation of differences-in-differences to examine effects of the Marshall Fire on vegetation in Boulder, CO. Data file is on Canvas course page. </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Optional: Review of difference-in-difference covered in lecture in RMarkdown, <span class="co">[</span><span class="ot">see here</span><span class="co">](https://ds4ps.org/pe4ps-textbook/docs/p-030-diff-in-diff.html)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monday 3/6</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Panel regression demo in R</span><span class="co">](https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/Panel_demo/Rmarkdown_panel_designs_Dee_and_Severen.html)</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>This tutorial replicates the main analyses in Dee et al, contrasted with common approaches in ecology (mixed effect models and conditioning on observable covariates. For the rest of the supplemental analyses in Dee et al, see <span class="co">[</span><span class="ot">L.Dee's GitHub</span><span class="co">](https://github.com/LauraDee/NutNetCausalinf)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wednesday 2/22</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Matching replication exercise</span><span class="co">](https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/matching_replication.Rmd)</span>  </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>In this replication exercise, you will use a subset of the data from <span class="co">[</span><span class="ot">Siegel et al. 2022</span><span class="co">](https://doi.org/10.1007/s10113-022-01950-y)</span> to play around with matching using a real dataset. The data are available for download on the course <span class="co">[</span><span class="ot">Canvas page</span><span class="co">](https://canvas.colorado.edu/courses/92330)</span>, under the header "IV Quasi Experimental Designs: Matching." There are two csv files of data: *colo_dat_full.csv* and *colo_data_for_matching.csv*. *colo_dat_full.csv* has the entire time series of data for the full (unmatched) dataset of federal and private forests in Colorado. *colo_data_for_matching.csv* is a file that's ready for the matching process without additional pre-processing: it has a row for each sample point in Colorado and five-year averages for the climate variables. </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monday 2/27</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Diff-in-Diff regression demo in R</span><span class="co">](https://github.com/katherinesiegel/EBIOcausalinference/tree/main/exercises/DiD_demo)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Application and interpretation of differences-in-differences to examine effects of the Marshall Fire on vegetation in Boulder, CO. Data file is on Canvas course page. </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Optional: Review of difference-in-difference covered in lecture in RMarkdown, <span class="co">[</span><span class="ot">see here</span><span class="co">](https://ds4ps.org/pe4ps-textbook/docs/p-030-diff-in-diff.html)</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monday 3/6</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Panel regression demo in R</span><span class="co">](https://github.com/katherinesiegel/EBIOcausalinference/blob/main/exercises/Panel_demo/Rmarkdown_panel_designs_Dee_and_Severen.html)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>This tutorial replicates the main analyses in Dee et al, contrasted with common approaches in ecology (mixed effect models and conditioning on observable covariates. For the rest of the supplemental analyses in Dee et al, see <span class="co">[</span><span class="ot">L.Dee's GitHub</span><span class="co">](https://github.com/LauraDee/NutNetCausalinf)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
