@@ -23,7 +23,8 @@ Load required packages. In this demo, we will use the package "AER".
 knitr::opts_chunk$set(echo = TRUE)
 
 ### Install package if you need to
-install.packages("AER")
+install.packages("AER",
+                 repos = "http://cran.us.r-project.org")
 
 ### Load required libraries
 library(AER)
