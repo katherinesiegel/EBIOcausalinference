@@ -257,9 +257,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="scenario" class="level3">
 <h3 class="anchored" data-anchor-id="scenario">Scenario</h3>
 <p>In the Sims 2010 paper, she is interested in the effect of forest protection on socioeconomic outcomes. Here, we will use a toy dataset to explore a scenario where we need to use instrumental variables rather than OLS.</p>
-<p>For the purposes of this exercise, we will simplify Sims’s dataset. Let’s say we are interested in the effect of the presence of protected forests in a locality (treatment) on average monthly household consumption (outcome). We have sampled average monthly household consumption at a set of localities, where we have also recorded data on average slope and elevation and the distance to major cities. Due to the nonrandom placement of protected areas, we suspect that there are unobserved variables that influence the placement of protected areas and socioeconomic outcomes – we have an issue of endogeneity. In this example, the unobserved variable is the historical presence of strong local institutions.</p>
-<p>In our simulated data, we know the true relationships between the variables, which helps us see the different results we get from analyzing the effect of forest protection on the socioeconomic outcome using OLS vs.&nbsp;instrumental variables. In this example, we know that there is no correlation between the presence of protected forests and unobservable covariates of average monthly household consumption.</p>
-<p>We need an instrumental variable that is correlated with the presence of protected forests (the treatment) but that is not correlated with average monthly household consumption (the outcome) except through its relationship with the presence of protected forests. Here, whether or not the locality intersects a major tributary could be an appropriate instrument, as a proxy for priority watershed status: priority watershed status is related to the conservation objective of watershed protection, and thus is related to the placement of protected areas, but there is no other mechanism through which the distance to the nearest major tributary affects average monthly household consumption. Distance to the nearest major tributary is not correlated with the unobserved historical presence of strong local institutions.</p>
+<p>For the purposes of this exercise, we will simplify Sims’s dataset. Let’s say we are interested in the effect of the area of protected forests in a locality (treatment) on average monthly household consumption (outcome). We have sampled average monthly household consumption at a set of localities, where we have also recorded data on average slope and elevation and the distance to major cities. Due to the nonrandom placement of protected areas, we suspect that there are unobserved variables that influence the placement of protected areas and socioeconomic outcomes – we have an issue of endogeneity. In this example, the unobserved variable is the historical presence of strong local institutions.</p>
+<p>In our simulated data, we know the true relationships between the variables, which helps us see the different results we get from analyzing the effect of forest protection on the socioeconomic outcome using OLS vs.&nbsp;instrumental variables.</p>
+<p>We need an instrumental variable that is correlated with the area of protected forests (the treatment) but that is not correlated with average monthly household consumption (the outcome) except through its relationship with the area of protected forests. Here, the distance between the locality and a major tributary could be an appropriate instrument, as a proxy for priority watershed status: priority watershed status is related to the conservation objective of watershed protection, and thus is related to the placement of protected areas, but there is no other mechanism through which the distance to the nearest major tributary affects average monthly household consumption. Distance to the nearest major tributary is not correlated with the unobserved historical presence of strong local institutions.</p>
 </section>
 </section>
 <section id="set-up" class="level2">
@@ -344,7 +344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_est), <span class="fu">max</span>(ols_protect_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.4100373 0.1840201 5.9591580 6.8916956</code></pre>
+<pre><code>[1] 6.3626416 0.1750825 5.6320357 6.7898089</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -357,7 +357,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_sd), <span class="fu">max</span>(ols_protect_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.181060648 0.006080199 0.165925614 0.201518621</code></pre>
+<pre><code>[1] 0.181650095 0.006384822 0.167754594 0.198892844</code></pre>
 </div>
 </div>
 <p><em>The effect estimated by OLS is incorrect– it should be 5.</em></p>
@@ -406,7 +406,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est), <span class="fu">max</span>(iv_tsls_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.0180124 0.2259566 4.4752396 5.6034888</code></pre>
+<pre><code>[1] 5.0010016 0.1759841 4.6156220 5.4328916</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -419,7 +419,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est_sd), <span class="fu">max</span>(iv_tsls_est_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.230964910 0.007866202 0.212487707 0.250160980</code></pre>
+<pre><code>[1] 0.230079258 0.007399508 0.215417326 0.249740395</code></pre>
 </div>
 </div>
 <p><em>This yields the expected estimate for the effect of forest protection on average monthly household consumption.</em></p>
@@ -494,7 +494,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_est), <span class="fu">max</span>(iv_protect_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.9544622 0.1802571 4.5622055 5.4136256</code></pre>
+<pre><code>[1] 4.9874022 0.2062186 4.4620210 5.4441114</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -507,7 +507,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_sd), <span class="fu">max</span>(iv_protect_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.192602324 0.006586725 0.178122852 0.208809484</code></pre>
+<pre><code>[1] 0.192323794 0.007096359 0.169179124 0.210204065</code></pre>
 </div>
 </div>
 <p><em>Again, this yields the expected estimate for the effect of forest protection on average monthly household consumption.</em></p>
@@ -535,7 +535,7 @@ Model 1: forest_protect ~ slope + elevation + dist_cities + dist_tributary
 Model 2: forest_protect ~ slope + elevation + dist_cities
   Res.Df Df     F    Pr(&gt;F)    
 1    995                       
-2    996 -1 19208 &lt; 2.2e-16 ***
+2    996 -1 17273 &lt; 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -751,11 +751,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scenario</span></span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>In the Sims 2010 paper, she is interested in the effect of forest protection on socioeconomic outcomes. Here, we will use a toy dataset to explore a scenario where we need to use instrumental variables rather than OLS. </span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>For the purposes of this exercise, we will simplify Sims's dataset. Let's say we are interested in the effect of the presence of protected forests in a locality (treatment) on average monthly household consumption (outcome). We have sampled average monthly household consumption at a set of localities, where we have also recorded data on average slope and elevation and the distance to major cities. Due to the nonrandom placement of protected areas, we suspect that there are unobserved variables that influence the placement of protected areas and socioeconomic outcomes -- we have an issue of endogeneity. In this example, the unobserved variable is the historical presence of strong local institutions.</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>For the purposes of this exercise, we will simplify Sims's dataset. Let's say we are interested in the effect of the area of protected forests in a locality (treatment) on average monthly household consumption (outcome). We have sampled average monthly household consumption at a set of localities, where we have also recorded data on average slope and elevation and the distance to major cities. Due to the nonrandom placement of protected areas, we suspect that there are unobserved variables that influence the placement of protected areas and socioeconomic outcomes -- we have an issue of endogeneity. In this example, the unobserved variable is the historical presence of strong local institutions.</span>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>In our simulated data, we know the true relationships between the variables, which helps us see the different results we get from analyzing the effect of forest protection on the socioeconomic outcome using OLS vs. instrumental variables. In this example, we know that there is no correlation between the presence of protected forests and unobservable covariates of average monthly household consumption.</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>In our simulated data, we know the true relationships between the variables, which helps us see the different results we get from analyzing the effect of forest protection on the socioeconomic outcome using OLS vs. instrumental variables. </span>
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>We need an instrumental variable that is correlated with the presence of protected forests (the treatment) but that is not correlated with average monthly household consumption (the outcome) except through its relationship with the presence of protected forests. Here, whether or not the locality intersects a major tributary could be an appropriate instrument, as a proxy for priority watershed status: priority watershed status is related to the conservation objective of watershed protection, and thus is related to the placement of protected areas, but there is no other mechanism through which the distance to the nearest major tributary affects average monthly household consumption. Distance to the nearest major tributary is not correlated with the unobserved historical presence of strong local institutions.</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>We need an instrumental variable that is correlated with the area of protected forests (the treatment) but that is not correlated with average monthly household consumption (the outcome) except through its relationship with the area of protected forests. Here, the distance between the locality and a major tributary could be an appropriate instrument, as a proxy for priority watershed status: priority watershed status is related to the conservation objective of watershed protection, and thus is related to the placement of protected areas, but there is no other mechanism through which the distance to the nearest major tributary affects average monthly household consumption. Distance to the nearest major tributary is not correlated with the unobserved historical presence of strong local institutions.</span>
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Set up</span></span>
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>Load required packages. In this demo, we will use the package "AER".</span>
