@@ -211,7 +211,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#estimate-the-effect-using-ordinary-least-squares" id="toc-estimate-the-effect-using-ordinary-least-squares" class="nav-link" data-scroll-target="#estimate-the-effect-using-ordinary-least-squares">Estimate the effect using ordinary least squares</a></li>
   <li><a href="#use-instrumental-variables-for-estimation" id="toc-use-instrumental-variables-for-estimation" class="nav-link" data-scroll-target="#use-instrumental-variables-for-estimation">Use instrumental variables for estimation</a></li>
   <li><a href="#compare-results-from-ols-vs.-iv" id="toc-compare-results-from-ols-vs.-iv" class="nav-link" data-scroll-target="#compare-results-from-ols-vs.-iv">Compare results from OLS vs.&nbsp;IV</a></li>
-  <li><a href="#use-instrumental-variables-for-estimation-using-are-package" id="toc-use-instrumental-variables-for-estimation-using-are-package" class="nav-link" data-scroll-target="#use-instrumental-variables-for-estimation-using-are-package">Use instrumental variables for estimation, using ARE package</a></li>
+  <li><a href="#use-instrumental-variables-for-estimation-using-are-package" id="toc-use-instrumental-variables-for-estimation-using-are-package" class="nav-link" data-scroll-target="#use-instrumental-variables-for-estimation-using-are-package">Use instrumental variables for estimation, using ARE package</a>
+  <ul>
+  <li><a href="#check-relevance-of-instrument" id="toc-check-relevance-of-instrument" class="nav-link" data-scroll-target="#check-relevance-of-instrument">Check relevance of instrument</a></li>
+  </ul></li>
   <li><a href="#references-cited" id="toc-references-cited" class="nav-link" data-scroll-target="#references-cited">References cited</a></li>
   </ul>
 </nav>
@@ -277,37 +280,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a column for observation ID</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">1000</span>),</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Columns for explanatory variables</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Treatment variable</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">forest_protect =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">500</span>), <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">500</span>)),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Columns for covariates</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">slope =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">50</span>, <span class="at">max =</span> <span class="dv">100</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">elevation =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">150</span>, <span class="at">max =</span> <span class="dv">185</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dist_cities =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">250</span>),</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Other covariates</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                   <span class="at">slope =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">50</span>, <span class="at">max =</span> <span class="dv">100</span>),</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                   <span class="at">elevation =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">150</span>, <span class="at">max =</span> <span class="dv">185</span>),</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dist_cities =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">250</span>),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Unobserved variable</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                   <span class="at">local_inst =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">100</span>), <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">500</span>), <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">400</span>)),</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## A column for the error term</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">error =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                   <span class="do">### And the instrumental variable</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                   <span class="at">tributary =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">500</span>), <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">200</span>), <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">300</span>)))</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">## Make a column for the outcome variable (average monthly household consumption)  </span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>consumpt <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">5</span><span class="sc">*</span>df<span class="sc">$</span>forest_protect <span class="sc">+</span> <span class="fl">0.07</span><span class="sc">*</span>df<span class="sc">$</span>slope <span class="sc">+</span> </span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.05</span><span class="sc">*</span>df<span class="sc">$</span>elevation <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>df<span class="sc">$</span>dist_cities <span class="sc">+</span> <span class="dv">5</span><span class="sc">*</span>df<span class="sc">$</span>local_inst <span class="sc">+</span> df<span class="sc">$</span>error</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)  </span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Unobserved variable</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                   <span class="at">local_inst =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">49</span>, <span class="at">sd =</span> <span class="dv">17</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## A column for the error term</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                   <span class="at">error =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                   <span class="do">### The instrumental variable</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dist_tributary =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">400</span>, <span class="at">sd =</span> <span class="dv">140</span>))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Add columns for treatment (level of forest protection) and response (monthly household consumption)</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Add column for the treatment variable, related to the IV</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">forest_protect =</span> <span class="fl">0.2</span><span class="sc">*</span>dist_tributary <span class="sc">+</span> <span class="fl">0.4</span><span class="sc">*</span>local_inst <span class="sc">+</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>             <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Add column for the outcome variable</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">consumpt =</span> <span class="dv">5</span><span class="sc">*</span>forest_protect <span class="sc">+</span> </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.07</span><span class="sc">*</span>slope <span class="sc">+</span> <span class="fl">0.05</span><span class="sc">*</span>elevation <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>dist_cities <span class="sc">+</span> </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>             <span class="dv">10</span><span class="sc">*</span>local_inst <span class="sc">+</span> error)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)  </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p><em>We know that the true effect of the endogenous explanatory variable (the presence of protected forests in the locality) is a 5x increase in the response variable (the average monthly household consumption in that locality).</em></p>
 </section>
 <section id="estimate-the-effect-using-ordinary-least-squares" class="level2">
 <h2 class="anchored" data-anchor-id="estimate-the-effect-using-ordinary-least-squares">Estimate the effect using ordinary least squares</h2>
-<p>In each of the methods we use to estimate the effect of forest protection on socioeconomic outcomes, we will simulate the dataset 1000 times and calculate the average treatment effect across the 1000 simulations. Otherwise, we might estimate a treatment effect that differs from the true treatment effect due to random chance in a given simulated dataset.</p>
+<p>In each of the methods we use to estimate the effect of forest protection on socioeconomic outcomes, we will simulate the dataset 100 times and calculate the average treatment effect across the 100 simulations. Otherwise, we might estimate a treatment effect that differs from the true treatment effect due to random chance in a given simulated dataset.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
@@ -328,7 +334,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the function on 1000 replicates</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>ols_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">ols_fun</span>())</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>ols_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">ols_fun</span>())</span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>ols_protect_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(ols_sim[<span class="dv">1</span>, ])</span>
@@ -338,7 +344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_est), <span class="fu">max</span>(ols_protect_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.9894116 0.3105081 0.9371941 3.1037306</code></pre>
+<pre><code>[1] 6.4100373 0.1840201 5.9591580 6.8916956</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -351,14 +357,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_sd), <span class="fu">max</span>(ols_protect_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.34124534 0.00755136 0.31469476 0.36563552</code></pre>
+<pre><code>[1] 0.181060648 0.006080199 0.165925614 0.201518621</code></pre>
 </div>
 </div>
 <p><em>The effect estimated by OLS is incorrect– it should be 5.</em></p>
 </section>
 <section id="use-instrumental-variables-for-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="use-instrumental-variables-for-estimation">Use instrumental variables for estimation</h2>
-<p>Implement instrumental variables using the two stage least-squares regression. Again, we will simulate 1000 datasets and calculate the average treatment effect.</p>
+<p>Implement instrumental variables using the two stage least-squares regression. Again, we will simulate 100 datasets and calculate the average treatment effect.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
@@ -372,7 +378,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Regress the percent of protected forest on the other explanatory variables </span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## and our instrumental variable</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  tsls_step1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(forest_protect <span class="sc">~</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                       dist_cities <span class="sc">+</span> tributary, <span class="at">data =</span> data)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                       dist_cities <span class="sc">+</span> dist_tributary, <span class="at">data =</span> data)</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract fitted values of the percent of protected forest</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  pred_value <span class="ot">&lt;-</span> <span class="fu">fitted.values</span>(tsls_step1)</span>
@@ -389,8 +395,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  list <span class="ot">&lt;-</span> <span class="fu">list</span>(iv_coeff, iv_se)</span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the function on 1000 replicates</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>iv_tsls_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">iv_tsls_fun</span>())</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the function on 100 replicates</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>iv_tsls_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">iv_tsls_fun</span>())</span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>iv_tsls_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_tsls_sim[<span class="dv">1</span>, ])</span>
@@ -400,7 +406,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est), <span class="fu">max</span>(iv_tsls_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.0033245 0.6143655 2.9694119 6.8622312</code></pre>
+<pre><code>[1] 5.0180124 0.2259566 4.4752396 5.6034888</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -413,7 +419,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est_sd), <span class="fu">max</span>(iv_tsls_est_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.67495487 0.01490926 0.63429939 0.72216566</code></pre>
+<pre><code>[1] 0.230964910 0.007866202 0.212487707 0.250160980</code></pre>
 </div>
 </div>
 <p><em>This yields the expected estimate for the effect of forest protection on average monthly household consumption.</em></p>
@@ -455,7 +461,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="use-instrumental-variables-for-estimation-using-are-package" class="level2">
 <h2 class="anchored" data-anchor-id="use-instrumental-variables-for-estimation-using-are-package">Use instrumental variables for estimation, using ARE package</h2>
-<p>The ARE package has a built-in function, IVreg that lets you implement IV in a single line of code. Again, we will simulate 1000 datasets and calculate the average treatment effect.</p>
+<p>The AER package has a built-in function, IVreg that lets you implement IV in a single line of code. Again, we will simulate 100 datasets and calculate the average treatment effect.</p>
+<p>For more details on the AER package, see https://www.econometrics-with-r.org/12-ivr.html</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
@@ -467,7 +474,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Run with IV </span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  IVreg <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(consumpt <span class="sc">~</span> forest_protect <span class="sc">+</span> slope <span class="sc">+</span> </span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                   elevation <span class="sc">+</span> dist_cities <span class="sc">|</span> tributary <span class="sc">+</span> </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                   elevation <span class="sc">+</span> dist_cities <span class="sc">|</span> dist_tributary <span class="sc">+</span> </span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                   slope <span class="sc">+</span> elevation <span class="sc">+</span> dist_cities, <span class="at">data =</span> data)</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract model coefficients and standard error</span></span>
@@ -476,8 +483,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  list <span class="ot">&lt;-</span> <span class="fu">list</span>(protect_coeff,protect_se)</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the IV function on 1000 replicates</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>iv_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">iv_fun</span>())</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the IV function on 100 replicates</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>iv_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">iv_fun</span>())</span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>iv_protect_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_sim[<span class="dv">1</span>, ])</span>
@@ -487,7 +494,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_est), <span class="fu">max</span>(iv_protect_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.0220071 0.6369642 3.3314559 7.4407012</code></pre>
+<pre><code>[1] 4.9544622 0.1802571 4.5622055 5.4136256</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -500,10 +507,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_sd), <span class="fu">max</span>(iv_protect_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7091292 0.0192721 0.6515619 0.7752131</code></pre>
+<pre><code>[1] 0.192602324 0.006586725 0.178122852 0.208809484</code></pre>
 </div>
 </div>
 <p><em>Again, this yields the expected estimate for the effect of forest protection on average monthly household consumption.</em></p>
+<section id="check-relevance-of-instrument" class="level3">
+<h3 class="anchored" data-anchor-id="check-relevance-of-instrument">Check relevance of instrument</h3>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Simulate a dataset</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>data_for_iv <span class="ot">&lt;-</span> <span class="fu">simulate_data</span>()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="do">### Write the first stage of two stage procedure</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>first_stage <span class="ot">&lt;-</span> <span class="fu">lm</span>(forest_protect <span class="sc">~</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                    dist_cities <span class="sc">+</span> dist_tributary,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> data_for_iv)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="do">### F test to see if the instrument explains enough of the explanatory variable</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>instr_ftest <span class="ot">&lt;-</span> <span class="fu">waldtest</span>(first_stage, .<span class="sc">~</span>.<span class="sc">-</span>dist_tributary)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(instr_ftest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Wald test
+
+Model 1: forest_protect ~ slope + elevation + dist_cities + dist_tributary
+Model 2: forest_protect ~ slope + elevation + dist_cities
+  Res.Df Df     F    Pr(&gt;F)    
+1    995                       
+2    996 -1 19208 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The F_test value is high and the p-value is low –&gt; reject the null hypothesis that the instrument is irrelevant.</p>
+</section>
 </section>
 <section id="references-cited" class="level2">
 <h2 class="anchored" data-anchor-id="references-cited">References cited</h2>
@@ -700,243 +738,264 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb16" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Demo for instrumental variables"</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Katherine Siegel"</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "March 14, 2023"</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Description</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>Code to demonstrate instrumental variables in R. Adapted from the supplementary materials from Butsic, V. et al. (2017): Quasi-experimental methods enable stronger inferences from observational data in ecology. (c) Matthias Baumann (2017-01-10).   </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scenario</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>In the Sims 2010 paper, she is interested in the effect of forest protection on socioeconomic outcomes. Here, we will use a toy dataset to explore a scenario where we need to use instrumental variables rather than OLS. </span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>For the purposes of this exercise, we will simplify Sims's dataset. Let's say we are interested in the effect of the presence of protected forests in a locality (treatment) on average monthly household consumption (outcome). We have sampled average monthly household consumption at a set of localities, where we have also recorded data on average slope and elevation and the distance to major cities. Due to the nonrandom placement of protected areas, we suspect that there are unobserved variables that influence the placement of protected areas and socioeconomic outcomes -- we have an issue of endogeneity. In this example, the unobserved variable is the historical presence of strong local institutions.</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>In our simulated data, we know the true relationships between the variables, which helps us see the different results we get from analyzing the effect of forest protection on the socioeconomic outcome using OLS vs. instrumental variables. In this example, we know that there is no correlation between the presence of protected forests and unobservable covariates of average monthly household consumption.</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>We need an instrumental variable that is correlated with the presence of protected forests (the treatment) but that is not correlated with average monthly household consumption (the outcome) except through its relationship with the presence of protected forests. Here, whether or not the locality intersects a major tributary could be an appropriate instrument, as a proxy for priority watershed status: priority watershed status is related to the conservation objective of watershed protection, and thus is related to the placement of protected areas, but there is no other mechanism through which the distance to the nearest major tributary affects average monthly household consumption. Distance to the nearest major tributary is not correlated with the unobserved historical presence of strong local institutions.</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Set up</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>Load required packages. In this demo, we will use the package "AER".</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include = FALSE}</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="do">### Install package if you need to</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"AER"</span>,</span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="do">### Load required libraries</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simulate data</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>Simulated data is handy because we know the true effect of the treatment variable</span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval = TRUE}</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="do">### Write function to simulate a dataset</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>simulate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Create data variables within data.frame</span></span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a column for observation ID</span></span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">1000</span>),</span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Columns for explanatory variables</span></span>
-<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Treatment variable</span></span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>                   <span class="at">forest_protect =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">500</span>), <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">500</span>)),</span>
-<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Other covariates</span></span>
-<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>                   <span class="at">slope =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">50</span>, <span class="at">max =</span> <span class="dv">100</span>),</span>
-<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>                   <span class="at">elevation =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">150</span>, <span class="at">max =</span> <span class="dv">185</span>),</span>
-<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dist_cities =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">250</span>),</span>
-<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Unobserved variable</span></span>
-<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>                   <span class="at">local_inst =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">100</span>), <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">500</span>), <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">400</span>)),</span>
-<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## A column for the error term</span></span>
-<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>                   <span class="at">error =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
-<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>                   <span class="do">### And the instrumental variable</span></span>
-<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>                   <span class="at">tributary =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">500</span>), <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">200</span>), <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">300</span>)))</span>
-<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a><span class="do">## Make a column for the outcome variable (average monthly household consumption)  </span></span>
-<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>consumpt <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">5</span><span class="sc">*</span>df<span class="sc">$</span>forest_protect <span class="sc">+</span> <span class="fl">0.07</span><span class="sc">*</span>df<span class="sc">$</span>slope <span class="sc">+</span> </span>
-<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.05</span><span class="sc">*</span>df<span class="sc">$</span>elevation <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>df<span class="sc">$</span>dist_cities <span class="sc">+</span> <span class="dv">5</span><span class="sc">*</span>df<span class="sc">$</span>local_inst <span class="sc">+</span> df<span class="sc">$</span>error</span>
-<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)  </span>
-<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>*We know that the true effect of the endogenous explanatory variable (the presence of protected forests in the locality) is a 5x increase in the response variable (the average monthly household consumption in that locality).*</span>
-<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimate the effect using ordinary least squares  </span></span>
-<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>In each of the methods we use to estimate the effect of forest protection on socioeconomic outcomes, we will simulate the dataset 1000 times and calculate the average treatment effect across the 1000 simulations. Otherwise, we might estimate a treatment effect that differs from the true treatment effect due to random chance in a given simulated dataset.</span>
-<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a><span class="do">### Write a function to generate data and analyze using OLS </span></span>
-<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>ols_fun <span class="ot">=</span> <span class="cf">function</span>(){</span>
-<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Simulate the dataset</span></span>
-<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">simulate_data</span>()</span>
-<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Run OLS</span></span>
-<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a>  ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(consumpt <span class="sc">~</span> forest_protect <span class="sc">+</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> </span>
-<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a>              dist_cities, <span class="at">data =</span> data)</span>
-<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract model coefficients and standard error</span></span>
-<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a>  protect_coeff <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(ols))[<span class="st">"forest_protect"</span>, <span class="st">"Estimate"</span>]</span>
-<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a>  protect_se <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(ols))[<span class="st">"forest_protect"</span>, <span class="st">"Std. Error"</span>]</span>
-<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>  list <span class="ot">&lt;-</span> <span class="fu">list</span>(protect_coeff, protect_se)</span>
-<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the function on 1000 replicates</span></span>
-<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a>ols_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">ols_fun</span>())</span>
-<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
-<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a>ols_protect_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(ols_sim[<span class="dv">1</span>, ])</span>
-<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum values for coefficient estimates</span></span>
-<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(ols_protect_est), <span class="fu">sd</span>(ols_protect_est), </span>
-<span id="cb16-103"><a href="#cb16-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_est), <span class="fu">max</span>(ols_protect_est))</span>
-<span id="cb16-104"><a href="#cb16-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-105"><a href="#cb16-105" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the standard deviations</span></span>
-<span id="cb16-106"><a href="#cb16-106" aria-hidden="true" tabindex="-1"></a>ols_protect_sd <span class="ot">&lt;-</span> <span class="fu">unlist</span>(ols_sim[<span class="dv">2</span>, ])</span>
-<span id="cb16-107"><a href="#cb16-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-108"><a href="#cb16-108" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum</span></span>
-<span id="cb16-109"><a href="#cb16-109" aria-hidden="true" tabindex="-1"></a><span class="do">### standard deviation of coefficient estimates</span></span>
-<span id="cb16-110"><a href="#cb16-110" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(ols_protect_sd), <span class="fu">sd</span>(ols_protect_sd), </span>
-<span id="cb16-111"><a href="#cb16-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_sd), <span class="fu">max</span>(ols_protect_sd))</span>
-<span id="cb16-112"><a href="#cb16-112" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-113"><a href="#cb16-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-114"><a href="#cb16-114" aria-hidden="true" tabindex="-1"></a>*The effect estimated by OLS is incorrect-- it should be 5.*</span>
-<span id="cb16-115"><a href="#cb16-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-116"><a href="#cb16-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-117"><a href="#cb16-117" aria-hidden="true" tabindex="-1"></a><span class="fu">## Use instrumental variables for estimation</span></span>
-<span id="cb16-118"><a href="#cb16-118" aria-hidden="true" tabindex="-1"></a>Implement instrumental variables using the two stage least-squares regression. Again, we will simulate 1000 datasets and calculate the average treatment effect.</span>
-<span id="cb16-121"><a href="#cb16-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-122"><a href="#cb16-122" aria-hidden="true" tabindex="-1"></a><span class="do">### Write a function to generate data and analyze using IV </span></span>
-<span id="cb16-123"><a href="#cb16-123" aria-hidden="true" tabindex="-1"></a>iv_tsls_fun <span class="ot">=</span> <span class="cf">function</span>(){</span>
-<span id="cb16-124"><a href="#cb16-124" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-125"><a href="#cb16-125" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Simulate the dataset</span></span>
-<span id="cb16-126"><a href="#cb16-126" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">simulate_data</span>()</span>
-<span id="cb16-127"><a href="#cb16-127" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-128"><a href="#cb16-128" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Step 1</span></span>
-<span id="cb16-129"><a href="#cb16-129" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Regress the percent of protected forest on the other explanatory variables </span></span>
-<span id="cb16-130"><a href="#cb16-130" aria-hidden="true" tabindex="-1"></a>  <span class="do">## and our instrumental variable</span></span>
-<span id="cb16-131"><a href="#cb16-131" aria-hidden="true" tabindex="-1"></a>  tsls_step1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(forest_protect <span class="sc">~</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> </span>
-<span id="cb16-132"><a href="#cb16-132" aria-hidden="true" tabindex="-1"></a>                       dist_cities <span class="sc">+</span> tributary, <span class="at">data =</span> data)</span>
-<span id="cb16-133"><a href="#cb16-133" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-134"><a href="#cb16-134" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract fitted values of the percent of protected forest</span></span>
-<span id="cb16-135"><a href="#cb16-135" aria-hidden="true" tabindex="-1"></a>  pred_value <span class="ot">&lt;-</span> <span class="fu">fitted.values</span>(tsls_step1)</span>
-<span id="cb16-136"><a href="#cb16-136" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-137"><a href="#cb16-137" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Step 2</span></span>
-<span id="cb16-138"><a href="#cb16-138" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Regress our outcome of interest on the predicted value of the treatment + </span></span>
-<span id="cb16-139"><a href="#cb16-139" aria-hidden="true" tabindex="-1"></a>  <span class="do">## the other explanatory variables</span></span>
-<span id="cb16-140"><a href="#cb16-140" aria-hidden="true" tabindex="-1"></a>  tsls_step2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(consumpt <span class="sc">~</span> pred_value <span class="sc">+</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> dist_cities, </span>
-<span id="cb16-141"><a href="#cb16-141" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data)</span>
-<span id="cb16-142"><a href="#cb16-142" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-143"><a href="#cb16-143" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract model coefficients and standard error</span></span>
-<span id="cb16-144"><a href="#cb16-144" aria-hidden="true" tabindex="-1"></a>  iv_coeff <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(tsls_step2))[<span class="st">"pred_value"</span>, <span class="st">"Estimate"</span>]</span>
-<span id="cb16-145"><a href="#cb16-145" aria-hidden="true" tabindex="-1"></a>  iv_se <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(tsls_step2))[<span class="st">"pred_value"</span>, <span class="st">"Std. Error"</span>]</span>
-<span id="cb16-146"><a href="#cb16-146" aria-hidden="true" tabindex="-1"></a>  list <span class="ot">&lt;-</span> <span class="fu">list</span>(iv_coeff, iv_se)</span>
-<span id="cb16-147"><a href="#cb16-147" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-148"><a href="#cb16-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-149"><a href="#cb16-149" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the function on 1000 replicates</span></span>
-<span id="cb16-150"><a href="#cb16-150" aria-hidden="true" tabindex="-1"></a>iv_tsls_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">iv_tsls_fun</span>())</span>
-<span id="cb16-151"><a href="#cb16-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-152"><a href="#cb16-152" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
-<span id="cb16-153"><a href="#cb16-153" aria-hidden="true" tabindex="-1"></a>iv_tsls_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_tsls_sim[<span class="dv">1</span>, ])</span>
-<span id="cb16-154"><a href="#cb16-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-155"><a href="#cb16-155" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum values for coefficient estimates</span></span>
-<span id="cb16-156"><a href="#cb16-156" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(iv_tsls_est), <span class="fu">sd</span>(iv_tsls_est), </span>
-<span id="cb16-157"><a href="#cb16-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est), <span class="fu">max</span>(iv_tsls_est))</span>
-<span id="cb16-158"><a href="#cb16-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-159"><a href="#cb16-159" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the standard deviations</span></span>
-<span id="cb16-160"><a href="#cb16-160" aria-hidden="true" tabindex="-1"></a>iv_tsls_est_sd <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_tsls_sim[<span class="dv">2</span>, ])</span>
-<span id="cb16-161"><a href="#cb16-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-162"><a href="#cb16-162" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum standard deviation </span></span>
-<span id="cb16-163"><a href="#cb16-163" aria-hidden="true" tabindex="-1"></a><span class="do">### of coefficient estimates</span></span>
-<span id="cb16-164"><a href="#cb16-164" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(iv_tsls_est_sd), <span class="fu">sd</span>(iv_tsls_est_sd), </span>
-<span id="cb16-165"><a href="#cb16-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est_sd), <span class="fu">max</span>(iv_tsls_est_sd))</span>
-<span id="cb16-166"><a href="#cb16-166" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-167"><a href="#cb16-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-168"><a href="#cb16-168" aria-hidden="true" tabindex="-1"></a>*This yields the expected estimate for the effect of forest protection on average monthly household consumption.*</span>
-<span id="cb16-169"><a href="#cb16-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-170"><a href="#cb16-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Compare results from OLS vs. IV</span></span>
-<span id="cb16-173"><a href="#cb16-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-174"><a href="#cb16-174" aria-hidden="true" tabindex="-1"></a><span class="do">### Make single df of model estimates</span></span>
-<span id="cb16-175"><a href="#cb16-175" aria-hidden="true" tabindex="-1"></a>both_methods <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(ols_protect_est,</span>
-<span id="cb16-176"><a href="#cb16-176" aria-hidden="true" tabindex="-1"></a>                                 iv_tsls_est)</span>
-<span id="cb16-177"><a href="#cb16-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-178"><a href="#cb16-178" aria-hidden="true" tabindex="-1"></a><span class="do">### Reshape the data</span></span>
-<span id="cb16-179"><a href="#cb16-179" aria-hidden="true" tabindex="-1"></a>both_methods <span class="ot">&lt;-</span> both_methods <span class="sc">%&gt;%</span></span>
-<span id="cb16-180"><a href="#cb16-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(method, estimate, ols_protect_est<span class="sc">:</span>iv_tsls_est) <span class="sc">%&gt;%</span></span>
-<span id="cb16-181"><a href="#cb16-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method_clean =</span> <span class="fu">ifelse</span>(method <span class="sc">==</span> <span class="st">"ols_protect_est"</span>, <span class="st">"OLS"</span>, <span class="st">"IV"</span>))</span>
-<span id="cb16-182"><a href="#cb16-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-183"><a href="#cb16-183" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize distribution of estimates</span></span>
-<span id="cb16-184"><a href="#cb16-184" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(both_methods, <span class="fu">aes</span>(<span class="at">x =</span> method_clean, <span class="at">y =</span> estimate)) <span class="sc">+</span> </span>
-<span id="cb16-185"><a href="#cb16-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb16-186"><a href="#cb16-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb16-187"><a href="#cb16-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Estimated effect of forest protection"</span>,</span>
-<span id="cb16-188"><a href="#cb16-188" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Estimation method"</span>) <span class="sc">+</span></span>
-<span id="cb16-189"><a href="#cb16-189" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-190"><a href="#cb16-190" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Add a horizontal line indicating the actual value of the effect</span></span>
-<span id="cb16-191"><a href="#cb16-191" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">5</span>, </span>
-<span id="cb16-192"><a href="#cb16-192" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb16-193"><a href="#cb16-193" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"red"</span>)</span>
-<span id="cb16-194"><a href="#cb16-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-195"><a href="#cb16-195" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave("method_comparison.png")</span></span>
-<span id="cb16-196"><a href="#cb16-196" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-197"><a href="#cb16-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-198"><a href="#cb16-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-199"><a href="#cb16-199" aria-hidden="true" tabindex="-1"></a><span class="fu">## Use instrumental variables for estimation, using ARE package</span></span>
-<span id="cb16-200"><a href="#cb16-200" aria-hidden="true" tabindex="-1"></a>The ARE package has a built-in function, IVreg that lets you implement IV in a single line of code. Again, we will simulate 1000 datasets and calculate the average treatment effect.</span>
-<span id="cb16-201"><a href="#cb16-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-204"><a href="#cb16-204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-205"><a href="#cb16-205" aria-hidden="true" tabindex="-1"></a><span class="do">### Write a function to generate data and analyze using IV</span></span>
-<span id="cb16-206"><a href="#cb16-206" aria-hidden="true" tabindex="-1"></a>iv_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb16-207"><a href="#cb16-207" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-208"><a href="#cb16-208" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Simulate the data</span></span>
-<span id="cb16-209"><a href="#cb16-209" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">simulate_data</span>()</span>
-<span id="cb16-210"><a href="#cb16-210" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-211"><a href="#cb16-211" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Run with IV </span></span>
-<span id="cb16-212"><a href="#cb16-212" aria-hidden="true" tabindex="-1"></a>  IVreg <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(consumpt <span class="sc">~</span> forest_protect <span class="sc">+</span> slope <span class="sc">+</span> </span>
-<span id="cb16-213"><a href="#cb16-213" aria-hidden="true" tabindex="-1"></a>                   elevation <span class="sc">+</span> dist_cities <span class="sc">|</span> tributary <span class="sc">+</span> </span>
-<span id="cb16-214"><a href="#cb16-214" aria-hidden="true" tabindex="-1"></a>                   slope <span class="sc">+</span> elevation <span class="sc">+</span> dist_cities, <span class="at">data =</span> data)</span>
-<span id="cb16-215"><a href="#cb16-215" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-216"><a href="#cb16-216" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract model coefficients and standard error</span></span>
-<span id="cb16-217"><a href="#cb16-217" aria-hidden="true" tabindex="-1"></a>  protect_coeff <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(IVreg))[<span class="st">"forest_protect"</span>, <span class="st">"Estimate"</span>]</span>
-<span id="cb16-218"><a href="#cb16-218" aria-hidden="true" tabindex="-1"></a>  protect_se <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(IVreg))[<span class="st">"forest_protect"</span>, <span class="st">"Std. Error"</span>]</span>
-<span id="cb16-219"><a href="#cb16-219" aria-hidden="true" tabindex="-1"></a>  list <span class="ot">&lt;-</span> <span class="fu">list</span>(protect_coeff,protect_se)</span>
-<span id="cb16-220"><a href="#cb16-220" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-221"><a href="#cb16-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-222"><a href="#cb16-222" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the IV function on 1000 replicates</span></span>
-<span id="cb16-223"><a href="#cb16-223" aria-hidden="true" tabindex="-1"></a>iv_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">iv_fun</span>())</span>
-<span id="cb16-224"><a href="#cb16-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-225"><a href="#cb16-225" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
-<span id="cb16-226"><a href="#cb16-226" aria-hidden="true" tabindex="-1"></a>iv_protect_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_sim[<span class="dv">1</span>, ])</span>
-<span id="cb16-227"><a href="#cb16-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-228"><a href="#cb16-228" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum values for coefficient estimates</span></span>
-<span id="cb16-229"><a href="#cb16-229" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(iv_protect_est), <span class="fu">sd</span>(iv_protect_est), </span>
-<span id="cb16-230"><a href="#cb16-230" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_est), <span class="fu">max</span>(iv_protect_est))</span>
-<span id="cb16-231"><a href="#cb16-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-232"><a href="#cb16-232" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the standard deviations</span></span>
-<span id="cb16-233"><a href="#cb16-233" aria-hidden="true" tabindex="-1"></a>iv_protect_sd <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_sim[<span class="dv">2</span>, ])</span>
-<span id="cb16-234"><a href="#cb16-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-235"><a href="#cb16-235" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum </span></span>
-<span id="cb16-236"><a href="#cb16-236" aria-hidden="true" tabindex="-1"></a><span class="do">### standard deviation of coefficient estimates</span></span>
-<span id="cb16-237"><a href="#cb16-237" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(iv_protect_sd), <span class="fu">sd</span>(iv_protect_sd), </span>
-<span id="cb16-238"><a href="#cb16-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_sd), <span class="fu">max</span>(iv_protect_sd))</span>
-<span id="cb16-239"><a href="#cb16-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-240"><a href="#cb16-240" aria-hidden="true" tabindex="-1"></a>*Again, this yields the expected estimate for the effect of forest protection on average monthly household consumption.*</span>
-<span id="cb16-241"><a href="#cb16-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-242"><a href="#cb16-242" aria-hidden="true" tabindex="-1"></a><span class="fu">## References cited</span></span>
-<span id="cb16-243"><a href="#cb16-243" aria-hidden="true" tabindex="-1"></a>Butsic, V, DJ Lewis, VC Radeloff, M Baumann, &amp; T Kuemmerle. 2017. Quasi-experimental methods enable stronger inferences from observational data in ecology. *Basic &amp; Applied Ecology*, 19, 1-10.</span>
-<span id="cb16-244"><a href="#cb16-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-245"><a href="#cb16-245" aria-hidden="true" tabindex="-1"></a>Sims, KRE. 2010. Conservation and development: evidence from Thai protected areas. *Journal of Environmental Economics &amp; Management*, 60, 94-114.</span>
+<div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Demo for instrumental variables"</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Katherine Siegel"</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "March 14, 2023"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Description</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>Code to demonstrate instrumental variables in R. Adapted from the supplementary materials from Butsic, V. et al. (2017): Quasi-experimental methods enable stronger inferences from observational data in ecology. (c) Matthias Baumann (2017-01-10).   </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scenario</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>In the Sims 2010 paper, she is interested in the effect of forest protection on socioeconomic outcomes. Here, we will use a toy dataset to explore a scenario where we need to use instrumental variables rather than OLS. </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>For the purposes of this exercise, we will simplify Sims's dataset. Let's say we are interested in the effect of the presence of protected forests in a locality (treatment) on average monthly household consumption (outcome). We have sampled average monthly household consumption at a set of localities, where we have also recorded data on average slope and elevation and the distance to major cities. Due to the nonrandom placement of protected areas, we suspect that there are unobserved variables that influence the placement of protected areas and socioeconomic outcomes -- we have an issue of endogeneity. In this example, the unobserved variable is the historical presence of strong local institutions.</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>In our simulated data, we know the true relationships between the variables, which helps us see the different results we get from analyzing the effect of forest protection on the socioeconomic outcome using OLS vs. instrumental variables. In this example, we know that there is no correlation between the presence of protected forests and unobservable covariates of average monthly household consumption.</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>We need an instrumental variable that is correlated with the presence of protected forests (the treatment) but that is not correlated with average monthly household consumption (the outcome) except through its relationship with the presence of protected forests. Here, whether or not the locality intersects a major tributary could be an appropriate instrument, as a proxy for priority watershed status: priority watershed status is related to the conservation objective of watershed protection, and thus is related to the placement of protected areas, but there is no other mechanism through which the distance to the nearest major tributary affects average monthly household consumption. Distance to the nearest major tributary is not correlated with the unobserved historical presence of strong local institutions.</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Set up</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>Load required packages. In this demo, we will use the package "AER".</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include = FALSE}</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="do">### Install package if you need to</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"AER"</span>,</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="do">### Load required libraries</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simulate data</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>Simulated data is handy because we know the true effect of the treatment variable</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval = TRUE}</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="do">### Write function to simulate a dataset</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>simulate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Create data variables within data.frame</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a column for observation ID</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">1000</span>),</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Columns for covariates</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>                   <span class="at">slope =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">50</span>, <span class="at">max =</span> <span class="dv">100</span>),</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>                   <span class="at">elevation =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">150</span>, <span class="at">max =</span> <span class="dv">185</span>),</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dist_cities =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">250</span>),</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## Unobserved variable</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>                   <span class="at">local_inst =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">49</span>, <span class="at">sd =</span> <span class="dv">17</span>),</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>                   <span class="do">## A column for the error term</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>                   <span class="at">error =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>                   <span class="do">### The instrumental variable</span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dist_tributary =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">400</span>, <span class="at">sd =</span> <span class="dv">140</span>))</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Add columns for treatment (level of forest protection) and response (monthly household consumption)</span></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Add column for the treatment variable, related to the IV</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">forest_protect =</span> <span class="fl">0.2</span><span class="sc">*</span>dist_tributary <span class="sc">+</span> <span class="fl">0.4</span><span class="sc">*</span>local_inst <span class="sc">+</span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>             <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Add column for the outcome variable</span></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">consumpt =</span> <span class="dv">5</span><span class="sc">*</span>forest_protect <span class="sc">+</span> </span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.07</span><span class="sc">*</span>slope <span class="sc">+</span> <span class="fl">0.05</span><span class="sc">*</span>elevation <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>dist_cities <span class="sc">+</span> </span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>             <span class="dv">10</span><span class="sc">*</span>local_inst <span class="sc">+</span> error)</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)  </span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>*We know that the true effect of the endogenous explanatory variable (the presence of protected forests in the locality) is a 5x increase in the response variable (the average monthly household consumption in that locality).*</span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimate the effect using ordinary least squares  </span></span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>In each of the methods we use to estimate the effect of forest protection on socioeconomic outcomes, we will simulate the dataset 100 times and calculate the average treatment effect across the 100 simulations. Otherwise, we might estimate a treatment effect that differs from the true treatment effect due to random chance in a given simulated dataset.</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a><span class="do">### Write a function to generate data and analyze using OLS </span></span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>ols_fun <span class="ot">=</span> <span class="cf">function</span>(){</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Simulate the dataset</span></span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">simulate_data</span>()</span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Run OLS</span></span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>  ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(consumpt <span class="sc">~</span> forest_protect <span class="sc">+</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> </span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>              dist_cities, <span class="at">data =</span> data)</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract model coefficients and standard error</span></span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a>  protect_coeff <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(ols))[<span class="st">"forest_protect"</span>, <span class="st">"Estimate"</span>]</span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a>  protect_se <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(ols))[<span class="st">"forest_protect"</span>, <span class="st">"Std. Error"</span>]</span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a>  list <span class="ot">&lt;-</span> <span class="fu">list</span>(protect_coeff, protect_se)</span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the function on 1000 replicates</span></span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>ols_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">ols_fun</span>())</span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a>ols_protect_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(ols_sim[<span class="dv">1</span>, ])</span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum values for coefficient estimates</span></span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(ols_protect_est), <span class="fu">sd</span>(ols_protect_est), </span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_est), <span class="fu">max</span>(ols_protect_est))</span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the standard deviations</span></span>
+<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a>ols_protect_sd <span class="ot">&lt;-</span> <span class="fu">unlist</span>(ols_sim[<span class="dv">2</span>, ])</span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum</span></span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a><span class="do">### standard deviation of coefficient estimates</span></span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(ols_protect_sd), <span class="fu">sd</span>(ols_protect_sd), </span>
+<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_sd), <span class="fu">max</span>(ols_protect_sd))</span>
+<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a>*The effect estimated by OLS is incorrect-- it should be 5.*</span>
+<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a><span class="fu">## Use instrumental variables for estimation</span></span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>Implement instrumental variables using the two stage least-squares regression. Again, we will simulate 100 datasets and calculate the average treatment effect.</span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a><span class="do">### Write a function to generate data and analyze using IV </span></span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a>iv_tsls_fun <span class="ot">=</span> <span class="cf">function</span>(){</span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Simulate the dataset</span></span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">simulate_data</span>()</span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Step 1</span></span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Regress the percent of protected forest on the other explanatory variables </span></span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a>  <span class="do">## and our instrumental variable</span></span>
+<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a>  tsls_step1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(forest_protect <span class="sc">~</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> </span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a>                       dist_cities <span class="sc">+</span> dist_tributary, <span class="at">data =</span> data)</span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract fitted values of the percent of protected forest</span></span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a>  pred_value <span class="ot">&lt;-</span> <span class="fu">fitted.values</span>(tsls_step1)</span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Step 2</span></span>
+<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Regress our outcome of interest on the predicted value of the treatment + </span></span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a>  <span class="do">## the other explanatory variables</span></span>
+<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a>  tsls_step2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(consumpt <span class="sc">~</span> pred_value <span class="sc">+</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> dist_cities, </span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data)</span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract model coefficients and standard error</span></span>
+<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a>  iv_coeff <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(tsls_step2))[<span class="st">"pred_value"</span>, <span class="st">"Estimate"</span>]</span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a>  iv_se <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(tsls_step2))[<span class="st">"pred_value"</span>, <span class="st">"Std. Error"</span>]</span>
+<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a>  list <span class="ot">&lt;-</span> <span class="fu">list</span>(iv_coeff, iv_se)</span>
+<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the function on 100 replicates</span></span>
+<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a>iv_tsls_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">iv_tsls_fun</span>())</span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a>iv_tsls_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_tsls_sim[<span class="dv">1</span>, ])</span>
+<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum values for coefficient estimates</span></span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(iv_tsls_est), <span class="fu">sd</span>(iv_tsls_est), </span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est), <span class="fu">max</span>(iv_tsls_est))</span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the standard deviations</span></span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a>iv_tsls_est_sd <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_tsls_sim[<span class="dv">2</span>, ])</span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum standard deviation </span></span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a><span class="do">### of coefficient estimates</span></span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(iv_tsls_est_sd), <span class="fu">sd</span>(iv_tsls_est_sd), </span>
+<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est_sd), <span class="fu">max</span>(iv_tsls_est_sd))</span>
+<span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a>*This yields the expected estimate for the effect of forest protection on average monthly household consumption.*</span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Compare results from OLS vs. IV</span></span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a><span class="do">### Make single df of model estimates</span></span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a>both_methods <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(ols_protect_est,</span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a>                                 iv_tsls_est)</span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a><span class="do">### Reshape the data</span></span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>both_methods <span class="ot">&lt;-</span> both_methods <span class="sc">%&gt;%</span></span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(method, estimate, ols_protect_est<span class="sc">:</span>iv_tsls_est) <span class="sc">%&gt;%</span></span>
+<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method_clean =</span> <span class="fu">ifelse</span>(method <span class="sc">==</span> <span class="st">"ols_protect_est"</span>, <span class="st">"OLS"</span>, <span class="st">"IV"</span>))</span>
+<span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize distribution of estimates</span></span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(both_methods, <span class="fu">aes</span>(<span class="at">x =</span> method_clean, <span class="at">y =</span> estimate)) <span class="sc">+</span> </span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Estimated effect of forest protection"</span>,</span>
+<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Estimation method"</span>) <span class="sc">+</span></span>
+<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Add a horizontal line indicating the actual value of the effect</span></span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">5</span>, </span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave("method_comparison.png")</span></span>
+<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Use instrumental variables for estimation, using ARE package</span></span>
+<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a>The AER package has a built-in function, IVreg that lets you implement IV in a single line of code. Again, we will simulate 100 datasets and calculate the average treatment effect.</span>
+<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a>For more details on the AER package, see https://www.econometrics-with-r.org/12-ivr.html </span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a><span class="do">### Write a function to generate data and analyze using IV</span></span>
+<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a>iv_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Simulate the data</span></span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">simulate_data</span>()</span>
+<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-215"><a href="#cb18-215" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Run with IV </span></span>
+<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a>  IVreg <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(consumpt <span class="sc">~</span> forest_protect <span class="sc">+</span> slope <span class="sc">+</span> </span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a>                   elevation <span class="sc">+</span> dist_cities <span class="sc">|</span> dist_tributary <span class="sc">+</span> </span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a>                   slope <span class="sc">+</span> elevation <span class="sc">+</span> dist_cities, <span class="at">data =</span> data)</span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Extract model coefficients and standard error</span></span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a>  protect_coeff <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(IVreg))[<span class="st">"forest_protect"</span>, <span class="st">"Estimate"</span>]</span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a>  protect_se <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(IVreg))[<span class="st">"forest_protect"</span>, <span class="st">"Std. Error"</span>]</span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a>  list <span class="ot">&lt;-</span> <span class="fu">list</span>(protect_coeff,protect_se)</span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a><span class="do">### Apply the IV function on 100 replicates</span></span>
+<span id="cb18-227"><a href="#cb18-227" aria-hidden="true" tabindex="-1"></a>iv_sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">iv_fun</span>())</span>
+<span id="cb18-228"><a href="#cb18-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-229"><a href="#cb18-229" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the model estimates</span></span>
+<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a>iv_protect_est <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_sim[<span class="dv">1</span>, ])</span>
+<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum values for coefficient estimates</span></span>
+<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(iv_protect_est), <span class="fu">sd</span>(iv_protect_est), </span>
+<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_est), <span class="fu">max</span>(iv_protect_est))</span>
+<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a><span class="do">### Extract the standard deviations</span></span>
+<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a>iv_protect_sd <span class="ot">&lt;-</span> <span class="fu">unlist</span>(iv_sim[<span class="dv">2</span>, ])</span>
+<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a><span class="do">### Print mean, standard deviation, minimum, and maximum </span></span>
+<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a><span class="do">### standard deviation of coefficient estimates</span></span>
+<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(iv_protect_sd), <span class="fu">sd</span>(iv_protect_sd), </span>
+<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_sd), <span class="fu">max</span>(iv_protect_sd))</span>
+<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a>*Again, this yields the expected estimate for the effect of forest protection on average monthly household consumption.*</span>
+<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a><span class="fu">### Check relevance of instrument</span></span>
+<span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-250"><a href="#cb18-250" aria-hidden="true" tabindex="-1"></a><span class="do">### Simulate a dataset</span></span>
+<span id="cb18-251"><a href="#cb18-251" aria-hidden="true" tabindex="-1"></a>data_for_iv <span class="ot">&lt;-</span> <span class="fu">simulate_data</span>()</span>
+<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a><span class="do">### Write the first stage of two stage procedure</span></span>
+<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a>first_stage <span class="ot">&lt;-</span> <span class="fu">lm</span>(forest_protect <span class="sc">~</span> slope <span class="sc">+</span> elevation <span class="sc">+</span> </span>
+<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a>                    dist_cities <span class="sc">+</span> dist_tributary,</span>
+<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> data_for_iv)</span>
+<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a><span class="do">### F test to see if the instrument explains enough of the explanatory variable</span></span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a>instr_ftest <span class="ot">&lt;-</span> <span class="fu">waldtest</span>(first_stage, .<span class="sc">~</span>.<span class="sc">-</span>dist_tributary)</span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(instr_ftest)</span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a>The F_test value is high and the p-value is low --&gt; reject the null hypothesis that the instrument is irrelevant.</span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a><span class="fu">## References cited</span></span>
+<span id="cb18-266"><a href="#cb18-266" aria-hidden="true" tabindex="-1"></a>Butsic, V, DJ Lewis, VC Radeloff, M Baumann, &amp; T Kuemmerle. 2017. Quasi-experimental methods enable stronger inferences from observational data in ecology. *Basic &amp; Applied Ecology*, 19, 1-10.</span>
+<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a>Sims, KRE. 2010. Conservation and development: evidence from Thai protected areas. *Journal of Environmental Economics &amp; Management*, 60, 94-114.</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
