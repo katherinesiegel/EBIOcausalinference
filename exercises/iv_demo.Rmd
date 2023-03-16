@@ -192,7 +192,7 @@ ggplot(both_methods, aes(x = method_clean, y = estimate)) +
 ```
 
 
-## Use instrumental variables for estimation, using ARE package
+## Use instrumental variables for estimation, using AER package
 The AER package has a built-in function, IVreg that lets you implement IV in a single line of code. Again, we will simulate 100 datasets and calculate the average treatment effect.
 
 For more details on the AER package, see https://www.econometrics-with-r.org/12-ivr.html 
@@ -236,6 +236,7 @@ c(mean(iv_protect_sd), sd(iv_protect_sd),
 *Again, this yields the expected estimate for the effect of forest protection on average monthly household consumption.*
 
 ### Check relevance of instrument
+#### smaller
 ```{r}
 ### Simulate a dataset
 data_for_iv <- simulate_data()
@@ -248,6 +249,11 @@ first_stage <- lm(forest_protect ~ slope + elevation +
 ### F test to see if the instrument explains enough of the explanatory variable
 instr_ftest <- waldtest(first_stage, .~.-dist_tributary)
 print(instr_ftest)
+
+
+### visualize
+data_for_iv %>%
+  ggplot(aes(x = local_inst, y = consumpt)) + geom_point()
 ```
 The F_test value is high and the p-value is low --> reject the null hypothesis that the instrument is irrelevant.
 
