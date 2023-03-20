@@ -126,7 +126,7 @@ e) [dagR](https://journals.lww.com/epidem/Fulltext/2010/07000/dagR__A_Suite_of_R
 
 1) Angrist & Pischke **2015**, Chapter 4 (note: this is in *Mastering ‘Metrics*) 
 
-## Due Wed. 3/22 [Aly & Katie]    
+## Due Wed. 3/22 [Aly & John]    
 
 1) [Englander 2019](https://doi.org/10.1038/s41893-019-0389-9)   
 2) [Noack et al. 2022](https://doi.org/10.1111/ajae.12274)  
@@ -135,11 +135,20 @@ Optional additional paper: [Burgess et al. 2019](https://osf.io/preprints/socarx
 
 ## Due Mon. 4/3  
 
-1) TBD  
+No readings - come prepared with your causal question to begin your project.
 
-## Due Wed. 4/5 [John]    
+## Due Wed. 4/5  
 
-1) TBD  
+1) [Spake et al. 2022 Improving quantitative synthesis to achieve generality in ecology](https://www.nature.com/articles/s41559-022-01891-z)
+
+## Due Mon. 4/10
+
+No readings - Presenting your project question and DAG 
+
+## Due Wed. 4/12  
+
+No readings - Presenting your project question and DAG 
+
 
 ## Potential additional units
 ### Generalizability in experimental and observational studies  
