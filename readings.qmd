@@ -126,7 +126,7 @@ e) [dagR](https://journals.lww.com/epidem/Fulltext/2010/07000/dagR__A_Suite_of_R
 
 1) Angrist & Pischke **2015**, Chapter 4 (note: this is in *Mastering ‘Metrics*) 
 
-## Due Wed. 3/22 [Aly & Katie]    
+## Due Wed. 3/22 [Aly & John]    
 
 1) [Englander 2019](https://doi.org/10.1038/s41893-019-0389-9)   
 2) [Noack et al. 2022](https://doi.org/10.1111/ajae.12274)  
@@ -135,11 +135,47 @@ Optional additional paper: [Burgess et al. 2019](https://osf.io/preprints/socarx
 
 ## Due Mon. 4/3  
 
-1) TBD  
+No readings - come prepared with your causal question to begin your project.
 
-## Due Wed. 4/5 [John]    
+## Due Wed. 4/5  
+### Generalizability in experimental and observational studies  
+1) [Spake et al. 2022 Improving quantitative synthesis to achieve generality in ecology](https://www.nature.com/articles/s41559-022-01891-z)
 
-1) TBD  
+Optional
+
+1) [Korell et al. 2019](https://doi.org/10.1111/gcb.14797)  
+2) [Spake et al. 2021](https://onlinelibrary.wiley.com/doi/epdf/10.1111/ele.13641)  
+
+## Due Mon. 4/10
+
+No readings - Presenting or discussing your project question and DAG for feedback
+
+## Due Wed. 4/12  
+
+No readings - Presenting or discussing your project question and DAG for feedback
+
+## Due Mon. 4/17
+### Tentative: Replication/Reproducibility/Pre-registration  
+1) Kimmel et al., in press 
+
+## Due Wed. 4/19
+
+Projects
+
+## Due Mon. 4/24
+
+Projects
+
+## Due Wed. 4/26
+
+
+## Due Mon. 5/1
+
+Project Presentations
+
+## Due Wed. 5/3
+
+Project Presentations
 
 ## Potential additional units
 ### Generalizability in experimental and observational studies  
