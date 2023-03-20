@@ -19,9 +19,9 @@ The tentative schedule of content, subject to change based on student interests,
 |  Week 10 (3/13)  | Instrumental Variables      | Paper discussion                         | • Learn IV as a method <br> • Demo application in R <br> • See & critique how it is applied in the literature |  
 |  Week 9 (3/20)  | Regression Discontinuity Designs (RDD)      | Paper discussion          | • Learn RDD as a method <br> • Demo application in R <br> • See & critique how it is applied in the literature |    
 |  Week 11 (3/27)  | Spring break (no class)      | Spring break (no class)                 |   |  
-|  Week 12 (4/3)  | Further topics      | Challenges for causal mechanisms OR heterogeneous treatment effects    | • Overview of other, emerging methods <br> • Demo application in R <br> • See & critique how they are applied in the literature |
+|  Week 12 (4/3)  | Project work      | Generalizability in experimental and observational studies | • Make progress on project and get feedback from class <br> • Additional topic: generalizability |
 |  Week 13 (4/10)  | Applying methods through projects      | Presentations for feedback           | • Get feedback from peers on proposed research design and challenges so far |  
-|  Week 14 (4/17)  | Project work and workshopping      | Project work and workshopping OR special topics          | • Make progress on project and get feedback from class  |
+|  Week 14 (4/17)  | Tentative: Replication/Reproducibility/Pre-registration      | Project work and workshopping OR special topics          Additional topic: replication    | • Make progress on project and get feedback from class  |
 |  Week 15 (4/24)  | Project work and workshopping      | Project work and workshopping OR special topics                  | • Make progress on project and get feedback from class          |
 |  Week 16 (5/1)  | Project presentations      | Project presentations                  |  • Clearly communicate the application of causal inference methods to a research question in ecology OR present a topic we did not cover as a class      |
 
