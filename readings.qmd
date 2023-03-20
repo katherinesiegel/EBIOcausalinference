@@ -148,22 +148,34 @@ Optional
 
 ## Due Mon. 4/10
 
-No readings - Presenting your project question and DAG 
+No readings - Presenting or discussing your project question and DAG for feedback
 
 ## Due Wed. 4/12  
 
-No readings - Presenting your project question and DAG 
+No readings - Presenting or discussing your project question and DAG for feedback
 
 ## Due Mon. 4/17
+### Tentative: Replication/Reproducibility/Pre-registration  
+1) Kimmel et al., in press 
 
 ## Due Wed. 4/19
 
+Projects
+
 ## Due Mon. 4/24
+
+Projects
 
 ## Due Wed. 4/26
 
+
 ## Due Mon. 5/1
 
+Project Presentations
+
+## Due Wed. 5/3
+
+Project Presentations
 
 ## Potential additional units
 ### Generalizability in experimental and observational studies  
