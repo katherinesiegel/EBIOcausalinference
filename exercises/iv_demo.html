@@ -347,7 +347,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_est), <span class="fu">max</span>(ols_protect_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.3732374 0.1848433 5.9347807 6.9261238</code></pre>
+<pre><code>[1] 6.3875795 0.2080184 5.9002479 6.9271211</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -360,7 +360,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(ols_protect_sd), <span class="fu">max</span>(ols_protect_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.181515608 0.005500827 0.167552654 0.196117965</code></pre>
+<pre><code>[1] 0.181492439 0.005377827 0.165375827 0.193611692</code></pre>
 </div>
 </div>
 <p><em>The effect estimated by OLS is incorrect– it should be 5.</em></p>
@@ -409,7 +409,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est), <span class="fu">max</span>(iv_tsls_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.9732078 0.2071024 4.4301860 5.3924865</code></pre>
+<pre><code>[1] 5.0086448 0.2027305 4.4565360 5.4398329</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_tsls_est_sd), <span class="fu">max</span>(iv_tsls_est_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.232516367 0.008170847 0.213777817 0.252613459</code></pre>
+<pre><code>[1] 0.230941874 0.007578325 0.210203727 0.247149946</code></pre>
 </div>
 </div>
 <p><em>This yields the expected estimate for the effect of forest protection on average monthly household consumption.</em></p>
@@ -497,7 +497,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_est), <span class="fu">max</span>(iv_protect_est))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.0567286 0.1854944 4.5795025 5.4901429</code></pre>
+<pre><code>[1] 4.9883050 0.2005003 4.4328888 5.4216740</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -510,7 +510,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(iv_protect_sd), <span class="fu">max</span>(iv_protect_sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.190992517 0.006105657 0.177121424 0.208320259</code></pre>
+<pre><code>[1] 0.192648773 0.007138887 0.172694617 0.210710887</code></pre>
 </div>
 </div>
 <p><em>Again, this yields the expected estimate for the effect of forest protection on average monthly household consumption.</em></p>
@@ -540,7 +540,7 @@ Model 1: forest_protect ~ slope + elevation + dist_cities + dist_tributary
 Model 2: forest_protect ~ slope + elevation + dist_cities
   Res.Df Df     F    Pr(&gt;F)    
 1    995                       
-2    996 -1 17229 &lt; 2.2e-16 ***
+2    996 -1 16342 &lt; 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
