@@ -138,13 +138,8 @@ Optional additional paper: [Burgess et al. 2019](https://osf.io/preprints/socarx
 No readings - come prepared with your causal question to begin your project.
 
 ## Due Wed. 4/5  
-### Generalizability in experimental and observational studies  
-1) [Spake et al. 2022 Improving quantitative synthesis to achieve generality in ecology](https://www.nature.com/articles/s41559-022-01891-z)
 
-Optional
-
-1) [Korell et al. 2019](https://doi.org/10.1111/gcb.14797)  
-2) [Spake et al. 2021](https://onlinelibrary.wiley.com/doi/epdf/10.1111/ele.13641)  
+1:1 consultations with Laura and Katherine in lieu of class
 
 ## Due Mon. 4/10
 
@@ -167,7 +162,13 @@ Projects
 Projects
 
 ## Due Wed. 4/26
+### Generalizability in experimental and observational studies  
+1) [Spake et al. 2022 Improving quantitative synthesis to achieve generality in ecology](https://www.nature.com/articles/s41559-022-01891-z)
 
+Optional
+
+1) [Korell et al. 2019](https://doi.org/10.1111/gcb.14797)  
+2) [Spake et al. 2021](https://onlinelibrary.wiley.com/doi/epdf/10.1111/ele.13641)  
 
 ## Due Mon. 5/1
 
