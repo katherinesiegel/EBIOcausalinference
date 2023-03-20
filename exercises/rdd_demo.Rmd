@@ -14,8 +14,10 @@ Load required packages. In this demo, we will use the package "rdrobust" for the
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-### Install rdrobust if you need to
+### Install packages if you need to
 install.packages("rdrobust",
+                 repos = "http://cran.us.r-project.org")
+install.packages("rddensity",
                  repos = "http://cran.us.r-project.org")
 
 ### Load libraries
@@ -109,14 +111,14 @@ c(mean(ols_fire_sd), sd(ols_fire_sd),
 data_rdd <- simulate_data()
 
 ### look at the distribution of sample points along the running variable
-ggplot(data = data_rdd, aes(x = distance)) + 
-  geom_histogram() +
-  geom_vline(xintercept = 0)
-
-### look at the distribution of the outcome variable along the running variable
-ggplot(data = data_rdd, aes(x = distance, y = species_richness)) +
-  geom_point() +
-  geom_vline(xintercept = 0)
+# ggplot(data = data_rdd, aes(x = distance)) + 
+#   geom_histogram() +
+#   geom_vline(xintercept = 0)
+# 
+# ### look at the distribution of the outcome variable along the running variable
+# ggplot(data = data_rdd, aes(x = distance, y = species_richness)) +
+#   geom_point() +
+#   geom_vline(xintercept = 0)
 
 
   
