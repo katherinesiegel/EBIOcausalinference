@@ -2,54 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/materials.html</loc>
-    <lastmod>2023-03-20T18:44:03.072Z</lastmod>
+    <lastmod>2023-03-20T20:38:27.545Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/schedule.html</loc>
-    <lastmod>2023-03-20T18:44:03.776Z</lastmod>
+    <lastmod>2023-03-20T20:38:29.373Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/matching_demo.html</loc>
-    <lastmod>2023-03-20T18:44:04.564Z</lastmod>
+    <lastmod>2023-03-20T20:38:30.225Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/matching_replication.html</loc>
-    <lastmod>2023-03-20T18:44:05.376Z</lastmod>
+    <lastmod>2023-03-20T20:38:31.081Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/Panel_demo/RMarkdown_panel_designs_Dee_and_Severen.html</loc>
-    <lastmod>2023-03-20T18:44:07.636Z</lastmod>
+    <lastmod>2023-03-20T20:38:33.505Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/rdd_demo.html</loc>
+    <lastmod>2023-03-20T20:39:01.510Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/iv_demo.html</loc>
-    <lastmod>2023-03-20T18:44:08.668Z</lastmod>
+    <lastmod>2023-03-20T20:39:02.506Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/matching.html</loc>
-    <lastmod>2023-03-20T18:44:09.024Z</lastmod>
+    <lastmod>2023-03-20T20:39:02.850Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/exercises/index.html</loc>
-    <lastmod>2023-03-20T18:44:09.432Z</lastmod>
+    <lastmod>2023-03-20T20:39:03.274Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/assignments.html</loc>
-    <lastmod>2023-03-20T18:44:09.800Z</lastmod>
+    <lastmod>2023-03-20T20:39:03.646Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/policies.html</loc>
-    <lastmod>2023-03-20T18:44:10.124Z</lastmod>
+    <lastmod>2023-03-20T20:39:04.002Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/readings.html</loc>
-    <lastmod>2023-03-20T18:44:10.504Z</lastmod>
+    <lastmod>2023-03-20T20:39:04.426Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/index.html</loc>
-    <lastmod>2023-03-20T18:44:10.848Z</lastmod>
+    <lastmod>2023-03-20T20:39:04.822Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/katherinesiegel/EBIOcausalinference/coding_resources.html</loc>
-    <lastmod>2023-03-20T18:44:11.152Z</lastmod>
+    <lastmod>2023-03-20T20:39:05.146Z</lastmod>
   </url>
 </urlset>
