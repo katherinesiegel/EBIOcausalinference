@@ -82,23 +82,23 @@ y<-5+3*x+2*(x>=0)+rnorm(1000)
 rdrobust(y,x)
 ```
 
-### Simulate Data
-<!-- from https://www.jepusto.com/rdd-interactions/ -->
-```{r, include=TRUE}
-set.seed(20160124)
-simulate_RDD <- function(n = 2000, R = rnorm(n, mean = qnorm(.2))) {
-  n <- length(R)
-  T <- as.integer(R > 0)
-  X1 <- 10 + 0.6 * (R - qnorm(.2)) + rnorm(n, sd = sqrt(1 - 0.6^2))
-  X2 <- sample(LETTERS[1:4], n, replace = TRUE, prob = c(0.2, 0.3, 0.35, 0.15))
-  Y0 <- 0.4 * R + 0.1 * (X1 - 10) + c(A = 0, B = 0.30, C = 0.40, D = 0.55)[X2] + rnorm(n, sd = 0.9)
-  Y1 <- 0.35 + 0.3 * R + 0.18 * (X1 - 10) + c(A = -0.50, B = 0.30, C = 0.20, D = 0.60)[X2] + rnorm(n, sd = 0.9)
-  Y <- (1 - T) * Y0 + T * Y1
-  data.frame(R, T, X1, X2, Y0, Y1, Y)
-}
+<!-- ### Simulate Data -->
+<!-- <!-- from https://www.jepusto.com/rdd-interactions/ --> -->
+<!-- ```{r, include=TRUE} -->
+<!-- set.seed(20160124) -->
+<!-- simulate_RDD <- function(n = 2000, R = rnorm(n, mean = qnorm(.2))) { -->
+<!--   n <- length(R) -->
+<!--   T <- as.integer(R > 0) -->
+<!--   X1 <- 10 + 0.6 * (R - qnorm(.2)) + rnorm(n, sd = sqrt(1 - 0.6^2)) -->
+<!--   X2 <- sample(LETTERS[1:4], n, replace = TRUE, prob = c(0.2, 0.3, 0.35, 0.15)) -->
+<!--   Y0 <- 0.4 * R + 0.1 * (X1 - 10) + c(A = 0, B = 0.30, C = 0.40, D = 0.55)[X2] + rnorm(n, sd = 0.9) -->
+<!--   Y1 <- 0.35 + 0.3 * R + 0.18 * (X1 - 10) + c(A = -0.50, B = 0.30, C = 0.20, D = 0.60)[X2] + rnorm(n, sd = 0.9) -->
+<!--   Y <- (1 - T) * Y0 + T * Y1 -->
+<!--   data.frame(R, T, X1, X2, Y0, Y1, Y) -->
+<!-- } -->
 
-RD_data <- simulate_RDD(n = 2000)
-```
+<!-- RD_data <- simulate_RDD(n = 2000) -->
+<!-- ``` -->
 
 ## Step 1: Determine if process of assigning treatment is rule-based
 
@@ -106,13 +106,15 @@ RD_data <- simulate_RDD(n = 2000)
 knitr::include_graphics("rdd_demo/crabtresh.png")
 ```
 
-In order to be legally harvest, crabs must be larger than 70mm. Crabs smaller than 70mm are not legal to harvest. Harvesting is thus rule-based, according to size. 
+We are interested in the causal effect of fishing on crab mortality. This question is surprisingly hard to answer because it's hard to tease apart natural mortality from fishing mortality, but it is an important effect to estimate for fisheries management. 
+ 
+In order to be legally harvest, crabs must be larger than 70mm. Crabs smaller than 70mm are not legal to harvest. Harvesting is thus rule-based, according to size.  Here, we would probably expect mortality to decline with body size, but the harvest rule changes this relationship at the discontinuity.
 
 <!-- In order to join the tutoring program,  students have to score 70 points or lower on the entrance exam. Students who score higher than 70 are not eligible for the program. Since we have a clear 70-point rule, we can assume that the process of participating in the tutoring program is rule-based. -->
 
 ## Step 2: Determine if the design is fuzzy or sharp
 
-Since we know that the program was applied based on a rule, we next want to figure out how strictly the rule was applied (e.g. was there a lot of illegal harvest of crabs that were too small?).The threshold was 70 mm got legal harvest — did people who caught crabs that scored 68 mm slip through cracks? The easiest way to check this is with a graph, and we can get exact numbers with a table.  <- NOT SURE THIS WORKS 
+Since we know that the program was applied based on a rule, we next want to figure out how strictly the rule was applied (e.g. was there a lot of illegal harvest of crabs that were too small?).The threshold was 70 mm got legal harvest — e.g., did people who caught crabs that scored 68 mm slip through cracks? The easiest way to check this is with a graph, and we can get exact numbers with a table. 
 
 <!-- The threshold was 70 points on the test—did people who scored 68 slip through bureaucratic cracks and not participate, or did people who scored 73 sneak into the program? The easiest way to check this is with a graph, and we can get exact numbers with a table. -->
 
