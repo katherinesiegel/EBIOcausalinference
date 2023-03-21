@@ -1,0 +1,131 @@
+---
+title: "Regression Discontinuinty Designs"
+author: "Laura Dee"
+date: "3/20/2023"
+output: html_document
+---
+
+# https://rpubs.com/phle/r_tutorial_regression_discontinuity_design
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# The key concept
+
+A threshold in a continuous variable determines treatment assignment 
+
+Running variable (or “score”), X: a continuously distributed variable with a clearly defined cutoff (c) that determines which units are assigned to treatment and which ones are assigned to control.
+
+
+# Theory
+
+### There are two different variants of the RDD:
+
+> * sharp RDD: the threshold separates the treatment and control group exactly
+>
+> * fuzzy RDD: the threshold influences the probability of being treated.  this is in fact an instrumental variable approach (estimating a Local Average Treatment Effect [LATE])
+
+The value of the outcome (Y) for individuals just below the threshold is the missing conterfactual outcome. It increases continuously with the cutoff variable, as opposed to the treatment.
+
+### Advantages of RDD
+With an RDD approach some assumptions can be tested. Individuals or units close to the threshold are nearly identical, except for characteristics which are affected by the treatment. Prior to the treatment, the outcome should not differ between the treatment and control group. The distribution of the variable which indicates the threshold should have no jumps around this cutoff value.
+
+In summary, RDD's strengths include that we can:
+
+* illustrate the design graphically
+* test some of the underlying assumptions and support arguments through data visualization
+* reliably (unbiased) estimates local average treatment effects
+* include relevant confounders in model
+
+<!-- ### Estimation methods -->
+<!-- Three methods to estimate a RDD can be distinguished: -->
+
+<!-- Method 1: -->
+
+<!-- select a subsample for which the value of the running variable is close to the threshold -->
+<!-- problem: the smaller the sample, the larger the standard errors -->
+<!-- Method 2: -->
+
+<!-- select a larger sample and estimate parametrically -->
+<!-- problem: this depends on the functional form and polynomials -->
+<!-- Method 3: -->
+
+<!-- select a subsample close to the threshold and estimate parametrically -->
+<!-- extension: different functional forms on the left and right side of the cutoff -->
+
+
+# Application Demo 
+
+```{r load-libraries, message=FALSE, warning=FALSE}
+library(tidyverse)  # ggplot(), %>%, mutate(), and friends
+library(broom)  # Convert models to data frames
+library(rdrobust)  # For robust nonparametric regression discontinuity
+library(rddensity)  # For nonparametric regression discontinuity density tests
+library(modelsummary)  # Create side-by-side regression tables
+```
+### Simple example
+
+x<-runif(1000,-1,1)
+y<-5+3*x+2*(x>=0)+rnorm(1000)
+rdrobust(y,x)
+
+### Simulate Data
+set.seed(20160124)
+
+simulate_RDD <- function(n = 2000, R = rnorm(n, mean = qnorm(.2))) {
+  n <- length(R)
+  T <- as.integer(R > 0)
+  X1 <- 10 + 0.6 * (R - qnorm(.2)) + rnorm(n, sd = sqrt(1 - 0.6^2))
+  X2 <- sample(LETTERS[1:4], n, replace = TRUE, prob = c(0.2, 0.3, 0.35, 0.15))
+  Y0 <- 0.4 * R + 0.1 * (X1 - 10) + c(A = 0, B = 0.30, C = 0.40, D = 0.55)[X2] + rnorm(n, sd = 0.9)
+  Y1 <- 0.35 + 0.3 * R + 0.18 * (X1 - 10) + c(A = -0.50, B = 0.30, C = 0.20, D = 0.60)[X2] + rnorm(n, sd = 0.9)
+  Y <- (1 - T) * Y0 + T * Y1
+  data.frame(R, T, X1, X2, Y0, Y1, Y)
+}
+
+RD_data <- simulate_RDD(n = 2000)
+
+
+## Step 1: Determine if process of assigning treatment is rule-based
+
+## Step 2: Determine if the design is fuzzy or sharp
+
+## Step 3: Check for discontinuity in running variable around cutpoint
+
+## Step 4: Check for discontinuity in outcome across running variable
+
+## Step 5: Measure the size of the effect
+
+There's a discontinuity, but how big is it? And is it statistically significant?
+
+We can check the size two different ways: parametrically (i.e. using `lm()` with specific parameters and coefficients), and nonparametrically (i.e. not using `lm()` or any kind of straight line and instead drawing lines that fit the data more precisely). We'll do it both ways.
+
+### Parametric estimation
+
+### Nonparametric estimation
+
+Instead of using linear regression to measure the size of the discontinuity, we can use nonparametric methods. Essentially this means that R will not try to fit a straight line to the data—instead it'll curve around the points and try to fit everything as smoothly as possible.
+
+The `rdrobust()` function makes it really easy to measure the gap at the cutoff with nonparametric estimation. Here's the simplest version:
+
