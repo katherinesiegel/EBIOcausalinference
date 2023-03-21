@@ -5,37 +5,19 @@ date: "3/20/2023"
 output: html_document
 ---
 
-# https://rpubs.com/phle/r_tutorial_regression_discontinuity_design
+<!-- https://rpubs.com/phle/r_tutorial_regression_discontinuity_design -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 # The key concept
 
 A threshold in a continuous variable determines treatment assignment 
 
 Running variable (or “score”), X: a continuously distributed variable with a clearly defined cutoff (c) that determines which units are assigned to treatment and which ones are assigned to control.
+
+Prior to the treatment, the outcome should not differ between the treatment and control group (*continuity assumption*). The distribution of the variable which indicates the threshold should have no jumps around this cutoff value.
 
 
 # Theory
@@ -49,9 +31,9 @@ Running variable (or “score”), X: a continuously distributed variable with a
 The value of the outcome (Y) for individuals just below the threshold is the missing conterfactual outcome. It increases continuously with the cutoff variable, as opposed to the treatment.
 
 ### Advantages of RDD
-With an RDD approach some assumptions can be tested. Individuals or units close to the threshold are nearly identical, except for characteristics which are affected by the treatment. Prior to the treatment, the outcome should not differ between the treatment and control group. The distribution of the variable which indicates the threshold should have no jumps around this cutoff value.
+With an RDD approach some assumptions can be tested. Individuals or units close to the threshold are nearly identical, except for characteristics which are affected by the treatment.
 
-In summary, RDD's strengths include that we can:
+RDD's strengths include that we can:
 
 * illustrate the design graphically
 * test some of the underlying assumptions and support arguments through data visualization
@@ -77,6 +59,14 @@ In summary, RDD's strengths include that we can:
 
 # Application Demo 
 
+Load required packages. In this demo, we will use the package "rdrobust" 
+```{r message=FALSE, warning=FALSE}
+install.packages("rdrobust",
+                 repos = "http://cran.us.r-project.org")
+install.packages("rddensity",
+                 repos = "http://cran.us.r-project.org")
+```
+
 ```{r load-libraries, message=FALSE, warning=FALSE}
 library(tidyverse)  # ggplot(), %>%, mutate(), and friends
 library(broom)  # Convert models to data frames
@@ -84,15 +74,18 @@ library(rdrobust)  # For robust nonparametric regression discontinuity
 library(rddensity)  # For nonparametric regression discontinuity density tests
 library(modelsummary)  # Create side-by-side regression tables
 ```
-### Simple example
 
+### Simple example
+```{r, include=TRUE}
 x<-runif(1000,-1,1)
 y<-5+3*x+2*(x>=0)+rnorm(1000)
 rdrobust(y,x)
+```
 
 ### Simulate Data
+<!-- from https://www.jepusto.com/rdd-interactions/ -->
+```{r, include=TRUE}
 set.seed(20160124)
-
 simulate_RDD <- function(n = 2000, R = rnorm(n, mean = qnorm(.2))) {
   n <- length(R)
   T <- as.integer(R > 0)
@@ -105,15 +98,62 @@ simulate_RDD <- function(n = 2000, R = rnorm(n, mean = qnorm(.2))) {
 }
 
 RD_data <- simulate_RDD(n = 2000)
-
+```
 
 ## Step 1: Determine if process of assigning treatment is rule-based
 
+```{r housing, fig.cap="Example: Rule-based Cut off example with fishing size limits of crabs", out.width='70%', echo=F }
+knitr::include_graphics("rdd_demo/crabtresh.png")
+```
+
+In order to be legally harvest, crabs must be larger than 70mm. Crabs smaller than 70mm are not legal to harvest. Harvesting is thus rule-based, according to size. 
+
+<!-- In order to join the tutoring program,  students have to score 70 points or lower on the entrance exam. Students who score higher than 70 are not eligible for the program. Since we have a clear 70-point rule, we can assume that the process of participating in the tutoring program is rule-based. -->
+
 ## Step 2: Determine if the design is fuzzy or sharp
+
+Since we know that the program was applied based on a rule, we next want to figure out how strictly the rule was applied (e.g. was there a lot of illegal harvest of crabs that were too small?).The threshold was 70 mm got legal harvest — did people who caught crabs that scored 68 mm slip through cracks? The easiest way to check this is with a graph, and we can get exact numbers with a table.  <- NOT SURE THIS WORKS 
+
+<!-- The threshold was 70 points on the test—did people who scored 68 slip through bureaucratic cracks and not participate, or did people who scored 73 sneak into the program? The easiest way to check this is with a graph, and we can get exact numbers with a table. -->
+
+
+```{r check-fuzzy-sharp}
+ggplot(tutoring, aes(x = entrance_exam, y = tutoring, color = tutoring)) +
+  # Make points small and semi-transparent since there are lots of them
+  geom_point(size = 0.5, alpha = 0.5,
+             position = position_jitter(width = 0, height = 0.25, seed = 1234)) +
+  # Add vertical line
+  geom_vline(xintercept = 70) +
+  # Add labels
+  labs(x = "Entrance exam score", y = "Participated in tutoring program") +
+  # Turn off the color legend, since it's redundant
+  guides(color = "none")
+```
+
+This looks pretty sharp—it doesn't look like people who scored under 70 participated in the program. We can verify this with a table. There are no people where `entrance_exam` is greater than 70 and `tutoring` is false, and no people where `entrance_exam` is less than 70 and `tutoring` is true.
 
 ## Step 3: Check for discontinuity in running variable around cutpoint
 
+```{r fuzzy-sharp-table}
+tutoring %>%
+  group_by(tutoring, entrance_exam <= 70) %>%
+  summarize(count = n())
+```
+
+Based on the table, we can conclude this is a sharp design.
+
 ## Step 4: Check for discontinuity in outcome across running variable
+
+Next, we need to see if any crabs self selected on either side of the size threshold; this seems unlikely. But, first, we'll make a histogram of the running variable (size) and see if there are any big jumps around the threshold:
+
+```{r check-running-discontinuity}
+ggplot(tutoring, aes(x = entrance_exam, fill = tutoring)) +
+  geom_histogram(binwidth = 2, color = "white", boundary = 70) +
+  geom_vline(xintercept = 70) +
+  labs(x = "Entrance exam score", y = "Count", fill = "In program")
+```
+
+Here it doesn't look like there's a jump around the cutoff—there's a tiny visible difference between the height of the bars right before and right after the 70-mm sie threshold, but it seems to follow the general shape of the overall distribution.
 
 ## Step 5: Measure the size of the effect
 
@@ -122,6 +162,12 @@ There's a discontinuity, but how big is it? And is it statistically significant?
 We can check the size two different ways: parametrically (i.e. using `lm()` with specific parameters and coefficients), and nonparametrically (i.e. not using `lm()` or any kind of straight line and instead drawing lines that fit the data more precisely). We'll do it both ways.
 
 ### Parametric estimation
+
+First we'll do it parametrically by using linear regression. Here we want to explain the variation in final scores based on the entrance exam score and participation in the tutoring program:
+
+$$
+\text{Exit exam} = \beta_0 + \beta_1 \text{Entrance exam score}_\text{centered} + \beta_2 \text{Tutoring program} + \epsilon
+$$
 
 ### Nonparametric estimation
 
