@@ -19,7 +19,6 @@ Running variable (or “score”), X: a continuously distributed variable with a
 
 Prior to the treatment, the outcome should not differ between the treatment and control group (*continuity assumption*). The distribution of the variable which indicates the threshold should have no jumps around this cutoff value.
 
-
 # Theory
 
 ### There are two different variants of the RDD:
@@ -82,7 +81,76 @@ y<-5+3*x+2*(x>=0)+rnorm(1000)
 rdrobust(y,x)
 ```
 
-<!-- ### Simulate Data -->
+### Simulate Data
+Modified from the MixTape by Scott Cummingham: https://mixtape.scunning.com/06-regression_discontinuity
+
+```{r, include=TRUE}
+library(tidyverse)
+# simulate the data
+dat <- tibble(
+  x = rnorm(1000, 50, 25)
+) %>%
+  mutate(
+    x = if_else(x < 0, 0, x)
+  ) %>%
+  filter(x < 100)
+
+# cutoff at x = 70, no jump
+dat <- dat %>% 
+  mutate(
+    D  = if_else(x > 70, 1, 0),
+    y1 = 25 + 0 * D + 1.5 * x + rnorm(n(), 0, 20)
+  )
+
+ggplot(aes(x, y1, colour = factor(D)), data = dat) +
+  geom_point(alpha = 0.5) +
+  geom_vline(xintercept = 70, colour = "grey", linetype = 2)+
+  stat_smooth(method = "lm", se = F) +
+  labs(x = "Test score (X)", y = "Potential Outcome (Y1)")
+```
+
+```{r, include=TRUE}
+## simulate the discontinuity
+dat <- dat %>%
+  mutate(
+    y2 = 25 + 40 * D + 1.5 * x + rnorm(n(), 0, 20)
+  )
+
+# figure
+ggplot(aes(x, y2, colour = factor(D)), data = dat) +
+  geom_point(alpha = 0.5) +
+  geom_vline(xintercept = 70, colour = "grey", linetype = 2) +
+  stat_smooth(method = "lm", se = F) +
+  labs(x = "Test score (X)", y = "Potential Outcome (Y)")
+```
+
+```{r, include=TRUE}
+# simultate nonlinearity
+dat <- tibble(
+    x = rnorm(1000, 100, 50)
+  ) %>% 
+  mutate(
+    x = case_when(x < 0 ~ 0, TRUE ~ x),
+    D = case_when(x > 140 ~ 1, TRUE ~ 0),
+    x2 = x*x,
+    x3 = x*x*x,
+    y3 = 10000 + 0 * D - 100 * x + x2 + rnorm(1000, 0, 1000)
+  ) %>% 
+  filter(x < 280)
+
+ggplot(aes(x, y3, colour = factor(D)), data = dat) +
+  geom_point(alpha = 0.2) +
+  geom_vline(xintercept = 140, colour = "grey", linetype = 2) +
+  stat_smooth(method = "lm", se = F) +
+  labs(x = "Test score (X)", y = "Potential Outcome (Y)")
+
+ggplot(aes(x, y3, colour = factor(D)), data = dat) +
+  geom_point(alpha = 0.2) +
+  geom_vline(xintercept = 140, colour = "grey", linetype = 2) +
+  stat_smooth(method = "loess", se = F) +
+  labs(x = "Test score (X)", y = "Potential Outcome (Y)")
+```
+
 <!-- <!-- from https://www.jepusto.com/rdd-interactions/ --> -->
 <!-- ```{r, include=TRUE} -->
 <!-- set.seed(20160124) -->
@@ -102,7 +170,7 @@ rdrobust(y,x)
 
 ## Step 1: Determine if process of assigning treatment is rule-based
 
-```{r housing, fig.cap="Example: Rule-based Cut off example with fishing size limits of crabs", out.width='70%', echo=F }
+```{r housing, fig.cap="Example: Rule-based example with cut off:  fishing size limits of crabs", out.width='70%', echo=F }
 knitr::include_graphics("rdd_demo/crabtresh.png")
 ```
 
@@ -119,28 +187,28 @@ Since we know that the program was applied based on a rule, we next want to figu
 <!-- The threshold was 70 points on the test—did people who scored 68 slip through bureaucratic cracks and not participate, or did people who scored 73 sneak into the program? The easiest way to check this is with a graph, and we can get exact numbers with a table. -->
 
 
-```{r check-fuzzy-sharp}
-ggplot(tutoring, aes(x = entrance_exam, y = tutoring, color = tutoring)) +
-  # Make points small and semi-transparent since there are lots of them
-  geom_point(size = 0.5, alpha = 0.5,
-             position = position_jitter(width = 0, height = 0.25, seed = 1234)) +
-  # Add vertical line
-  geom_vline(xintercept = 70) +
-  # Add labels
-  labs(x = "Entrance exam score", y = "Participated in tutoring program") +
-  # Turn off the color legend, since it's redundant
-  guides(color = "none")
-```
+<!-- ```{r check-fuzzy-sharp} -->
+<!-- ggplot(tutoring, aes(x = entrance_exam, y = tutoring, color = tutoring)) + -->
+<!--   # Make points small and semi-transparent since there are lots of them -->
+<!--   geom_point(size = 0.5, alpha = 0.5, -->
+<!--              position = position_jitter(width = 0, height = 0.25, seed = 1234)) + -->
+<!--   # Add vertical line -->
+<!--   geom_vline(xintercept = 70) + -->
+<!--   # Add labels -->
+<!--   labs(x = "Entrance exam score", y = "Participated in tutoring program") + -->
+<!--   # Turn off the color legend, since it's redundant -->
+<!--   guides(color = "none") -->
+<!-- ``` -->
 
 This looks pretty sharp—it doesn't look like people who scored under 70 participated in the program. We can verify this with a table. There are no people where `entrance_exam` is greater than 70 and `tutoring` is false, and no people where `entrance_exam` is less than 70 and `tutoring` is true.
 
 ## Step 3: Check for discontinuity in running variable around cutpoint
 
-```{r fuzzy-sharp-table}
-tutoring %>%
-  group_by(tutoring, entrance_exam <= 70) %>%
-  summarize(count = n())
-```
+# ```{r fuzzy-sharp-table}
+# tutoring %>%
+#   group_by(tutoring, entrance_exam <= 70) %>%
+#   summarize(count = n())
+# ```
 
 Based on the table, we can conclude this is a sharp design.
 
@@ -148,12 +216,12 @@ Based on the table, we can conclude this is a sharp design.
 
 Next, we need to see if any crabs self selected on either side of the size threshold; this seems unlikely. But, first, we'll make a histogram of the running variable (size) and see if there are any big jumps around the threshold:
 
-```{r check-running-discontinuity}
-ggplot(tutoring, aes(x = entrance_exam, fill = tutoring)) +
-  geom_histogram(binwidth = 2, color = "white", boundary = 70) +
-  geom_vline(xintercept = 70) +
-  labs(x = "Entrance exam score", y = "Count", fill = "In program")
-```
+# ```{r check-running-discontinuity}
+# ggplot(tutoring, aes(x = entrance_exam, fill = tutoring)) +
+#   geom_histogram(binwidth = 2, color = "white", boundary = 70) +
+#   geom_vline(xintercept = 70) +
+#   labs(x = "Entrance exam score", y = "Count", fill = "In program")
+# ```
 
 Here it doesn't look like there's a jump around the cutoff—there's a tiny visible difference between the height of the bars right before and right after the 70-mm sie threshold, but it seems to follow the general shape of the overall distribution.
 
