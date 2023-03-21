@@ -68,10 +68,10 @@ install.packages("rddensity",
 
 ```{r load-libraries, message=FALSE, warning=FALSE}
 library(tidyverse)  # ggplot(), %>%, mutate(), and friends
-library(broom)  # Convert models to data frames
+# library(broom)  # Convert models to data frames
 library(rdrobust)  # For robust nonparametric regression discontinuity
 library(rddensity)  # For nonparametric regression discontinuity density tests
-library(modelsummary)  # Create side-by-side regression tables
+# library(modelsummary)  # Create side-by-side regression tables
 ```
 
 ### simulate data
@@ -145,6 +145,7 @@ ggplot(crab_data) +
                  y = npp,
                  color = fished))
 ```
+
 ### Simple example
 ```{r, include=TRUE}
 x<-runif(1000,-1,1)
