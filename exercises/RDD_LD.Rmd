@@ -22,7 +22,7 @@ library(tidyverse)  # ggplot(), %>%, mutate(), and friends
 # library(broom)  # Convert models to data frames
 library(rdrobust)  # For robust nonparametric regression discontinuity
 library(rddensity)  # For nonparametric regression discontinuity density tests
-library(modelsummary)  # Create side-by-side regression tables
+# library(modelsummary)  # Create side-by-side regression tables
 ```
 
 ## The key concept
