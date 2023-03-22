@@ -263,6 +263,53 @@ sum(is.na(crab_data$fished)) #ok for the simulated data
 
 Instead, we need to run a 2SLS model that includes our instrument in the first stage, which will then remove the endogeneity built into participation in the program. We'll estimate this set of models:
 
+```{r}
+### Create variables
+X <- crab_data$size_centered # distance from size to cutoff
+D <- crab_data$fished # treatment: indicator for whether the crab was fished or not
+Y <- crab_data$total_mortality # outcome 
+
+### First Stage: T on D
+out <- rdrobust(D, X, bwselect = "mserd")
+summary(out)
+
+### Visualize
+rdplot(D, X, x.label="size", y.label = "Fished")
+
+### Fuzzy effect of fishing on total mortality
+fuzzy_out <- rdrobust(Y, X, fuzzy = D)
+h <- fuzzy_out$bws[1, 1]
+b <- fuzzy_out$bws[2, 1]
+
+### equivalent to the two-step estimation below
+out_tsls <- rdrobust(Y, X, h = h, b = b)
+itt <- out_tsls$Estimate[1]
+
+out_tsls_2 <- rdrobust(D, X, h = h, b = b)
+fs <- out_tsls_2$Estimate[1]
+
+itt/fs
+
+# Rdrobust (sharp) on Y
+fit_sharp <- rdrobust(Y, X, vce = "nn", cluster = X)
+summary(fit_sharp)
+
+# Rdrobust (fuzzy) on Y
+fit_fuzzy <- rdrobust(Y, X, fuzzy = D, vce = "nn", cluster = X)
+summary(fit_fuzzy)
+
+# Rdplot on Y1
+rdplot(Y, X)
+
+
+# Rddensity
+#----------
+out = rddensity(X)
+summary(out)
+
+```
+
+
 ##NEED TO FINISHED - IS THIS RIGHT???
 $$
 \begin{aligned}
