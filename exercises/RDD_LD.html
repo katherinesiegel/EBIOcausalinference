@@ -533,10 +533,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 # Groups:   fished [2]
   fished `size_centered &lt;= 0` count
    &lt;dbl&gt; &lt;lgl&gt;                &lt;int&gt;
-1      0 FALSE                   66
-2      0 TRUE                   434
-3      1 FALSE                  433
-4      1 TRUE                    67</code></pre>
+1      0 FALSE                   69
+2      0 TRUE                   431
+3      1 FALSE                  437
+4      1 TRUE                    63</code></pre>
 </div>
 </div>
 <p>Based on the table, we can conclude this is a fuzzy design because there are some crabs over the cut-off that were not fished, and some under that were fished.</p>
@@ -618,20 +618,20 @@ BW type                       mserd
 Kernel                   Triangular
 VCE method                       NN
 
-Number of Obs.                  501          499
-Eff. Number of Obs.             189          170
+Number of Obs.                  494          506
+Eff. Number of Obs.             205          216
 Order est. (p)                    1            1
 Order bias  (q)                   2            2
-BW est. (h)                  15.878       15.878
-BW bias (b)                  24.454       24.454
-rho (h/b)                     0.649        0.649
-Unique Obs.                     501          499
+BW est. (h)                  18.825       18.825
+BW bias (b)                  33.273       33.273
+rho (h/b)                     0.566        0.566
+Unique Obs.                     494          506
 
 =============================================================================
         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
 =============================================================================
-  Conventional    -0.361     0.107    -3.375     0.001    [-0.570 , -0.151]    
-        Robust         -         -    -3.011     0.003    [-0.630 , -0.133]    
+  Conventional    -0.184     0.098    -1.877     0.060    [-0.376 , 0.008]     
+        Robust         -         -    -2.021     0.043    [-0.441 , -0.007]    
 =============================================================================</code></pre>
 </div>
 <details open="">
@@ -659,7 +659,7 @@ Unique Obs.                     501          499
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>itt<span class="sc">/</span>fs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 19.22226</code></pre>
+<pre><code>[1] 188.3258</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
@@ -675,20 +675,20 @@ BW type                       mserd
 Kernel                   Triangular
 VCE method                       NN
 
-Number of Obs.                  501          499
-Eff. Number of Obs.             197          174
+Number of Obs.                  494          506
+Eff. Number of Obs.             197          205
 Order est. (p)                    1            1
 Order bias  (q)                   2            2
-BW est. (h)                  17.047       17.047
-BW bias (b)                  27.327       27.327
-rho (h/b)                     0.624        0.624
-Unique Obs.                     501          499
+BW est. (h)                  17.803       17.803
+BW bias (b)                  26.224       26.224
+rho (h/b)                     0.679        0.679
+Unique Obs.                     494          506
 
 =============================================================================
         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
 =============================================================================
-  Conventional    -7.094     2.745    -2.584     0.010   [-12.475 , -1.713]    
-        Robust         -         -    -2.467     0.014   [-14.200 , -1.626]    
+  Conventional    -5.047     2.513    -2.008     0.045    [-9.973 , -0.121]    
+        Robust         -         -    -1.626     0.104   [-10.769 , 1.003]     
 =============================================================================</code></pre>
 </div>
 <details open="">
@@ -705,22 +705,22 @@ BW type                       mserd
 Kernel                   Triangular
 VCE method                       NN
 
-Number of Obs.                  501          499
-Eff. Number of Obs.             180          160
+Number of Obs.                  494          506
+Eff. Number of Obs.             162          151
 Order est. (p)                    1            1
 Order bias  (q)                   2            2
-BW est. (h)                  14.456       14.456
-BW bias (b)                  32.975       32.975
-rho (h/b)                     0.438        0.438
-Unique Obs.                     501          499
+BW est. (h)                  12.466       12.466
+BW bias (b)                  22.529       22.529
+rho (h/b)                     0.553        0.553
+Unique Obs.                     494          506
 
 First-stage estimates.
 
 =============================================================================
         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
 =============================================================================
-  Conventional    -0.338     0.112    -3.008     0.003    [-0.559 , -0.118]    
-        Robust         -         -    -3.172     0.002    [-0.623 , -0.147]    
+  Conventional    -0.013     0.119    -0.110     0.912    [-0.247 , 0.221]     
+        Robust         -         -     0.301     0.763    [-0.227 , 0.309]     
 =============================================================================
 
 Treatment effect estimates.
@@ -728,8 +728,8 @@ Treatment effect estimates.
 =============================================================================
         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
 =============================================================================
-  Conventional    19.222     4.339     4.430     0.000    [10.717 , 27.727]    
-        Robust         -         -     4.084     0.000     [9.964 , 28.349]    
+  Conventional   156.166  1220.047     0.128     0.898 [-2235.083 , 2547.415]  
+        Robust         -         -     0.523     0.601 [-2013.588 , 3478.552]  
 =============================================================================</code></pre>
 </div>
 <details open="">
@@ -758,29 +758,29 @@ BW method =           estimated
 VCE method =          jackknife
 
 c = 0                 Left of c           Right of c          
-Number of obs         501                 499                 
-Eff. Number of obs    204                 160                 
+Number of obs         494                 506                 
+Eff. Number of obs    179                 238                 
 Order est. (p)        2                   2                   
 Order bias (q)        3                   3                   
-BW est. (h)           17.935              14.664              
+BW est. (h)           15.541              21.88               
 
 Method                T                   P &gt; |T|             
-Robust                -0.8664             0.3863              
+Robust                1.5748              0.1153              
 
 
 P-values of binomial tests (H0: p=0.5).
 
-Window Length              &lt;c     &gt;=c    P&gt;|T|
-1.751     + 1.751          20      20    1.0000
-3.501     + 3.185          39      34    0.6400
-5.252     + 4.620          64      53    0.3553
-7.002     + 6.055          91      77    0.3159
-8.753     + 7.490         116      96    0.1918
-10.503    + 8.924         143     118    0.1372
-12.254    + 10.359        152     135    0.3450
-14.004    + 11.794        171     144    0.1428
-15.755    + 13.229        187     153    0.0734
-17.505    + 14.664        202     160    0.0310</code></pre>
+Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
+1.482                      20      20    1.0000
+2.964                      40      46    0.5900
+4.446                      58      65    0.5887
+5.927                      81      90    0.5408
+7.409                     104     104    1.0000
+8.891                     119     123    0.8471
+10.373                    143     135    0.6747
+11.855                    157     147    0.6058
+13.337                    166     165    1.0000
+14.819                    171     178    0.7481</code></pre>
 </div>
 </div>
 <p>##NEED TO FINISHED - IS THIS RIGHT??? <span class="math display">\[
