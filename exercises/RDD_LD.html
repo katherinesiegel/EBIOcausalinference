@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Laura Dee &amp; Katherine Siegel">
+<meta name="dcterms.date" content="2023-03-20">
+
+<title>EBIO 5460: Causal Inference in Ecology - Regression Discontinuinty Designs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Regression Discontinuinty Designs</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">EBIO 5460: Causal Inference in Ecology</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/katherinesiegel/EBIOcausalinference" title="GitHub" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Course Overview</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../schedule.html" class="sidebar-item-text sidebar-link">Schedule</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../readings.html" class="sidebar-item-text sidebar-link">Readings &amp; Additional Materials</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignments.html" class="sidebar-item-text sidebar-link">Assignments &amp; Evaluation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/index.html" class="sidebar-item-text sidebar-link">Exercises</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../coding_resources.html" class="sidebar-item-text sidebar-link">Coding Resources</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../policies.html" class="sidebar-item-text sidebar-link">University Policies</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#set-up" id="toc-set-up" class="nav-link active" data-scroll-target="#set-up">Set up</a></li>
+  <li><a href="#the-key-concept" id="toc-the-key-concept" class="nav-link" data-scroll-target="#the-key-concept">The key concept</a></li>
+  <li><a href="#there-are-two-different-variants-of-the-rdd" id="toc-there-are-two-different-variants-of-the-rdd" class="nav-link" data-scroll-target="#there-are-two-different-variants-of-the-rdd">There are two different variants of the RDD:</a>
+  <ul>
+  <li><a href="#sharp-rdd" id="toc-sharp-rdd" class="nav-link" data-scroll-target="#sharp-rdd">Sharp RDD</a></li>
+  <li><a href="#fuzzy-rdd" id="toc-fuzzy-rdd" class="nav-link" data-scroll-target="#fuzzy-rdd">Fuzzy RDD</a></li>
+  <li><a href="#advantages-of-rdd" id="toc-advantages-of-rdd" class="nav-link" data-scroll-target="#advantages-of-rdd">Advantages of RDD</a></li>
+  </ul></li>
+  <li><a href="#demonstration" id="toc-demonstration" class="nav-link" data-scroll-target="#demonstration">Demonstration</a>
+  <ul>
+  <li><a href="#demo-question-fishing-mortality-on-crabs" id="toc-demo-question-fishing-mortality-on-crabs" class="nav-link" data-scroll-target="#demo-question-fishing-mortality-on-crabs">Demo Question: fishing mortality on crabs</a></li>
+  <li><a href="#simulate-data" id="toc-simulate-data" class="nav-link" data-scroll-target="#simulate-data">Simulate data</a>
+  <ul class="collapse">
+  <li><a href="#visualize-the-data" id="toc-visualize-the-data" class="nav-link" data-scroll-target="#visualize-the-data">Visualize the data</a></li>
+  </ul></li>
+  <li><a href="#step-1-determine-if-process-of-assigning-treatment-is-rule-based" id="toc-step-1-determine-if-process-of-assigning-treatment-is-rule-based" class="nav-link" data-scroll-target="#step-1-determine-if-process-of-assigning-treatment-is-rule-based">Step 1: Determine if process of assigning treatment is rule-based</a></li>
+  <li><a href="#step-2-determine-if-the-design-is-fuzzy-or-sharp" id="toc-step-2-determine-if-the-design-is-fuzzy-or-sharp" class="nav-link" data-scroll-target="#step-2-determine-if-the-design-is-fuzzy-or-sharp">Step 2: Determine if the design is fuzzy or sharp</a></li>
+  <li><a href="#step-3-check-for-discontinuity-in-running-variable-around-cutoff-point" id="toc-step-3-check-for-discontinuity-in-running-variable-around-cutoff-point" class="nav-link" data-scroll-target="#step-3-check-for-discontinuity-in-running-variable-around-cutoff-point">Step 3: Check for discontinuity in running variable around cutoff point</a></li>
+  <li><a href="#step-4-check-for-discontinuity-in-outcome-across-running-variable" id="toc-step-4-check-for-discontinuity-in-outcome-across-running-variable" class="nav-link" data-scroll-target="#step-4-check-for-discontinuity-in-outcome-across-running-variable">Step 4: Check for discontinuity in outcome across running variable</a></li>
+  <li><a href="#step-5-measure-the-size-of-the-effect" id="toc-step-5-measure-the-size-of-the-effect" class="nav-link" data-scroll-target="#step-5-measure-the-size-of-the-effect">Step 5: Measure the size of the effect</a></li>
+  <li><a href="#fuzzy-rdd-as-iv" id="toc-fuzzy-rdd-as-iv" class="nav-link" data-scroll-target="#fuzzy-rdd-as-iv">Fuzzy RDD as IV</a></li>
+  <li><a href="#analyze-fuzzy-rdd" id="toc-analyze-fuzzy-rdd" class="nav-link" data-scroll-target="#analyze-fuzzy-rdd">Analyze fuzzy RDD</a>
+  <ul class="collapse">
+  <li><a href="#sls" id="toc-sls" class="nav-link" data-scroll-target="#sls">2SLS</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block">Regression Discontinuinty Designs</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Laura Dee &amp; Katherine Siegel </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 20, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- https://rpubs.com/phle/r_tutorial_regression_discontinuity_design -->
+<section id="set-up" class="level2">
+<h2 class="anchored" data-anchor-id="set-up">Set up</h2>
+</section>
+<section id="the-key-concept" class="level2">
+<h2 class="anchored" data-anchor-id="the-key-concept">The key concept</h2>
+<p>A threshold in a continuous variable determines treatment assignment</p>
+<p>Running variable (or “score”), X: a continuously distributed variable with a clearly defined cutoff (c) that determines which units are assigned to treatment and which ones are assigned to control.</p>
+<p>Prior to the treatment, the outcome should not differ between the treatment and control group (<em>continuity assumption</em>). The distribution of the variable which indicates the threshold should have no jumps around this cutoff value.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_demo/testscore_example.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Example using an arbitrary test score cut-off for being enrolled in tutoring programs on learning outcomes, from Andrew Heiss</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="there-are-two-different-variants-of-the-rdd" class="level2">
+<h2 class="anchored" data-anchor-id="there-are-two-different-variants-of-the-rdd">There are two different variants of the RDD:</h2>
+<blockquote class="blockquote">
+<ul>
+<li><p>sharp RDD: the threshold separates the treatment and control group exactly</p></li>
+<li><p>fuzzy RDD: the threshold influences the probability of being treated. this is in fact an instrumental variable approach (estimating a Local Average Treatment Effect [LATE])</p></li>
+</ul>
+</blockquote>
+<p>The value of the outcome (Y) for individuals just below the threshold is the missing counterfactual outcome. It increases continuously with the cutoff variable, as opposed to the treatment.</p>
+<p>Here are some nice elaborations and figures on these two variants of RDD from the <a href="https://dimewiki.worldbank.org/Regression_Discontinuity">World Bank</a></p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_demo/worldbankRDD.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Sharp vs Fuzzy RDD illustration from the World Bank</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="sharp-rdd" class="level3">
+<h3 class="anchored" data-anchor-id="sharp-rdd">Sharp RDD</h3>
+<p>In sharp designs, the probability of treatment changes from 0 to 1 at the cutoff. There are no cross-overs and no non-complance. For example, if a scholarship award is given to all students above a threshold test score of 80%, then the assignment rule defines treatment status deterministically with probabilities of 0 or 1. Thus, the design is sharp.</p>
+</section>
+<section id="fuzzy-rdd" class="level3">
+<h3 class="anchored" data-anchor-id="fuzzy-rdd">Fuzzy RDD</h3>
+<p>In fuzzy designs, the probability of treatment is discontinuous at the cutoff, but not to the degree of a definitive 0 to 1 jump. For example, if food stamp eligibility is given to all households below a certain income, but not all households receive the food stamps, then the assignment rule defines treatment status probabilistically but not perfectly. Thus, the design is fuzzy. The fuzziness may result from imperfect compliance with the law/rule/program; imperfect implementation that treated some non-eligible units or neglected to treat some eligible units; spillover effects; or manipulation of the eligibility index.</p>
+<p>A fuzzy design assumes that, in the absence of the assignment rule, some of those who take up the treatment would not have participated in the program. The eligibility index acts as a nudge. The subgroup that participates in a program due to the selection rule is called compliers (see e.g.&nbsp;<a href="https://pdfs.semanticscholar.org/8714/260129e51abb09fd89d6ff79065af17bb106.pdf">Angrist and Imbens (1994)</a>, and <a href="http://www.math.mcgill.ca/dstephens/AngristIV1996-JASA-Combined.pdf">Imbens, Angrist, and Rubin (1996))</a>; under the RDD, the treatment effects are estimated only for the group of compliers.”</p>
+</section>
+<section id="advantages-of-rdd" class="level3">
+<h3 class="anchored" data-anchor-id="advantages-of-rdd">Advantages of RDD</h3>
+<p>With an RDD approach some assumptions can be tested. Individuals or units close to the threshold are nearly identical, except for characteristics which are affected by the treatment.</p>
+<p>RDD’s strengths include that we can:</p>
+<ul>
+<li>illustrate the design graphically</li>
+<li>test some of the underlying assumptions and support arguments through data visualization</li>
+<li>reliably (unbiased) estimates local average treatment effects</li>
+<li>include relevant confounders in model</li>
+</ul>
+<!-- ### Estimation methods -->
+<!-- Three methods to estimate a RDD can be distinguished: -->
+<!-- Method 1: -->
+<!-- select a subsample for which the value of the running variable is close to the threshold -->
+<!-- problem: the smaller the sample, the larger the standard errors -->
+<!-- Method 2: -->
+<!-- select a larger sample and estimate parametrically -->
+<!-- problem: this depends on the functional form and polynomials -->
+<!-- Method 3: -->
+<!-- select a subsample close to the threshold and estimate parametrically -->
+<!-- extension: different functional forms on the left and right side of the cutoff -->
+</section>
+</section>
+<section id="demonstration" class="level2">
+<h2 class="anchored" data-anchor-id="demonstration">Demonstration</h2>
+<section id="demo-question-fishing-mortality-on-crabs" class="level3">
+<h3 class="anchored" data-anchor-id="demo-question-fishing-mortality-on-crabs">Demo Question: fishing mortality on crabs</h3>
+<p>We are interested in the causal effect of fishing on crab mortality. This question is surprisingly hard to answer because it’s hard to tease apart natural mortality from fishing mortality, but it is an important effect to estimate for fisheries management.</p>
+</section>
+<section id="simulate-data" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-data">Simulate data</h3>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Make column for observation ID</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>crab_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">1000</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### Add columns for explanatory variables</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### Add column for treatment variable</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fished =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">500</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">500</span>)),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### Add column for body size</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size =</span> <span class="fu">c</span>(<span class="fu">runif</span>(<span class="dv">500</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">80</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">runif</span>(<span class="dv">500</span>, <span class="at">min =</span> <span class="dv">60</span>, <span class="at">max =</span> <span class="dv">130</span>)),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### And the rest of the covariates</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sst =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">16</span>),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">salinity =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">10</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">npp =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### And the error term</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                 <span class="at">error =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">2</span>))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">### Center size at legal catch size</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>crab_data <span class="ot">&lt;-</span> crab_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">size_centered =</span> size <span class="sc">-</span> <span class="dv">70</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">### Make column for outcome variable (total mortality) </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>crab_data <span class="ot">&lt;-</span> crab_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">natural_mortality =</span> <span class="dv">10</span> <span class="sc">+</span> <span class="sc">-</span><span class="fl">0.4</span><span class="sc">*</span>size_centered <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>sst <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span>npp <span class="sc">+</span> <span class="fl">1.5</span><span class="sc">*</span>salinity <span class="sc">+</span> error,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>         <span class="at">fishing_mortality =</span> <span class="fu">ifelse</span>(size_centered <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fished <span class="sc">==</span> <span class="dv">0</span>, </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                    <span class="dv">10</span> <span class="sc">+</span> <span class="sc">-</span><span class="fl">0.1</span><span class="sc">*</span>size_centered,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">ifelse</span>(size_centered <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fished <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                                           <span class="dv">30</span> <span class="sc">+</span> <span class="fl">0.4</span><span class="sc">*</span>size_centered,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                                           <span class="fu">ifelse</span>(size_centered <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fished <span class="sc">==</span> <span class="dv">0</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                                                  <span class="dv">10</span> <span class="sc">+</span> <span class="sc">-</span><span class="fl">0.1</span><span class="sc">*</span>size_centered,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                                                  <span class="dv">30</span> <span class="sc">+</span> <span class="fl">0.4</span><span class="sc">*</span>size_centered))),</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>         <span class="at">total_mortality =</span> natural_mortality <span class="sc">+</span> fishing_mortality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="visualize-the-data" class="level4">
+<h4 class="anchored" data-anchor-id="visualize-the-data">Visualize the data</h4>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize fished/unfished</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> size, <span class="at">group =</span> fished)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">70</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize mortality outcomes   </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> natural_mortality,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> fishing_mortality,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid" width="672"></p>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> total_mortality,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-4-4.png" class="img-fluid" width="672"></p>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize covariates</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> sst,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-4-5.png" class="img-fluid" width="672"></p>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> salinity,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-4-6.png" class="img-fluid" width="672"></p>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> npp,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-4-7.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="step-1-determine-if-process-of-assigning-treatment-is-rule-based" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-determine-if-process-of-assigning-treatment-is-rule-based">Step 1: Determine if process of assigning treatment is rule-based</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_demo/crabtresh.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Example: Rule-based example with cut off: fishing size limits of crabs</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In order to be legally harvest, crabs must be larger than 70mm. Crabs smaller than 70mm are not legal to harvest. Harvesting is thus rule-based, according to size. Here, we would probably expect mortality to decline with body size, but the harvest rule changes this relationship at the discontinuity.</p>
+<!-- In order to join the tutoring program,  students have to score 70 points or lower on the entrance exam. Students who score higher than 70 are not eligible for the program. Since we have a clear 70-point rule, we can assume that the process of participating in the tutoring program is rule-based. -->
+</section>
+<section id="step-2-determine-if-the-design-is-fuzzy-or-sharp" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-determine-if-the-design-is-fuzzy-or-sharp">Step 2: Determine if the design is fuzzy or sharp</h3>
+<p>Since we know that the program was applied based on a rule, we next want to figure out how strictly the rule was applied (e.g.&nbsp;was there a lot of illegal harvest of crabs that were too small? Were all crabs over 70mm harvested? ).The threshold was 70 mm for legal harvest — e.g., did people who caught crabs that scored 68 mm slip through cracks? The easiest way to check this is with a graph, and we can get exact numbers to verify with a table.</p>
+
+<!-- The threshold was 70 points on the test—did people who scored 68 slip through bureaucratic cracks and not participate, or did people who scored 73 sneak into the program? The easiest way to check this is with a graph, and we can get exact numbers with a table. -->
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data, <span class="fu">aes</span>(<span class="at">x =</span> size_centered, <span class="at">y =</span> fishing_mortality, <span class="at">color =</span> fished)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make points small and semi-transparent since there are lots of them</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.25</span>, <span class="at">seed =</span> <span class="dv">1234</span>)) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add vertical line</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add labels</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Size (centered on 70 as cut-off)"</span>, <span class="at">y =</span> <span class="st">"Fished or not"</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Turn off the color legend, since it's redundant</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/check-fuzzy-sharp-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This discontinuity looks fuzzy rather than sharp We see some evidence of non-compliance around the size-based harvest rules. We will verify in Step 3.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_demo/fuzzy_or_sharp.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Comparison of Fuzzy vs Sharp Discontinuities from Causal Inference: The MixTape by Cummingham</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+
+<!-- This looks pretty sharp—it doesn't look like people who scored under 70 participated in the program. We can verify this with a table in the next Step. . There are no people where `entrance_exam` is greater than 70 and `tutoring` is false, and no people where `entrance_exam` is less than 70 and `tutoring` is true. -->
+</section>
+<section id="step-3-check-for-discontinuity-in-running-variable-around-cutoff-point" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-check-for-discontinuity-in-running-variable-around-cutoff-point">Step 3: Check for discontinuity in running variable around cutoff point</h3>
+<p>We next verify our conclusions from the above visualization that the design is a fuzzy discontinuity with a table examining if there crabs under 70 mm harvested, and some over 70mm that weren’t.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>crab_data  <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(fished, size_centered<span class="sc">&lt;=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'fished'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+# Groups:   fished [2]
+  fished `size_centered &lt;= 0` count
+   &lt;dbl&gt; &lt;lgl&gt;                &lt;int&gt;
+1      0 FALSE                   66
+2      0 TRUE                   434
+3      1 FALSE                  433
+4      1 TRUE                    67</code></pre>
+</div>
+</div>
+<p>Based on the table, we can conclude this is a fuzzy design because there are some crabs over the cut-off that were not fished, and some under that were fished.</p>
+</section>
+<section id="step-4-check-for-discontinuity-in-outcome-across-running-variable" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-check-for-discontinuity-in-outcome-across-running-variable">Step 4: Check for discontinuity in outcome across running variable</h3>
+<p>Next, we need to see if any crabs self selected on either side of the size threshold; this seems unlikely. But, first, we’ll make a histogram of the running variable (size) and see if there are any big jumps around the threshold:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(crab_data, <span class="fu">aes</span>(<span class="at">x =</span> size_centered, <span class="at">fill =</span> fished)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">boundary =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Size"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">fill =</span> <span class="st">"Legal to fish"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The following aesthetics were dropped during statistical transformation: fill
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/check-running-discontinuity-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here it doesn’t look like there’s a jump around the cutoff. There’s a tiny visible difference between the height of the bars right before and right after the 70-mm sie threshold (centered at 0), but it seems to follow the general shape of the overall distribution.</p>
+</section>
+<section id="step-5-measure-the-size-of-the-effect" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-measure-the-size-of-the-effect">Step 5: Measure the size of the effect</h3>
+<p>There’s a fuzzy discontinuity, but how big is it? And is it statistically significant?</p>
+</section>
+<section id="fuzzy-rdd-as-iv" class="level3">
+<h3 class="anchored" data-anchor-id="fuzzy-rdd-as-iv">Fuzzy RDD as IV</h3>
+<p>This is likely a fuzzy RDD set up: some crabs &lt; 70mm are probably harvested illegally, and fishers are not catching every crab &gt; 70mm. So the treatment assigned is not necessarily the treatment received. To estimate the effect of fishing on total crab mortality in a fuzzy RDD, we take a two stage least squares approach (using a the fuzzy RDD as an IV.</p>
+<p><em>Instruments</em> let us isolate causal effects for just compliers: they let us find <em>the complier average causal effect, or CACE</em> (the effect of a treatment for subjects/units who comply with the experimental treatment assigned to their sample group).</p>
+<p>In this case, the instrument is fairly easy and straightforward: we create a variable that indicates if someone is above or below the threshold. That’s all. This variable essentially measures <em>what should have happened</em> rather than what actually happened.</p>
+<p>Surprisingly, it meets all the qualifications of an instrument too:</p>
+<ul>
+<li><strong>Relevance</strong> (<span class="math inline">\(Z \rightarrow X\)</span> and <span class="math inline">\(\operatorname{Cor}(Z, X) \neq 0\)</span>): The cutoff causes access to fishing of crabs that leads to mortality.</li>
+<li><strong>Exclusion</strong> (<span class="math inline">\(Z \rightarrow X \rightarrow Y\)</span> and <span class="math inline">\(Z \nrightarrow Y\)</span> and <span class="math inline">\(\operatorname{Cor}(Z, Y | X) = 0\)</span>): The cutoff causes fishing mortality <em>only through</em> the harvest program.</li>
+<li><strong>Exogeneity</strong> (<span class="math inline">\(U \nrightarrow Z\)</span> and <span class="math inline">\(\operatorname{Cor}(Z, U) = 0\)</span>): Unobserved confounders between the harvest program and fishing mortality are unrelated to the cutoff, since it may be biologically meaningful but the exact number is somewhat arbitrary.</li>
+</ul>
+</section>
+<section id="analyze-fuzzy-rdd" class="level3">
+<h3 class="anchored" data-anchor-id="analyze-fuzzy-rdd">Analyze fuzzy RDD</h3>
+<p>First we will create the IV from the cut-off. We have already centered the running variable (size) on 0, so now we just need to create an indicator variable if the size if above or below 0.</p>
+<p>##NEED TO FINISH</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>size_centered <span class="ot">&lt;-</span> crab_data <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">above_cutoff  =</span> size_centered <span class="sc">&gt;=</span> <span class="dv">0</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">below_cutoff =</span> size_centered <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="sls" class="level4">
+<h4 class="anchored" data-anchor-id="sls">2SLS</h4>
+<p>We could manually run the first stage model, generate predicted <code>tutoring</code> and then use those predicted values in the second stage model <a href="WEBSITE">like we did in the instrumental variables example</a>, but that’s tedious and nobody wants to do all that work. We’ll use <code>iv_robust()</code> from the <strong>estimatr</strong> package instead.</p>
+<p>Note: be careful! if there are missing values (in D), you may fail to replicate the fuzzy effect by hand sum(is.na(crab_data$fished)) #ok for the simulated data</p>
+<p>Instead, we need to run a 2SLS model that includes our instrument in the first stage, which will then remove the endogeneity built into participation in the program. We’ll estimate this set of models:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Create variables</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> crab_data<span class="sc">$</span>size_centered <span class="co"># distance from size to cutoff</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> crab_data<span class="sc">$</span>fished <span class="co"># treatment: indicator for whether the crab was fished or not</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> crab_data<span class="sc">$</span>total_mortality <span class="co"># outcome </span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="do">### First Stage: T on D</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(D, X, <span class="at">bwselect =</span> <span class="st">"mserd"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1000
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  501          499
+Eff. Number of Obs.             189          170
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                  15.878       15.878
+BW bias (b)                  24.454       24.454
+rho (h/b)                     0.649        0.649
+Unique Obs.                     501          499
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional    -0.361     0.107    -3.375     0.001    [-0.570 , -0.151]    
+        Robust         -         -    -3.011     0.003    [-0.630 , -0.133]    
+=============================================================================</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rdplot</span>(D, X, <span class="at">x.label=</span><span class="st">"size"</span>, <span class="at">y.label =</span> <span class="st">"Fished"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Fuzzy effect of fishing on total mortality</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fuzzy_out <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(Y, X, <span class="at">fuzzy =</span> D)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> fuzzy_out<span class="sc">$</span>bws[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> fuzzy_out<span class="sc">$</span>bws[<span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="do">### equivalent to the two-step estimation below</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>out_tsls <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(Y, X, <span class="at">h =</span> h, <span class="at">b =</span> b)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>itt <span class="ot">&lt;-</span> out_tsls<span class="sc">$</span>Estimate[<span class="dv">1</span>]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>out_tsls_2 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(D, X, <span class="at">h =</span> h, <span class="at">b =</span> b)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>fs <span class="ot">&lt;-</span> out_tsls_2<span class="sc">$</span>Estimate[<span class="dv">1</span>]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>itt<span class="sc">/</span>fs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.22226</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rdrobust (sharp) on Y</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fit_sharp <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(Y, X, <span class="at">vce =</span> <span class="st">"nn"</span>, <span class="at">cluster =</span> X)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_sharp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1000
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  501          499
+Eff. Number of Obs.             197          174
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                  17.047       17.047
+BW bias (b)                  27.327       27.327
+rho (h/b)                     0.624        0.624
+Unique Obs.                     501          499
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional    -7.094     2.745    -2.584     0.010   [-12.475 , -1.713]    
+        Robust         -         -    -2.467     0.014   [-14.200 , -1.626]    
+=============================================================================</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rdrobust (fuzzy) on Y</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>fit_fuzzy <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(Y, X, <span class="at">fuzzy =</span> D, <span class="at">vce =</span> <span class="st">"nn"</span>, <span class="at">cluster =</span> X)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_fuzzy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fuzzy RD estimates using local polynomial regression.
+
+Number of Obs.                 1000
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  501          499
+Eff. Number of Obs.             180          160
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                  14.456       14.456
+BW bias (b)                  32.975       32.975
+rho (h/b)                     0.438        0.438
+Unique Obs.                     501          499
+
+First-stage estimates.
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional    -0.338     0.112    -3.008     0.003    [-0.559 , -0.118]    
+        Robust         -         -    -3.172     0.002    [-0.623 , -0.147]    
+=============================================================================
+
+Treatment effect estimates.
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional    19.222     4.339     4.430     0.000    [10.717 , 27.727]    
+        Robust         -         -     4.084     0.000     [9.964 , 28.349]    
+=============================================================================</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rdplot on Y1</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rdplot</span>(Y, X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="RDD_LD_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rddensity</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#----------</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">rddensity</span>(X)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Manipulation testing using local polynomial density estimation.
+
+Number of obs =       1000
+Model =               unrestricted
+Kernel =              triangular
+BW method =           estimated
+VCE method =          jackknife
+
+c = 0                 Left of c           Right of c          
+Number of obs         501                 499                 
+Eff. Number of obs    204                 160                 
+Order est. (p)        2                   2                   
+Order bias (q)        3                   3                   
+BW est. (h)           17.935              14.664              
+
+Method                T                   P &gt; |T|             
+Robust                -0.8664             0.3863              
+
+
+P-values of binomial tests (H0: p=0.5).
+
+Window Length              &lt;c     &gt;=c    P&gt;|T|
+1.751     + 1.751          20      20    1.0000
+3.501     + 3.185          39      34    0.6400
+5.252     + 4.620          64      53    0.3553
+7.002     + 6.055          91      77    0.3159
+8.753     + 7.490         116      96    0.1918
+10.503    + 8.924         143     118    0.1372
+12.254    + 10.359        152     135    0.3450
+14.004    + 11.794        171     144    0.1428
+15.755    + 13.229        187     153    0.0734
+17.505    + 14.664        202     160    0.0310</code></pre>
+</div>
+</div>
+<p>##NEED TO FINISHED - IS THIS RIGHT??? <span class="math display">\[
+\begin{aligned}
+\widehat{\text{Fished}} &amp;= \gamma_0 + \gamma_1 \text{Size}_\text{centered} + \gamma_2 \text{Below cutoff} + \omega \\
+\text{Fishing Mortality} &amp;= \beta_0 + \beta_1 \text{Size}_\text{centered} + \beta_2 \widehat{\text{Fished}} + \epsilon
+\end{aligned}
+\]</span></p>
+
+
+<!-- -->
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb28" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Regression Discontinuinty Designs"</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Laura Dee &amp; Katherine Siegel"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "3/20/2023"</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://rpubs.com/phle/r_tutorial_regression_discontinuity_design --&gt;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Set up</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="do">### Install packages</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rdrobust"</span>,</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rddensity"</span>,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="do">### Load all packages needed</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># ggplot(), %&gt;%, mutate(), and friends</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co"># library(broom)  # Convert models to data frames</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rdrobust)  <span class="co"># For robust nonparametric regression discontinuity</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rddensity)  <span class="co"># For nonparametric regression discontinuity density tests</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="co"># library(modelsummary)  # Create side-by-side regression tables</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## The key concept</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>A threshold in a continuous variable determines treatment assignment </span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>Running variable (or “score”), X: a continuously distributed variable with a clearly defined cutoff (c) that determines which units are assigned to treatment and which ones are assigned to control.</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>Prior to the treatment, the outcome should not differ between the treatment and control group (*continuity assumption*). The distribution of the variable which indicates the threshold should have no jumps around this cutoff value.</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r echo=FALSE, out.width="75%",fig.cap="Example using an arbitrary test score cut-off for being enrolled in tutoring programs on learning outcomes, from Andrew Heiss", out.width='70%', echo=F } </span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"rdd_demo/testscore_example.png"</span>, <span class="at">error =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## There are two different variants of the RDD:</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; * sharp RDD: the threshold separates the treatment and control group exactly</span></span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; * fuzzy RDD: the threshold influences the probability of being treated.  this is in fact an instrumental variable approach (estimating a Local Average Treatment Effect </span><span class="co">[</span><span class="ot">LATE</span><span class="co">]</span><span class="at">)</span></span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>The value of the outcome (Y) for individuals just below the threshold is the missing counterfactual outcome. It increases continuously with the cutoff variable, as opposed to the treatment.</span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>Here are some nice elaborations and figures on these two variants of RDD from the <span class="co">[</span><span class="ot">World Bank</span><span class="co">](https://dimewiki.worldbank.org/Regression_Discontinuity)</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a><span class="in">```{r echo=FALSE, out.width="75%",fig.cap="Sharp vs Fuzzy RDD illustration from the World Bank", out.width='70%', echo=F } </span></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"rdd_demo/worldbankRDD.png"</span>, <span class="at">error =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sharp RDD</span></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>In sharp designs, the probability of treatment changes from 0 to 1 at the cutoff. There are no cross-overs and no non-complance. For example, if a scholarship award is given to all students above a threshold test score of 80%, then the assignment rule defines treatment status deterministically with probabilities of 0 or 1. Thus, the design is sharp.</span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fuzzy RDD</span></span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>In fuzzy designs, the probability of treatment is discontinuous at the cutoff, but not to the degree of a definitive 0 to 1 jump. For example, if food stamp eligibility is given to all households below a certain income, but not all households receive the food stamps, then the assignment rule defines treatment status probabilistically but not perfectly. Thus, the design is fuzzy. The fuzziness may result from imperfect compliance with the law/rule/program; imperfect implementation that treated some non-eligible units or neglected to treat some eligible units; spillover effects; or manipulation of the eligibility index.</span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>A fuzzy design assumes that, in the absence of the assignment rule, some of those who take up the treatment would not have participated in the program. The eligibility index acts as a nudge. The subgroup that participates in a program due to the selection rule is called compliers (see e.g. <span class="co">[</span><span class="ot">Angrist and Imbens (1994)</span><span class="co">](https://pdfs.semanticscholar.org/8714/260129e51abb09fd89d6ff79065af17bb106.pdf)</span>, and <span class="co">[</span><span class="ot">Imbens, Angrist, and Rubin (1996))</span><span class="co">](http://www.math.mcgill.ca/dstephens/AngristIV1996-JASA-Combined.pdf)</span>; under the RDD, the treatment effects are estimated only for the group of compliers."</span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Advantages of RDD</span></span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a>With an RDD approach some assumptions can be tested. Individuals or units close to the threshold are nearly identical, except for characteristics which are affected by the treatment.</span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a>RDD's strengths include that we can:</span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>illustrate the design graphically</span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>test some of the underlying assumptions and support arguments through data visualization</span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>reliably (unbiased) estimates local average treatment effects</span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>include relevant confounders in model</span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- </span><span class="al">###</span><span class="co"> Estimation methods --&gt;</span></span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Three methods to estimate a RDD can be distinguished: --&gt;</span></span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Method 1: --&gt;</span></span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- select a subsample for which the value of the running variable is close to the threshold --&gt;</span></span>
+<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- problem: the smaller the sample, the larger the standard errors --&gt;</span></span>
+<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Method 2: --&gt;</span></span>
+<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- select a larger sample and estimate parametrically --&gt;</span></span>
+<span id="cb28-83"><a href="#cb28-83" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- problem: this depends on the functional form and polynomials --&gt;</span></span>
+<span id="cb28-84"><a href="#cb28-84" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Method 3: --&gt;</span></span>
+<span id="cb28-85"><a href="#cb28-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-86"><a href="#cb28-86" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- select a subsample close to the threshold and estimate parametrically --&gt;</span></span>
+<span id="cb28-87"><a href="#cb28-87" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- extension: different functional forms on the left and right side of the cutoff --&gt;</span></span>
+<span id="cb28-88"><a href="#cb28-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-89"><a href="#cb28-89" aria-hidden="true" tabindex="-1"></a><span class="fu">## Demonstration</span></span>
+<span id="cb28-90"><a href="#cb28-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-91"><a href="#cb28-91" aria-hidden="true" tabindex="-1"></a><span class="fu">### Demo Question: fishing mortality on crabs </span></span>
+<span id="cb28-92"><a href="#cb28-92" aria-hidden="true" tabindex="-1"></a>We are interested in the causal effect of fishing on crab mortality. This question is surprisingly hard to answer because it's hard to tease apart natural mortality from fishing mortality, but it is an important effect to estimate for fisheries management.</span>
+<span id="cb28-93"><a href="#cb28-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-94"><a href="#cb28-94" aria-hidden="true" tabindex="-1"></a><span class="fu">### Simulate data</span></span>
+<span id="cb28-97"><a href="#cb28-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-98"><a href="#cb28-98" aria-hidden="true" tabindex="-1"></a><span class="do">### Make column for observation ID</span></span>
+<span id="cb28-99"><a href="#cb28-99" aria-hidden="true" tabindex="-1"></a>crab_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">1000</span>),</span>
+<span id="cb28-100"><a href="#cb28-100" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb28-101"><a href="#cb28-101" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### Add columns for explanatory variables</span></span>
+<span id="cb28-102"><a href="#cb28-102" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb28-103"><a href="#cb28-103" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### Add column for treatment variable</span></span>
+<span id="cb28-104"><a href="#cb28-104" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fished =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">500</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">500</span>)),</span>
+<span id="cb28-105"><a href="#cb28-105" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb28-106"><a href="#cb28-106" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### Add column for body size</span></span>
+<span id="cb28-107"><a href="#cb28-107" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size =</span> <span class="fu">c</span>(<span class="fu">runif</span>(<span class="dv">500</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">80</span>),</span>
+<span id="cb28-108"><a href="#cb28-108" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">runif</span>(<span class="dv">500</span>, <span class="at">min =</span> <span class="dv">60</span>, <span class="at">max =</span> <span class="dv">130</span>)),</span>
+<span id="cb28-109"><a href="#cb28-109" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb28-110"><a href="#cb28-110" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### And the rest of the covariates</span></span>
+<span id="cb28-111"><a href="#cb28-111" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sst =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">16</span>),</span>
+<span id="cb28-112"><a href="#cb28-112" aria-hidden="true" tabindex="-1"></a>                 <span class="at">salinity =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">10</span>),</span>
+<span id="cb28-113"><a href="#cb28-113" aria-hidden="true" tabindex="-1"></a>                 <span class="at">npp =</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>),</span>
+<span id="cb28-114"><a href="#cb28-114" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb28-115"><a href="#cb28-115" aria-hidden="true" tabindex="-1"></a>                 <span class="do">### And the error term</span></span>
+<span id="cb28-116"><a href="#cb28-116" aria-hidden="true" tabindex="-1"></a>                 <span class="at">error =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">2</span>))</span>
+<span id="cb28-117"><a href="#cb28-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-118"><a href="#cb28-118" aria-hidden="true" tabindex="-1"></a><span class="do">### Center size at legal catch size</span></span>
+<span id="cb28-119"><a href="#cb28-119" aria-hidden="true" tabindex="-1"></a>crab_data <span class="ot">&lt;-</span> crab_data <span class="sc">%&gt;%</span></span>
+<span id="cb28-120"><a href="#cb28-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">size_centered =</span> size <span class="sc">-</span> <span class="dv">70</span>)</span>
+<span id="cb28-121"><a href="#cb28-121" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-122"><a href="#cb28-122" aria-hidden="true" tabindex="-1"></a><span class="do">### Make column for outcome variable (total mortality) </span></span>
+<span id="cb28-123"><a href="#cb28-123" aria-hidden="true" tabindex="-1"></a>crab_data <span class="ot">&lt;-</span> crab_data <span class="sc">%&gt;%</span></span>
+<span id="cb28-124"><a href="#cb28-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">natural_mortality =</span> <span class="dv">10</span> <span class="sc">+</span> <span class="sc">-</span><span class="fl">0.4</span><span class="sc">*</span>size_centered <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>sst <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span>npp <span class="sc">+</span> <span class="fl">1.5</span><span class="sc">*</span>salinity <span class="sc">+</span> error,</span>
+<span id="cb28-125"><a href="#cb28-125" aria-hidden="true" tabindex="-1"></a>         <span class="at">fishing_mortality =</span> <span class="fu">ifelse</span>(size_centered <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fished <span class="sc">==</span> <span class="dv">0</span>, </span>
+<span id="cb28-126"><a href="#cb28-126" aria-hidden="true" tabindex="-1"></a>                                    <span class="dv">10</span> <span class="sc">+</span> <span class="sc">-</span><span class="fl">0.1</span><span class="sc">*</span>size_centered,</span>
+<span id="cb28-127"><a href="#cb28-127" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">ifelse</span>(size_centered <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fished <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb28-128"><a href="#cb28-128" aria-hidden="true" tabindex="-1"></a>                                           <span class="dv">30</span> <span class="sc">+</span> <span class="fl">0.4</span><span class="sc">*</span>size_centered,</span>
+<span id="cb28-129"><a href="#cb28-129" aria-hidden="true" tabindex="-1"></a>                                           <span class="fu">ifelse</span>(size_centered <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> fished <span class="sc">==</span> <span class="dv">0</span>,</span>
+<span id="cb28-130"><a href="#cb28-130" aria-hidden="true" tabindex="-1"></a>                                                  <span class="dv">10</span> <span class="sc">+</span> <span class="sc">-</span><span class="fl">0.1</span><span class="sc">*</span>size_centered,</span>
+<span id="cb28-131"><a href="#cb28-131" aria-hidden="true" tabindex="-1"></a>                                                  <span class="dv">30</span> <span class="sc">+</span> <span class="fl">0.4</span><span class="sc">*</span>size_centered))),</span>
+<span id="cb28-132"><a href="#cb28-132" aria-hidden="true" tabindex="-1"></a>         <span class="at">total_mortality =</span> natural_mortality <span class="sc">+</span> fishing_mortality)</span>
+<span id="cb28-133"><a href="#cb28-133" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-134"><a href="#cb28-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-135"><a href="#cb28-135" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Visualize the data</span></span>
+<span id="cb28-138"><a href="#cb28-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-139"><a href="#cb28-139" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize fished/unfished</span></span>
+<span id="cb28-140"><a href="#cb28-140" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb28-141"><a href="#cb28-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> size, <span class="at">group =</span> fished)) <span class="sc">+</span></span>
+<span id="cb28-142"><a href="#cb28-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">70</span>)</span>
+<span id="cb28-143"><a href="#cb28-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-144"><a href="#cb28-144" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize mortality outcomes   </span></span>
+<span id="cb28-145"><a href="#cb28-145" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span> </span>
+<span id="cb28-146"><a href="#cb28-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered,</span>
+<span id="cb28-147"><a href="#cb28-147" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> natural_mortality,</span>
+<span id="cb28-148"><a href="#cb28-148" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span>
+<span id="cb28-149"><a href="#cb28-149" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span> </span>
+<span id="cb28-150"><a href="#cb28-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered,</span>
+<span id="cb28-151"><a href="#cb28-151" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> fishing_mortality,</span>
+<span id="cb28-152"><a href="#cb28-152" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span>
+<span id="cb28-153"><a href="#cb28-153" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb28-154"><a href="#cb28-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered,</span>
+<span id="cb28-155"><a href="#cb28-155" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> total_mortality,</span>
+<span id="cb28-156"><a href="#cb28-156" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span>
+<span id="cb28-157"><a href="#cb28-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-158"><a href="#cb28-158" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize covariates</span></span>
+<span id="cb28-159"><a href="#cb28-159" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb28-160"><a href="#cb28-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered, </span>
+<span id="cb28-161"><a href="#cb28-161" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> sst,</span>
+<span id="cb28-162"><a href="#cb28-162" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span>
+<span id="cb28-163"><a href="#cb28-163" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb28-164"><a href="#cb28-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered, </span>
+<span id="cb28-165"><a href="#cb28-165" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> salinity,</span>
+<span id="cb28-166"><a href="#cb28-166" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span>
+<span id="cb28-167"><a href="#cb28-167" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data) <span class="sc">+</span></span>
+<span id="cb28-168"><a href="#cb28-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_centered, </span>
+<span id="cb28-169"><a href="#cb28-169" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> npp,</span>
+<span id="cb28-170"><a href="#cb28-170" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> fished))</span>
+<span id="cb28-171"><a href="#cb28-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-172"><a href="#cb28-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-173"><a href="#cb28-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 1: Determine if process of assigning treatment is rule-based</span></span>
+<span id="cb28-174"><a href="#cb28-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-175"><a href="#cb28-175" aria-hidden="true" tabindex="-1"></a><span class="in">```{r housing, fig.cap="Example: Rule-based example with cut off:  fishing size limits of crabs", out.width='70%', echo=F }</span></span>
+<span id="cb28-176"><a href="#cb28-176" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"rdd_demo/crabtresh.png"</span>)</span>
+<span id="cb28-177"><a href="#cb28-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-178"><a href="#cb28-178" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb28-179"><a href="#cb28-179" aria-hidden="true" tabindex="-1"></a>In order to be legally harvest, crabs must be larger than 70mm. Crabs smaller than 70mm are not legal to harvest. Harvesting is thus rule-based, according to size. Here, we would probably expect mortality to decline with body size, but the harvest rule changes this relationship at the discontinuity.</span>
+<span id="cb28-180"><a href="#cb28-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-181"><a href="#cb28-181" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- In order to join the tutoring program,  students have to score 70 points or lower on the entrance exam. Students who score higher than 70 are not eligible for the program. Since we have a clear 70-point rule, we can assume that the process of participating in the tutoring program is rule-based. --&gt;</span></span>
+<span id="cb28-182"><a href="#cb28-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-183"><a href="#cb28-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 2: Determine if the design is fuzzy or sharp</span></span>
+<span id="cb28-184"><a href="#cb28-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-185"><a href="#cb28-185" aria-hidden="true" tabindex="-1"></a>Since we know that the program was applied based on a rule, we next want to figure out how strictly the rule was applied (e.g. was there a lot of illegal harvest of crabs that were too small? Were all crabs over 70mm harvested? ).The threshold was 70 mm for legal harvest — e.g., did people who caught crabs that scored 68 mm slip through cracks? The easiest way to check this is with a graph, and we can get exact numbers to verify with a table. </span>
+<span id="cb28-186"><a href="#cb28-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-187"><a href="#cb28-187" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- The threshold was 70 points on the test—did people who scored 68 slip through bureaucratic cracks and not participate, or did people who scored 73 sneak into the program? The easiest way to check this is with a graph, and we can get exact numbers with a table. --&gt;</span></span>
+<span id="cb28-188"><a href="#cb28-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-189"><a href="#cb28-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{r check-fuzzy-sharp}</span></span>
+<span id="cb28-190"><a href="#cb28-190" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crab_data, <span class="fu">aes</span>(<span class="at">x =</span> size_centered, <span class="at">y =</span> fishing_mortality, <span class="at">color =</span> fished)) <span class="sc">+</span></span>
+<span id="cb28-191"><a href="#cb28-191" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make points small and semi-transparent since there are lots of them</span></span>
+<span id="cb28-192"><a href="#cb28-192" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb28-193"><a href="#cb28-193" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.25</span>, <span class="at">seed =</span> <span class="dv">1234</span>)) <span class="sc">+</span></span>
+<span id="cb28-194"><a href="#cb28-194" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add vertical line</span></span>
+<span id="cb28-195"><a href="#cb28-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb28-196"><a href="#cb28-196" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add labels</span></span>
+<span id="cb28-197"><a href="#cb28-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Size (centered on 70 as cut-off)"</span>, <span class="at">y =</span> <span class="st">"Fished or not"</span>) <span class="sc">+</span></span>
+<span id="cb28-198"><a href="#cb28-198" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Turn off the color legend, since it's redundant</span></span>
+<span id="cb28-199"><a href="#cb28-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">"none"</span>)</span>
+<span id="cb28-200"><a href="#cb28-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-201"><a href="#cb28-201" aria-hidden="true" tabindex="-1"></a>This discontinuity looks fuzzy rather than sharp  We see some evidence of non-compliance around the size-based harvest rules. We will verify in Step 3. </span>
+<span id="cb28-202"><a href="#cb28-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-203"><a href="#cb28-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r echo=FALSE, out.width="75%",fig.cap="Comparison of Fuzzy vs Sharp Discontinuities from Causal Inference: The MixTape by Cummingham", out.width='70%', echo=F } </span></span>
+<span id="cb28-204"><a href="#cb28-204" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"rdd_demo/fuzzy_or_sharp.png"</span>, <span class="at">error =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-205"><a href="#cb28-205" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-206"><a href="#cb28-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-207"><a href="#cb28-207" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- This looks pretty sharp—it doesn't look like people who scored under 70 participated in the program. We can verify this with a table in the next Step. . There are no people where `entrance_exam` is greater than 70 and `tutoring` is false, and no people where `entrance_exam` is less than 70 and `tutoring` is true. --&gt;</span></span>
+<span id="cb28-208"><a href="#cb28-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-209"><a href="#cb28-209" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3: Check for discontinuity in running variable around cutoff point</span></span>
+<span id="cb28-210"><a href="#cb28-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-211"><a href="#cb28-211" aria-hidden="true" tabindex="-1"></a>We next verify  our conclusions from the above visualization that the design is a fuzzy discontinuity with a table examining if  there crabs under 70 mm harvested, and some over 70mm that weren't. </span>
+<span id="cb28-212"><a href="#cb28-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fuzzy-sharp-table}</span></span>
+<span id="cb28-213"><a href="#cb28-213" aria-hidden="true" tabindex="-1"></a>crab_data  <span class="sc">%&gt;%</span></span>
+<span id="cb28-214"><a href="#cb28-214" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(fished, size_centered<span class="sc">&lt;=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-215"><a href="#cb28-215" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb28-216"><a href="#cb28-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-217"><a href="#cb28-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-218"><a href="#cb28-218" aria-hidden="true" tabindex="-1"></a>Based on the table, we can conclude this is a fuzzy design because there are some crabs over the cut-off that were not fished, and some under that were fished. </span>
+<span id="cb28-219"><a href="#cb28-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-220"><a href="#cb28-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-221"><a href="#cb28-221" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 4: Check for discontinuity in outcome across running variable</span></span>
+<span id="cb28-222"><a href="#cb28-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-223"><a href="#cb28-223" aria-hidden="true" tabindex="-1"></a>Next, we need to see if any crabs self selected on either side of the size threshold; this seems unlikely. But, first, we'll make a histogram of the running variable (size) and see if there are any big jumps around the threshold:</span>
+<span id="cb28-224"><a href="#cb28-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-225"><a href="#cb28-225" aria-hidden="true" tabindex="-1"></a><span class="in">```{r check-running-discontinuity}</span></span>
+<span id="cb28-226"><a href="#cb28-226" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(crab_data, <span class="fu">aes</span>(<span class="at">x =</span> size_centered, <span class="at">fill =</span> fished)) <span class="sc">+</span></span>
+<span id="cb28-227"><a href="#cb28-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">boundary =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb28-228"><a href="#cb28-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb28-229"><a href="#cb28-229" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Size"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">fill =</span> <span class="st">"Legal to fish"</span>)</span>
+<span id="cb28-230"><a href="#cb28-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-231"><a href="#cb28-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-232"><a href="#cb28-232" aria-hidden="true" tabindex="-1"></a>Here it doesn't look like there's a jump around the cutoff. There's a tiny visible difference between the height of the bars right before and right after the 70-mm sie threshold (centered at 0), but it seems to follow the general shape of the overall distribution.</span>
+<span id="cb28-233"><a href="#cb28-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-234"><a href="#cb28-234" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 5: Measure the size of the effect</span></span>
+<span id="cb28-235"><a href="#cb28-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-236"><a href="#cb28-236" aria-hidden="true" tabindex="-1"></a>There's a fuzzy discontinuity, but how big is it? And is it statistically significant?</span>
+<span id="cb28-237"><a href="#cb28-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-238"><a href="#cb28-238" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fuzzy RDD as IV </span></span>
+<span id="cb28-239"><a href="#cb28-239" aria-hidden="true" tabindex="-1"></a>This is likely a fuzzy RDD set up: some crabs &lt; 70mm are probably harvested illegally, and fishers are not catching every crab &gt; 70mm. So the treatment assigned is not necessarily the treatment received. To estimate the effect of fishing on total crab mortality in a fuzzy RDD, we take a two stage least squares approach (using a the fuzzy RDD as an IV.</span>
+<span id="cb28-240"><a href="#cb28-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-241"><a href="#cb28-241" aria-hidden="true" tabindex="-1"></a>*Instruments* let us isolate causal effects for just compliers: they let us find *the complier average causal effect, or CACE* (the effect of a treatment for subjects/units who comply with the experimental treatment assigned to their sample group).</span>
+<span id="cb28-242"><a href="#cb28-242" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb28-243"><a href="#cb28-243" aria-hidden="true" tabindex="-1"></a> In this case, the instrument is fairly easy and straightforward: we create a variable that indicates if someone is above or below the threshold. That's all. This variable essentially measures *what should have happened* rather than what actually happened.</span>
+<span id="cb28-244"><a href="#cb28-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-245"><a href="#cb28-245" aria-hidden="true" tabindex="-1"></a>Surprisingly, it meets all the qualifications of an instrument too:</span>
+<span id="cb28-246"><a href="#cb28-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-247"><a href="#cb28-247" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Relevance** ($Z \rightarrow X$ and $\operatorname{Cor}(Z, X) \neq 0$): The cutoff causes access to fishing of crabs that leads to mortality.</span>
+<span id="cb28-248"><a href="#cb28-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exclusion** ($Z \rightarrow X \rightarrow Y$ and $Z \nrightarrow Y$ and $\operatorname{Cor}(Z, Y | X) = 0$): The cutoff causes fishing mortality *only through* the harvest program.</span>
+<span id="cb28-249"><a href="#cb28-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exogeneity** ($U \nrightarrow Z$ and $\operatorname{Cor}(Z, U) = 0$): Unobserved confounders between the harvest program and fishing mortality are unrelated to the cutoff, since it may be biologically meaningful but the exact number is somewhat arbitrary.</span>
+<span id="cb28-250"><a href="#cb28-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-251"><a href="#cb28-251" aria-hidden="true" tabindex="-1"></a><span class="fu">### Analyze fuzzy RDD</span></span>
+<span id="cb28-252"><a href="#cb28-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-253"><a href="#cb28-253" aria-hidden="true" tabindex="-1"></a>First we will create the IV from the cut-off.  We have already centered the running variable (size) on 0, so now we just need to create an indicator variable if the size if above or below 0. </span>
+<span id="cb28-254"><a href="#cb28-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-255"><a href="#cb28-255" aria-hidden="true" tabindex="-1"></a>##NEED TO FINISH </span>
+<span id="cb28-256"><a href="#cb28-256" aria-hidden="true" tabindex="-1"></a><span class="in">```{r make-instrument}</span></span>
+<span id="cb28-257"><a href="#cb28-257" aria-hidden="true" tabindex="-1"></a>size_centered <span class="ot">&lt;-</span> crab_data <span class="sc">%&gt;%</span></span>
+<span id="cb28-258"><a href="#cb28-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">above_cutoff  =</span> size_centered <span class="sc">&gt;=</span> <span class="dv">0</span>,</span>
+<span id="cb28-259"><a href="#cb28-259" aria-hidden="true" tabindex="-1"></a>         <span class="at">below_cutoff =</span> size_centered <span class="sc">&lt;=</span> <span class="dv">0</span>)</span>
+<span id="cb28-260"><a href="#cb28-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-261"><a href="#cb28-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-262"><a href="#cb28-262" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 2SLS </span></span>
+<span id="cb28-263"><a href="#cb28-263" aria-hidden="true" tabindex="-1"></a>We could manually run the first stage model, generate predicted <span class="in">`tutoring`</span> and then use those predicted values in the second stage model <span class="co">[</span><span class="ot">like we did in the instrumental variables example</span><span class="co">](WEBSITE)</span>, but that's tedious and nobody wants to do all that work. We'll use <span class="in">`iv_robust()`</span> from the **estimatr** package instead. </span>
+<span id="cb28-264"><a href="#cb28-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-265"><a href="#cb28-265" aria-hidden="true" tabindex="-1"></a>Note:  be careful!  if there are missing values (in D), you may fail to replicate the fuzzy effect by hand</span>
+<span id="cb28-266"><a href="#cb28-266" aria-hidden="true" tabindex="-1"></a>sum(is.na(crab_data$fished)) #ok for the simulated data </span>
+<span id="cb28-267"><a href="#cb28-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-268"><a href="#cb28-268" aria-hidden="true" tabindex="-1"></a>Instead, we need to run a 2SLS model that includes our instrument in the first stage, which will then remove the endogeneity built into participation in the program. We'll estimate this set of models:</span>
+<span id="cb28-269"><a href="#cb28-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-272"><a href="#cb28-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-273"><a href="#cb28-273" aria-hidden="true" tabindex="-1"></a><span class="do">### Create variables</span></span>
+<span id="cb28-274"><a href="#cb28-274" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> crab_data<span class="sc">$</span>size_centered <span class="co"># distance from size to cutoff</span></span>
+<span id="cb28-275"><a href="#cb28-275" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> crab_data<span class="sc">$</span>fished <span class="co"># treatment: indicator for whether the crab was fished or not</span></span>
+<span id="cb28-276"><a href="#cb28-276" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> crab_data<span class="sc">$</span>total_mortality <span class="co"># outcome </span></span>
+<span id="cb28-277"><a href="#cb28-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-278"><a href="#cb28-278" aria-hidden="true" tabindex="-1"></a><span class="do">### First Stage: T on D</span></span>
+<span id="cb28-279"><a href="#cb28-279" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(D, X, <span class="at">bwselect =</span> <span class="st">"mserd"</span>)</span>
+<span id="cb28-280"><a href="#cb28-280" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span>
+<span id="cb28-281"><a href="#cb28-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-282"><a href="#cb28-282" aria-hidden="true" tabindex="-1"></a><span class="do">### Visualize</span></span>
+<span id="cb28-283"><a href="#cb28-283" aria-hidden="true" tabindex="-1"></a><span class="fu">rdplot</span>(D, X, <span class="at">x.label=</span><span class="st">"size"</span>, <span class="at">y.label =</span> <span class="st">"Fished"</span>)</span>
+<span id="cb28-284"><a href="#cb28-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-285"><a href="#cb28-285" aria-hidden="true" tabindex="-1"></a><span class="do">### Fuzzy effect of fishing on total mortality</span></span>
+<span id="cb28-286"><a href="#cb28-286" aria-hidden="true" tabindex="-1"></a>fuzzy_out <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(Y, X, <span class="at">fuzzy =</span> D)</span>
+<span id="cb28-287"><a href="#cb28-287" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> fuzzy_out<span class="sc">$</span>bws[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb28-288"><a href="#cb28-288" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> fuzzy_out<span class="sc">$</span>bws[<span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb28-289"><a href="#cb28-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-290"><a href="#cb28-290" aria-hidden="true" tabindex="-1"></a><span class="do">### equivalent to the two-step estimation below</span></span>
+<span id="cb28-291"><a href="#cb28-291" aria-hidden="true" tabindex="-1"></a>out_tsls <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(Y, X, <span class="at">h =</span> h, <span class="at">b =</span> b)</span>
+<span id="cb28-292"><a href="#cb28-292" aria-hidden="true" tabindex="-1"></a>itt <span class="ot">&lt;-</span> out_tsls<span class="sc">$</span>Estimate[<span class="dv">1</span>]</span>
+<span id="cb28-293"><a href="#cb28-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-294"><a href="#cb28-294" aria-hidden="true" tabindex="-1"></a>out_tsls_2 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(D, X, <span class="at">h =</span> h, <span class="at">b =</span> b)</span>
+<span id="cb28-295"><a href="#cb28-295" aria-hidden="true" tabindex="-1"></a>fs <span class="ot">&lt;-</span> out_tsls_2<span class="sc">$</span>Estimate[<span class="dv">1</span>]</span>
+<span id="cb28-296"><a href="#cb28-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-297"><a href="#cb28-297" aria-hidden="true" tabindex="-1"></a>itt<span class="sc">/</span>fs</span>
+<span id="cb28-298"><a href="#cb28-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-299"><a href="#cb28-299" aria-hidden="true" tabindex="-1"></a><span class="co"># Rdrobust (sharp) on Y</span></span>
+<span id="cb28-300"><a href="#cb28-300" aria-hidden="true" tabindex="-1"></a>fit_sharp <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(Y, X, <span class="at">vce =</span> <span class="st">"nn"</span>, <span class="at">cluster =</span> X)</span>
+<span id="cb28-301"><a href="#cb28-301" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_sharp)</span>
+<span id="cb28-302"><a href="#cb28-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-303"><a href="#cb28-303" aria-hidden="true" tabindex="-1"></a><span class="co"># Rdrobust (fuzzy) on Y</span></span>
+<span id="cb28-304"><a href="#cb28-304" aria-hidden="true" tabindex="-1"></a>fit_fuzzy <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(Y, X, <span class="at">fuzzy =</span> D, <span class="at">vce =</span> <span class="st">"nn"</span>, <span class="at">cluster =</span> X)</span>
+<span id="cb28-305"><a href="#cb28-305" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_fuzzy)</span>
+<span id="cb28-306"><a href="#cb28-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-307"><a href="#cb28-307" aria-hidden="true" tabindex="-1"></a><span class="co"># Rdplot on Y1</span></span>
+<span id="cb28-308"><a href="#cb28-308" aria-hidden="true" tabindex="-1"></a><span class="fu">rdplot</span>(Y, X)</span>
+<span id="cb28-309"><a href="#cb28-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-310"><a href="#cb28-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-311"><a href="#cb28-311" aria-hidden="true" tabindex="-1"></a><span class="co"># Rddensity</span></span>
+<span id="cb28-312"><a href="#cb28-312" aria-hidden="true" tabindex="-1"></a><span class="co">#----------</span></span>
+<span id="cb28-313"><a href="#cb28-313" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">rddensity</span>(X)</span>
+<span id="cb28-314"><a href="#cb28-314" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span>
+<span id="cb28-315"><a href="#cb28-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-316"><a href="#cb28-316" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-317"><a href="#cb28-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-318"><a href="#cb28-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-319"><a href="#cb28-319" aria-hidden="true" tabindex="-1"></a>##NEED TO FINISHED - IS THIS RIGHT???</span>
+<span id="cb28-320"><a href="#cb28-320" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb28-321"><a href="#cb28-321" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb28-322"><a href="#cb28-322" aria-hidden="true" tabindex="-1"></a>\widehat{\text{Fished}} &amp;= \gamma_0 + \gamma_1 \text{Size}_\text{centered} + \gamma_2 \text{Below cutoff} + \omega <span class="sc">\\</span></span>
+<span id="cb28-323"><a href="#cb28-323" aria-hidden="true" tabindex="-1"></a>\text{Fishing Mortality} &amp;= \beta_0 + \beta_1 \text{Size}_\text{centered} + \beta_2 \widehat{\text{Fished}} + \epsilon</span>
+<span id="cb28-324"><a href="#cb28-324" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb28-325"><a href="#cb28-325" aria-hidden="true" tabindex="-1"></a>$$</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
