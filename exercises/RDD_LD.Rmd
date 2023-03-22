@@ -238,23 +238,7 @@ Here it doesn't look like there's a jump around the cutoff. There's a tiny visib
 
 There's a fuzzy discontinuity, but how big is it? And is it statistically significant?
 
-We can check the size two different ways: parametrically (i.e. using `lm()` with specific parameters and coefficients), and nonparametrically (i.e. not using `lm()` or any kind of straight line and instead drawing lines that fit the data more precisely). We'll do it both ways.
-
-### Parametric estimation
-
-First we'll do it parametrically by using linear regression. Here we want to explain the variation in final scores based on the entrance exam score and participation in the tutoring program:
-
-$$
-\text{Exit exam} = \beta_0 + \beta_1 \text{Entrance exam score}_\text{centered} + \beta_2 \text{Tutoring program} + \epsilon
-$$
-
-### Nonparametric estimation
-
-Instead of using linear regression to measure the size of the discontinuity, we can use nonparametric methods. Essentially this means that R will not try to fit a straight line to the data—instead it'll curve around the points and try to fit everything as smoothly as possible.
-
-The `rdrobust()` function makes it really easy to measure the gap at the cutoff with nonparametric estimation. Here's the simplest version:
-
-## Fuzzy RDD as IV 
+### Fuzzy RDD as IV 
 This is likely a fuzzy RDD set up: some crabs < 70mm are probably harvested illegally, and fishers are not catching every crab > 70mm. So the treatment assigned is not necessarily the treatment received. To estimate the effect of fishing on total crab mortality in a fuzzy RDD, we take a two stage least squares approach (using a the fuzzy RDD as an IV.
 
  Recall from Session 12 that *instruments* let us isolate causal effects for just compliers: they let us find *the complier average causal effect, or CACE* (the effect of a treatment for subjects/units who comply with the experimental treatment assigned to their sample group).
@@ -312,7 +296,7 @@ To do fuzzy estimation with `rdrobust()`, use the `fuzzy` argument to specify th
 <!-- ``` -->
 
 ```{r rdrobust-fuzzy}
-rdrobust(y = crab_data$fishing_mortality, x = tutoring$entrance_exam,
+rdrobust(y = crab_data$fishing_mortality, x = crab_data$above_cutoff,
          c = 0, fuzzy = crab_data$fished) %>%
   summary()
 ```
@@ -416,3 +400,19 @@ ggplot(aes(x, y3, colour = factor(D)), data = dat) +
 
 <!-- RD_data <- simulate_RDD(n = 2000) -->
 <!-- ``` -->
+
+We can check the size two different ways: parametrically (i.e. using `lm()` with specific parameters and coefficients), and nonparametrically (i.e. not using `lm()` or any kind of straight line and instead drawing lines that fit the data more precisely). We'll do it both ways.
+
+### Parametric estimation
+
+First we'll do it parametrically by using linear regression. Here we want to explain the variation in final scores based on the entrance exam score and participation in the tutoring program:
+
+$$
+\text{Exit exam} = \beta_0 + \beta_1 \text{Entrance exam score}_\text{centered} + \beta_2 \text{Tutoring program} + \epsilon
+$$
+
+### Nonparametric estimation
+
+Instead of using linear regression to measure the size of the discontinuity, we can use nonparametric methods. Essentially this means that R will not try to fit a straight line to the data—instead it'll curve around the points and try to fit everything as smoothly as possible.
+
+The `rdrobust()` function makes it really easy to measure the gap at the cutoff with nonparametric estimation. Here's the simplest version:
