@@ -290,8 +290,8 @@ Instead, we need to run a 2SLS model that includes our instrument in the first s
 ##NEED TO FINISHED - IS THIS RIGHT???
 $$
 \begin{aligned}
-\widehat{\text{Fishing Mortality}} &= \gamma_0 + \gamma_1 \text{Size}_\text{centered} + \gamma_2 \text{Below cutoff} + \omega \\
-\text{Exit exam} &= \beta_0 + \beta_1 \text{Size}_\text{centered} + \beta_2 \widehat{\text{Fished}} + \epsilon
+\widehat{\text{Fished}} &= \gamma_0 + \gamma_1 \text{Size}_\text{centered} + \gamma_2 \text{Below cutoff} + \omega \\
+\text{Fishing Mortality} &= \beta_0 + \beta_1 \text{Size}_\text{centered} + \beta_2 \widehat{\text{Fished}} + \epsilon
 \end{aligned}
 $$
 
@@ -304,7 +304,6 @@ To do fuzzy estimation with `rdrobust()`, use the `fuzzy` argument to specify th
 
 ##NEED TO FINISHED WITH IV CREATED AS ENTRANCE EXAM
 <!-- Let's make an instrument! We'll also center the running variable just like we did with sharp regression discontinuity: -->
-
 <!-- ```{r make-instrument} -->
 <!-- tutoring_centered <- tutoring %>% -->
 <!--   mutate(entrance_centered = entrance_exam - 70, -->
