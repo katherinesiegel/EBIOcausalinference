@@ -279,7 +279,6 @@ $$
 \end{aligned}
 $$
 
-
 ### Fuzzy nonparametric estimation
 
 We can also use nonparametric methods to measure the size of the fuzzy gap at the cutoff. We'll use `rdrobust()`. T
@@ -295,8 +294,9 @@ To do fuzzy estimation with `rdrobust()`, use the `fuzzy` argument to specify th
 <!-- tutoring_centered -->
 <!-- ``` -->
 
+
 ```{r rdrobust-fuzzy}
-rdrobust(y = crab_data$fishing_mortality, x = crab_data$above_cutoff,
+rdrobust(y = crab_data$fishing_mortality, x = crab_data$size_centered,
          c = 0, fuzzy = crab_data$fished) %>%
   summary()
 ```
