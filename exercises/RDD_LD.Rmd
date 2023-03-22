@@ -202,16 +202,16 @@ knitr::include_graphics("rdd_demo/fuzzy_or_sharp.png", error = FALSE)
 
 <!-- This looks pretty sharp—it doesn't look like people who scored under 70 participated in the program. We can verify this with a table in the next Step. . There are no people where `entrance_exam` is greater than 70 and `tutoring` is false, and no people where `entrance_exam` is less than 70 and `tutoring` is true. -->
 
-### Step 3: Check for discontinuity in running variable around cutpoint
+### Step 3: Check for discontinuity in running variable around cutoff point
 
-We next verify  our conclusions from the above visualization that the design is a fuzzy disconintuity with a table examining if  there crabs under 70 mm harvested, and some over 70mm that weren't. 
+We next verify  our conclusions from the above visualization that the design is a fuzzy discontinuity with a table examining if  there crabs under 70 mm harvested, and some over 70mm that weren't. 
 ```{r fuzzy-sharp-table}
 crab_data  %>%
     group_by(fished, size_centered<= 0) %>%
 summarize(count = n())
 ```
 
-Based on the table, we can conclude this is a fuzzy design becuase there are some crabs over the cut-off that were not fished, and some under that were fished. 
+Based on the table, we can conclude this is a fuzzy design because there are some crabs over the cut-off that were not fished, and some under that were fished. 
 
 
 ### Step 4: Check for discontinuity in outcome across running variable
