@@ -267,50 +267,54 @@ Surprisingly, it meets all the qualifications of an instrument too:
 - **Exclusion** ($Z \rightarrow X \rightarrow Y$ and $Z \nrightarrow Y$ and $\operatorname{Cor}(Z, Y | X) = 0$): The cutoff causes fishing mortality *only through* the harvest program.
 - **Exogeneity** ($U \nrightarrow Z$ and $\operatorname{Cor}(Z, U) = 0$): Unobserved confounders between the harvest program and fishing mortality are unrelated to the cutoff, since it may be biologically meaningful but the exact number is somewhat arbitrary.
 
-### Analysis using fuzzy RDD
+### Analyze fuzzy RDD
 
 First we will create the IV from the cut-off.  We have already centered the running variable (size) on 0, so now we just need to create an indicator variable if the size if above or below 0. 
 
+##NEED TO FINISHED 
 ```{r make-instrument}
 size_centered <- crab_data %>%
-  mutate(above_cutoff  = 0,
-         below_cutoff = entrance_exam <= 70)
-tutoring_centered
+  mutate(above_cutoff  = size_centered >= 0,
+         below_cutoff = size_centered <= 0)
+size_centered 
 ```
 
-
-```{r}
-
-```
 #### 2SLS 
+We could manually run the first stage model, generate predicted `tutoring` and then use those predicted values in the second stage model [like we did in the instrumental variables example](WEBSITE), but that's tedious and nobody wants to do all that work. We'll use `iv_robust()` from the **estimatr** package instead. 
 
-We could manually run the first stage model, generate predicted `tutoring` and then use those predicted values in the second stage model [like we did in the instrumental variables example](WEBSITE), but that's tedious and nobody wants to do all that work. We'll use `iv_robust()` from the **estimatr** package instead.
+Note:  be careful!  if there are missing values (in D), you may fail to replicate the fuzzy effect by hand
+sum(is.na(crab_data$fished)) #ok for the simulated data 
 
 Instead, we need to run a 2SLS model that includes our instrument in the first stage, which will then remove the endogeneity built into participation in the program. We'll estimate this set of models:
 
+##NEED TO FINISHED - IS THIS RIGHT???
 $$
 \begin{aligned}
-\widehat{\text{Tutoring program}} &= \gamma_0 + \gamma_1 \text{Entrance exam score}_\text{centered} + \gamma_2 \text{Below cutoff} + \omega \\
-\text{Exit exam} &= \beta_0 + \beta_1 \text{Entrance exam score}_\text{centered} + \beta_2 \widehat{\text{Tutoring program}} + \epsilon
+\widehat{\text{Fishing Mortality}} &= \gamma_0 + \gamma_1 \text{Size}_\text{centered} + \gamma_2 \text{Below cutoff} + \omega \\
+\text{Exit exam} &= \beta_0 + \beta_1 \text{Size}_\text{centered} + \beta_2 \widehat{\text{Fished}} + \epsilon
 \end{aligned}
 $$
-
-equivalent to the two-step estimation below
-Note:  be careful! if there are missing values in D, you may fail to replicate the fuzzy effect by hand
-# equivalent to the two-step estimation below
-# be careful! if there are missing values in the treatment D, you may fail to replicate the fuzzy effect by hand
-sum(is.na(crab_data$fished)) #ok for the simulated data 
 
 
 ### Fuzzy nonparametric estimation
 
-We can also use nonparametric methods to measure the size of the fuzzy gap at the cutoff. We'll use `rdrobust()` just like we [did in the sharp example](/example/rdd.qmd#nonparametric-estimation-1). The only difference is that we have to add one extra argument. That's it!
+We can also use nonparametric methods to measure the size of the fuzzy gap at the cutoff. We'll use `rdrobust()`. T
 
-To do fuzzy estimation with `rdrobust()`, use the `fuzzy` argument to specify the treatment column (or `tutoring` in our case). **Importantly** (and confusingly! this took me waaaaay too long to figure out!), you ***do not*** need to specify an instrument (or even create one!). All you need to specify is the column that indicates treatment status—`rdrobust()` will do all the above/below-the-cutoff instrument stuff behind the scenes for you.
+To do fuzzy estimation with `rdrobust()`, use the `fuzzy` argument to specify the treatment column (or `fished` in our case). **Importantly** (and confusingly! this took me waaaaay too long to figure out!), you ***do not*** need to specify an instrument (or even create one!). All you need to specify is the column that indicates treatment status—`rdrobust()` will do all the above/below-the-cutoff instrument stuff behind the scenes for you.
+
+##NEED TO FINISHED WITH IV CREATED AS ENTRANCE EXAM
+<!-- Let's make an instrument! We'll also center the running variable just like we did with sharp regression discontinuity: -->
+
+<!-- ```{r make-instrument} -->
+<!-- tutoring_centered <- tutoring %>% -->
+<!--   mutate(entrance_centered = entrance_exam - 70, -->
+<!--          below_cutoff = entrance_exam <= 70) -->
+<!-- tutoring_centered -->
+<!-- ``` -->
 
 ```{r rdrobust-fuzzy}
-rdrobust(y = tutoring$exit_exam, x = tutoring$entrance_exam,
-         c = 70, fuzzy = tutoring$tutoring) %>%
+rdrobust(y = crab_data$fishing_mortality, x = tutoring$entrance_exam,
+         c = 0, fuzzy = crab_data$fished) %>%
   summary()
 ```
 
