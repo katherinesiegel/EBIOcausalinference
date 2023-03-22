@@ -91,12 +91,12 @@ library(rddensity)  # For nonparametric regression discontinuity density tests
 library(modelsummary)  # Create side-by-side regression tables
 ```
 
-### Simple example of applying the rdrobust function
-```{r, include=TRUE}
-x<-runif(1000,-1,1) # running variable 
-y<-5+3*x+2*(x>=0)+rnorm(1000) #outcome with a cut off c at 0 
-rdrobust(y,x) #apply rdrobust to view sample output 
-```
+<!-- ### Simple example of applying the rdrobust function -->
+<!-- ```{r, include=TRUE} -->
+<!-- x<-runif(1000,-1,1) # running variable  -->
+<!-- y<-5+3*x+2*(x>=0)+rnorm(1000) #outcome with a cut off c at 0  -->
+<!-- rdrobust(y,x) #apply rdrobust to view sample output  -->
+<!-- ``` -->
 
 ### Simulate data for demo 
 #### Demo Question: fishing mortality on crabs 
