@@ -260,7 +260,6 @@ First we will create the IV from the cut-off.  We have already centered the runn
 size_centered <- crab_data %>%
   mutate(above_cutoff  = size_centered >= 0,
          below_cutoff = size_centered <= 0)
-size_centered 
 ```
 
 #### 2SLS 
