@@ -210,7 +210,8 @@ Project presentations, continued
 
 ## Fri. 5/5
 
-Final project write-ups due
+Final project write-ups due (see [Assignments](https://katherinesiegel.github.io/EBIOcausalinference/assignments.html#final-project-option-1-data-analysis-project) tab for descriptions of the requirements for the write-up)  
+
 
 ## Potential additional units
 ### Generalizability in experimental and observational studies  
