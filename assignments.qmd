@@ -66,9 +66,8 @@ You are not limited to these topics, but here are some ideas:
 |:-----------------------------------:|:--------------------------------------:|
 | [Pre-course survey](https://forms.gle/zQr2Mp14bVnJecYaA) | Friday 1/20 |
 |Students create and workshop DAGs for their own research/study. Come to class prepared to present and share/discuss your DAG | Wednesday 2/1 |
-| Causal research question + data context OR proposed literature review topic | Monday 4/10 (in class)  |
-| Short presentation on research questions + DAG OR literature review topic, its significance, + some potential applications | Wednesday 4/12 (in class) |
-| Draft of DAG OR literature review proposal | Friday 4/14 |
-| Revised DAG + proposed methods OR outline of literature review | Friday 4/21 |
+| Draft of DAG OR literature review proposal (1 page max) | Friday 4/14 (by email)  |
+| Short presentation on research questions + DAG OR literature review topic, its significance, + some potential applications | Monday 4/17 (in class) |
+| Revised DAG + proposed methods OR literature review outline | Friday 4/21 |
 | Presentation of final project | Monday 5/1 and Wednesday 5/3 (in class) |
 | Final project write-up | Friday 5/5 |
