@@ -560,10 +560,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 # Groups:   fished [2]
   fished `size_centered &lt;= 0` count
    &lt;dbl&gt; &lt;lgl&gt;                &lt;int&gt;
-1      0 FALSE                   63
-2      0 TRUE                   437
-3      1 FALSE                  427
-4      1 TRUE                    73</code></pre>
+1      0 FALSE                   74
+2      0 TRUE                   426
+3      1 FALSE                  437
+4      1 TRUE                    63</code></pre>
 </div>
 </div>
 <p>Based on the table, we can conclude this is a fuzzy design becuase there are some crabs over the cut-off that were not fished, and some under that were fished.</p>
@@ -652,22 +652,22 @@ BW type                       mserd
 Kernel                   Triangular
 VCE method                       NN
 
-Number of Obs.                  510          490
-Eff. Number of Obs.             160          145
+Number of Obs.                  489          511
+Eff. Number of Obs.             127          151
 Order est. (p)                    1            1
 Order bias  (q)                   2            2
-BW est. (h)                  11.656       11.656
-BW bias (b)                  20.448       20.448
-rho (h/b)                     0.570        0.570
-Unique Obs.                     510          490
+BW est. (h)                  10.383       10.383
+BW bias (b)                  22.222       22.222
+rho (h/b)                     0.467        0.467
+Unique Obs.                     489          511
 
 First-stage estimates.
 
 =============================================================================
         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
 =============================================================================
-  Conventional    -0.027     0.108    -0.251     0.801    [-0.239 , 0.185]     
-        Robust         -         -     0.372     0.710    [-0.197 , 0.289]     
+  Conventional     0.170     0.133     1.276     0.202    [-0.091 , 0.432]     
+        Robust         -         -     1.626     0.104    [-0.049 , 0.531]     
 =============================================================================
 
 Treatment effect estimates.
@@ -675,8 +675,8 @@ Treatment effect estimates.
 =============================================================================
         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
 =============================================================================
-  Conventional    14.539    23.156     0.628     0.530   [-30.847 , 59.924]    
-        Robust         -         -     0.017     0.986   [-52.087 , 53.018]    
+  Conventional    18.995     1.051    18.073     0.000    [16.935 , 21.055]    
+        Robust         -         -    15.261     0.000    [16.503 , 21.367]    
 =============================================================================</code></pre>
 </div>
 </div>
