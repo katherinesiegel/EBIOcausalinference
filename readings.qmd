@@ -150,17 +150,25 @@ No readings - Presenting or discussing your project question and DAG for feedbac
 
 No readings - Presenting or discussing your project question and DAG for feedback
 
+## Due Fri. 4/14  
+
+Draft of DAG OR literature review proposal (1 page max.)
+
 ## Due Mon. 4/17
-### Tentative: Replication/Reproducibility/Pre-registration  
-1) Kimmel et al., in press 
+
+Brief presentation (3-5 minutes) of your project: the question you are addressing, its applications, your DAG (if applicable) and your proposed method for feedback and Q&A
 
 ## Due Wed. 4/19
 
-Projects
+No assignment -- continue working on projects
+
+## Fri. 4/21  
+
+Revised DAG + proposed methods OR outline of literature review due
 
 ## Due Mon. 4/24
 
-Projects
+No assignment -- continue working on projects
 
 ## Due Wed. 4/26
 ### Generalizability in experimental and observational studies  
@@ -177,9 +185,32 @@ Optional
 
 Project Presentations
 
+Guidelines for all presentations:  
+
+* 8 minute presentation + 2 minutes for questions  
+* Introduce the question you address and the motivation for your project
+
+Specific guidelines for data analysis project presentations:  
+
+* Describe the causal inference approach you took and why you chose that approach  
+* Present your DAG  
+* Briefly describe the data you used  
+* Share your results AND contextualize them with the important limitations and assumptions of the method(s) you used  
+* Outline possible next steps you could take to make your analysis more robust in the future  
+
+Specific guidelines for literature review  presentations:  
+
+* Describe the challenge for causal inference  
+* Describe and critique the current approaches people are taking  
+* Present your ideas for how the field could better incorporate causal inference methods  
+
 ## Due Wed. 5/3
 
-Project Presentations
+Project presentations, continued  
+
+## Fri. 5/5
+
+Final project write-ups due
 
 ## Potential additional units
 ### Generalizability in experimental and observational studies  
