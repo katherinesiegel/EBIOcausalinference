@@ -4,4 +4,4 @@ Website for EBIO 5460 course, developed and taught by Laura Dee and Katherine Si
 
 Link to the site: https://katherinesiegel.github.io/EBIOcausalinference
 
-We made this course page using the template developed by Francisco Rodriguez-Sanchez (https://github.com/Pakillo/quarto-course-website-template).
+We made this course page using the template developed by Francisco Rodriguez-Sanchez (https://github.com/Pakillo/quarto-course-website-template), with additional ideas from Andrew Heiss (https://www.andrewheiss.com/).
