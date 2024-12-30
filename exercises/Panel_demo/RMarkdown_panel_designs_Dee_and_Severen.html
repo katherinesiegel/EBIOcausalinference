@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.340">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Online tutorial for the main analyses run in Dee et al.&nbsp;Nature Communications. This tutorial is made by Laura Dee and Chris Severen with data from the Nutrient Network">
 <meta name="dcterms.date" content="2023-03-20">
 
-<title>EBIO 5460: Causal Inference in Ecology - Panel Data and Fixed Effects Designs for Ecology</title>
+<title>Panel Data and Fixed Effects Designs for Ecology – EBIO 5460: Causal Inference in Ecology</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,7 +24,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -89,17 +89,23 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-33de00d52e14caf200e91efab02bbc6e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -108,13 +114,42 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -124,14 +159,14 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
       EBIO 5460: Causal Inference in Ecology
       </li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -141,7 +176,7 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">EBIO 5460: Causal Inference in Ecology</a> 
@@ -202,7 +237,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -258,12 +293,13 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <!-- ## internal notes for how to use markdown -->
 <!-- points 1 and 2 are quite easy to deal using bookdown instead of markdown. To do so you juste have to replace the "output: html_document"  with "output: bookdown::html_document2" in the yaml section.  -->
 <!-- -Then, you can make references to sections using \@ref(name-of-section) where name-of-section is the section title in downcase letters and with spaces replaced by ‘-‘.  -->
-
 <!-- -You can make references to figures using \@ref(fig:block) where block is the name of the r block that has produces the figure. Table will also work using \@ref(table:tablename). -->
 <!-- - For equations, you have to label the equations using (\#eqname) inside the \begin{equation} \end{equation} block and then use  \@ref(eq:eqname) in the text -->
 <!-- - For colours, I don’t know an easy solution but you can use html code directly:  -->
@@ -282,7 +318,7 @@ div.csl-indent {
 <p>The data used in this tutorial comes from the <a href="https://nutnet.org/">Nutrient Network</a>. It has been cleaned and processed and is ready to use. The data correspond to what we use in the paper for the main analysis, and consists of control plots from 43 NutNet sites. Each site includes one or more control plots that we use. We only use plots for which we have at least 5 years of data.</p>
 <p>We’ll primarily use the <em>fixest</em> package for analysis; the other packages (<em>tidyverse</em>, <em>data.table</em>, <em>lme4</em>) aid data wrangling and comparing research designs.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tidyverse) #v 1.3.2</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(data.table) # v 1.14.6</span></span>
@@ -318,7 +354,7 @@ div.csl-indent {
 \end{equation}\]</span> where <span class="math inline">\(p\)</span> indexes plots, <span class="math inline">\(s\)</span> indexes sites, and <span class="math inline">\(t\)</span> indexes years. The unobserved error term is <span class="math inline">\(e_{pst}\)</span>. We include a constant <span class="math inline">\(\alpha\)</span>, but do not report estimates of it as it tells us little.</p>
 <p>We report results below using all years of data first, and then report results using two individual years: 2012 and 2013. Here, as everywhere below, we <a href="#clusterse"><strong>cluster standard errors</strong></a> by plot to reflect serial correlation in errors terms within a plot across years (we do not assume that errors are iid). Note that when we use only a single year of data, this is equivalent to using heteroskedasticity-robust errors.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SimpleCorrAll &lt;- feols(log(live_mass) ~ log(rich), comb, cluster = "newplotid") </span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
@@ -359,7 +395,7 @@ div.csl-indent {
 </center>
 <p>To explore the consequences of adding in covariates, we show the results of five models below. The first column repeats the first column from above. The second column adds in soil chemistry covariates, the third column instead adds weather covariates, and the fourth instead adds management variables plus habitat. The last columns adds in everything. For the purposes of this tutorial, we only show coefficient estimates for richness in the following table, even though the other terms are included in the model.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SoilCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +</span></span>
@@ -426,7 +462,7 @@ What does adding this vector of plot dummy variables do? Two big things. First, 
 \ln(\text{Live Mass}_{pt}) = \beta \ln(\text{Richness}_{pt}) + \delta_p + \mu_t + e_{pt}
 \end{equation}\]</span> The year fixed effects <span class="math inline">\(\mu_t\)</span> control for <em>time-varying</em> factors (observed or unobserved) that affect all plots at the site under consideration. For example, suppose 2007 was a particularly damp and rainy year at the site; <span class="math inline">\(\mu_t\)</span> controls for the average impact of that across all plots. Because what happens at one site in a year is probably very different from what happens at a different site in the same year, we estimate these separately for each site. This will make the point estimates for each site less precise (especially because we’re clustering by plot), but this is just for illustration’s sake.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotFE_1 &lt;- comb %&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(site_code=="cdcr.us") %&gt;%</span></span>
@@ -468,7 +504,7 @@ What does adding this vector of plot dummy variables do? Two big things. First, 
 <p>To get a sense for what these site-by-year effects do, first recall Figure @ref(fig:graphdeplotFE). Plots that are in the same site seem to have similar movements in productivity over time, even after controlling for plot fixed effects. The site-by-year fixed effects remove the average of everything that happens across the site in the data in a year (e.g., a drought at a site). Figure @ref(fig:graphdeplotsiteyearFE) removes this variation; see how the big drop in Sevilleta live mass in 2009 is much less Figure in @ref(fig:graphdeplotsiteyearFE).</p>
 <p>To provide confidence that the results are robust, we will also include a couple of time-varying controls, evenness and lagged richness. NB: To make sure we don’t drop locations with values of zero evenness, we use the inverse hyperbolic sine instead of the natural log. Note that we don’t need to worry about that for productivity or richness because they never take a zero value.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ihs &lt;- function(x) {</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   y &lt;- log(x+sqrt(x^2 + 1))</span></span>
@@ -511,7 +547,7 @@ Our updated DAG, including both plot and site-by-year fixed effects, show that w
 <p>By contrast, recall that the fixed effects assumption allows for arbitrary correlation between richness and any time-invariant variables, whether observed or not. So, should you include a fifth-degree polynomial in latitude. Nope, just include the fixed effect.</p>
 <p>Check out how the results below change (or not) in response to fixed effects (references for more details on the mathematics behind this are listed later on). First, consider the two linear models (without random effects) with different sets of soil variables:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Linear Model with Soil Covariates</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># SoilCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
@@ -533,7 +569,7 @@ Our updated DAG, including both plot and site-by-year fixed effects, show that w
 <p>See how the covariate of interest jumps around. Again, that’s a reminder that there are likely omitted variables that are pretty correlated with our variable of interest.</p>
 <p>So, that’s our baseline. Now let’s see what happens with random effects!</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ## First, characteristics of soil influence both productivity and richness. We use covariates that characterize several aspects of the soil fertility and nutrients. We include plot and site random effects.</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># MixedMod_Rich_soil &lt;- lmer(log(live_mass) ~ log(rich) + </span></span>
@@ -686,18 +722,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -729,7 +754,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
   const viewSource = window.document.getElementById('quarto-view-source') ||
                      window.document.getElementById('quarto-code-tools-source');
   if (viewSource) {
@@ -781,10 +826,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/katherinesiegel\.github\.io\/EBIOcausalinference\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -794,8 +856,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -807,7 +878,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -851,6 +1044,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -876,6 +1070,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -977,22 +1197,22 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>We'll primarily use the *fixest* package for analysis; the other packages (*tidyverse*, *data.table*, *lme4*) aid data wrangling and comparing research designs.</span>
 <span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, message=FALSE, warning=FALSE}</span></span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tidyverse) #v 1.3.2</span></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="co"># library(data.table) # v 1.14.6</span></span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="co"># library(fixest) # v 0.11</span></span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="co"># library(lme4)  # Need at least version 1.1-26</span></span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="co"># library(knitr) #v1.41</span></span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggplot2) # v 3.4.0</span></span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="co"># cdir &lt;- getwd()</span></span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="co"># comb &lt;- fread(paste(cdir,"/cleaned_comb_data.csv",sep=""),na.strings='NA')</span></span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="co"># comb$V1 = NULL</span></span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="co"># comb$site &lt;- comb$site_code</span></span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Make dummy variables for panel regression ##</span></span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="co"># # make year a character, to be a dummy variable: </span></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="co">#  comb$year &lt;- as.character(comb$year)</span></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="co"># #make a factor that is site by year</span></span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[, site.by.yeardummy := paste(site_code, year, sep = "_")]</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="in"># library(tidyverse) #v 1.3.2</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="in"># library(data.table) # v 1.14.6</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="in"># library(fixest) # v 0.11</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="in"># library(lme4)  # Need at least version 1.1-26</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="in"># library(knitr) #v1.41</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="in"># library(ggplot2) # v 3.4.0</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="in"># cdir &lt;- getwd()</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="in"># comb &lt;- fread(paste(cdir,"/cleaned_comb_data.csv",sep=""),na.strings='NA')</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="in"># comb$V1 = NULL</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="in"># comb$site &lt;- comb$site_code</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="in"># ## Make dummy variables for panel regression ##</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="in"># # make year a character, to be a dummy variable: </span></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="in">#  comb$year &lt;- as.character(comb$year)</span></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="in"># #make a factor that is site by year</span></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[, site.by.yeardummy := paste(site_code, year, sep = "_")]</span></span>
 <span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
@@ -1012,7 +1232,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>Let's begin by looking at simple correlations. We will examine both the overall correlation and correlations within a single year (i.e., using cross-sectional variation). We proceed with a linear regression framework \@ref(eq:eq1), using the log of productivity (measured as live aboveground biomass) as the outcome and the log species richness as the explanatory variable.  We've found that a log-log specification captures the nature of the relationship in our data well (see Figure \@ref(fig:graphbiomasssp) below and the paper for details).</span>
 <span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a><span class="in">```{r graphbiomasssp, echo = F, out.width = '60%', fig.align = "center", fig.cap="log(Live Mass) as a function of log(Richness)."}</span></span>
-<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(comb, aes(x=log(rich), y = log(live_mass))) + geom_point()</span></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a><span class="in"># ggplot(comb, aes(x=log(rich), y = log(live_mass))) + geom_point()</span></span>
 <span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>We initially estimate and report $\beta$ in:</span>
@@ -1025,20 +1245,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>We report results below using all years of data first, and then report results using two individual years: 2012 and 2013. Here, as everywhere below, we <span class="co">[</span><span class="ot">**cluster standard errors**</span><span class="co">](#clusterse)</span> by plot to reflect serial correlation in errors terms within a plot across years (we do not assume that errors are iid). Note that when we use only a single year of data, this is equivalent to using heteroskedasticity-robust errors. </span>
 <span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE, warning=FALSE}</span></span>
-<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a><span class="co"># SimpleCorrAll &lt;- feols(log(live_mass) ~ log(rich), comb, cluster = "newplotid") </span></span>
-<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a><span class="co"># SimpleCorr2012 &lt;- comb %&gt;%</span></span>
-<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(year==2012) %&gt;%</span></span>
-<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a><span class="co">#   feols(log(live_mass) ~ log(rich), ., cluster = "newplotid") </span></span>
-<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a><span class="co"># SimpleCorr2013 &lt;- comb %&gt;%</span></span>
-<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(year==2013) %&gt;%</span></span>
-<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a><span class="co">#   feols(log(live_mass) ~ log(rich), ., cluster = "newplotid") </span></span>
-<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a><span class="co"># etable(SimpleCorrAll, SimpleCorr2012, SimpleCorr2013, </span></span>
-<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a><span class="co">#           cluster = "newplotid", </span></span>
-<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a><span class="co">#           drop = "Intercept", </span></span>
-<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a><span class="co">#           subtitles = c("Data All Years", "Data in 2012", "Data in 2013"))  </span></span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a><span class="in"># SimpleCorrAll &lt;- feols(log(live_mass) ~ log(rich), comb, cluster = "newplotid") </span></span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a><span class="in"># SimpleCorr2012 &lt;- comb %&gt;%</span></span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a><span class="in">#   filter(year==2012) %&gt;%</span></span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a><span class="in">#   feols(log(live_mass) ~ log(rich), ., cluster = "newplotid") </span></span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a><span class="in"># SimpleCorr2013 &lt;- comb %&gt;%</span></span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a><span class="in">#   filter(year==2013) %&gt;%</span></span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a><span class="in">#   feols(log(live_mass) ~ log(rich), ., cluster = "newplotid") </span></span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a><span class="in"># etable(SimpleCorrAll, SimpleCorr2012, SimpleCorr2013, </span></span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a><span class="in">#           cluster = "newplotid", </span></span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a><span class="in">#           drop = "Intercept", </span></span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a><span class="in">#           subtitles = c("Data All Years", "Data in 2012", "Data in 2013"))  </span></span>
 <span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>As you can see, using all years of data gives a non-significant positive relationship between productivity and richness. In just the 2012 data, the coefficient is larger in magnitude, but still not significant. Finally, just using 2013 data, the coefficient switches signs and becomes significant. </span>
@@ -1052,20 +1272,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>In our case, many variables that are correlated with biodiversity can also drive productivity (Fig. 1B -- main text), creating the possibility for rival explanations and biased estimates for estimated effects from observations. For example, climatic conditions, soil nutrients, evolutionary history, and historic contingency during community assembly are all related to both productivity and biodiversity <span class="co">[</span><span class="ot">@Loreau1998;@fukamiCommunityAssemblyAlternative2011;@graceIntegrativeModellingReveals2016</span><span class="co">]</span>. With a common driver of both variables that is not included in a model, two variables (i.e., biodiversity and an ecosystem function) may be correlated, even when there is no causal relationship between them. Similarly, no correlation between variables does not imply a lack of causation. Causal relationships can also be masked when examining correlations, due to an omitted variable (e.g., nitrogen addition), which positively affects productivity but negatively affects richness <span class="co">[</span><span class="ot">@isbellNutrientEnrichmentBiodiversity2013</span><span class="co">]</span>. Models that do not control for that common driver will consequently tend to give estimates that do not correspond to causal effects of biodiversity on productivity (or *vice versa*). </span>
 <span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;center&gt;</span></span>
-<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"https://imgur.com/nNFnoL2.png"</span> <span class="er">width</span><span class="ot">=</span><span class="st">"45%"</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/center&gt;</span>   </span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>&lt;img src="https://imgur.com/nNFnoL2.png" width="45%" /&gt;</span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;   </span>
 <span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>Figure 1B (main text -- right panel) is known as a directed acyclic causal graph (DAG) and is a visualization of qualitative causal assumptions (<span class="co">[</span><span class="ot">@pearl2009causality;  @pearl2011aspects;@fieberg2012understanding; @schoolmaster2013causal; @schoolmaster2020graphical; @Grace2020</span><span class="co">]</span>). A DAG encodes knowledge and beliefs about how a system works. The graphical relations depicted in the DAG encode causal claims – not just representations of associations. A directed edge (e.g., R --&gt; P) depicts a claim about the results of many hypothetical experiments, whereby if every other variable represented in the graph is held fixed, R and P will covary if R if manipulated, but not if P is manipulated (note, a DAG assumes that one can isolate the effect of R on P, but does not imply that P can never affect R; another DAG may represent the reverse direction, P --&gt; R). </span>
 <span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">style</span><span class="ot">=</span><span class="st">"background-color: #c5cae9"</span><span class="kw">&gt;</span></span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>&lt;div style="background-color: #c5cae9"&gt;</span>
 <span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>TAKEAWAY:</span>
 <span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>Omitted variable bias is a pervasive feature in observational analysis, and the assumptions that permit identification of causal effects are unlikely to hold when using cross-sectional variation.</span>
-<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>&lt;/div&gt;</span>
 <span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a><span class="fu">## Common Ecological Design - Multivariate Regression </span></span>
 <span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a></span>
@@ -1074,41 +1294,41 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>A common response to this problem is to try to measure these differences and include them in the model.  In the causal inference literature, this is known as <span class="co">[</span><span class="ot">**“conditioning on observables”**</span><span class="co">](#conditioning)</span> or Pearl’s <span class="co">[</span><span class="ot">**back-door criteria**</span><span class="co">](#conditioning)</span>. Conditioning on observables is convenient but makes strong assumptions for causal inference, namely the <span class="co">[</span><span class="ot">**“Selection on Observables” Assumption.**</span><span class="co">](#selectionobserv)</span> Informally, this assumption implies that confounding variables that could introduce bias into a design are known and observable to the researcher. The bias they introduce into an estimator can be eliminated (controlled, blocked) by conditioning strategies, such as regression, matching, or stratification methods. To read more, see <span class="co">[</span><span class="ot">@morganCounterfactualsCausalInference2014</span><span class="co">]</span>. We can visualize this assumption by modifying our DAG, and using some examples in R:</span>
 <span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;center&gt;</span></span>
-<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"https://i.imgur.com/s7w6Fhe.png"</span> <span class="er">width</span><span class="ot">=</span><span class="st">"100%"</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/center&gt;</span>   </span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>&lt;img src="https://i.imgur.com/s7w6Fhe.png" width="100%" /&gt;</span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;   </span>
 <span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>To explore the consequences of adding in covariates, we show the results of five models below. The first column repeats the first column from above. The second column adds in soil chemistry covariates, the third column instead adds weather covariates, and the fourth instead adds management variables plus habitat. The last columns adds in everything. For the purposes of this tutorial, we only show coefficient estimates for richness in the following table, even though the other terms are included in the model.</span>
 <span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE, warning=FALSE}</span></span>
-<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a><span class="co"># SoilCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
-<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a><span class="co">#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +</span></span>
-<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a><span class="co">#                       pH + PercentSand + PercentSilt + PercentClay, </span></span>
-<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a><span class="co">#                     comb, cluster = "newplotid") </span></span>
-<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a><span class="co"># WeatherCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
-<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a><span class="co">#                          elevation + TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 + </span></span>
-<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a><span class="co">#                          TEMP_COLD_Q_v2, </span></span>
-<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a><span class="co">#                        comb, cluster = "newplotid") </span></span>
-<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a><span class="co"># MgmtCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
-<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a><span class="co">#                       as.factor(habitat) + managed + burned + grazed + anthropogenic, </span></span>
-<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a><span class="co">#                     comb, cluster = "newplotid") </span></span>
-<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a><span class="co"># AllCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
-<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a><span class="co">#                      pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +</span></span>
-<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a><span class="co">#                      pH + PercentSand + PercentSilt + PercentClay +</span></span>
-<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a><span class="co">#                      elevation + TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 +</span></span>
-<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a><span class="co">#                      TEMP_COLD_Q_v2 + as.factor(habitat) + managed + burned + grazed + anthropogenic, </span></span>
-<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a><span class="co">#                    comb, cluster = "newplotid") </span></span>
-<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a><span class="co"># etable(SimpleCorrAll, SoilCovars, WeatherCovars, MgmtCovars, AllCovars,</span></span>
-<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a><span class="co">#           cluster = "newplotid", </span></span>
-<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a><span class="co">#           drop = "!rich", </span></span>
-<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a><span class="co">#           subtitles = c("Data All Years", "+ Soil", "+ Weather", "+ Management", "+ All")) </span></span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a><span class="in"># SoilCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a><span class="in">#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +</span></span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a><span class="in">#                       pH + PercentSand + PercentSilt + PercentClay, </span></span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a><span class="in">#                     comb, cluster = "newplotid") </span></span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a><span class="in"># WeatherCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a><span class="in">#                          elevation + TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 + </span></span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a><span class="in">#                          TEMP_COLD_Q_v2, </span></span>
+<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a><span class="in">#                        comb, cluster = "newplotid") </span></span>
+<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a><span class="in"># MgmtCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
+<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a><span class="in">#                       as.factor(habitat) + managed + burned + grazed + anthropogenic, </span></span>
+<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a><span class="in">#                     comb, cluster = "newplotid") </span></span>
+<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a><span class="in"># AllCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
+<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a><span class="in">#                      pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +</span></span>
+<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a><span class="in">#                      pH + PercentSand + PercentSilt + PercentClay +</span></span>
+<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a><span class="in">#                      elevation + TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 +</span></span>
+<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a><span class="in">#                      TEMP_COLD_Q_v2 + as.factor(habitat) + managed + burned + grazed + anthropogenic, </span></span>
+<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a><span class="in">#                    comb, cluster = "newplotid") </span></span>
+<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a><span class="in"># etable(SimpleCorrAll, SoilCovars, WeatherCovars, MgmtCovars, AllCovars,</span></span>
+<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a><span class="in">#           cluster = "newplotid", </span></span>
+<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a><span class="in">#           drop = "!rich", </span></span>
+<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a><span class="in">#           subtitles = c("Data All Years", "+ Soil", "+ Weather", "+ Management", "+ All")) </span></span>
 <span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a>Estimates jump around depending on which covariates are used! This is likely a sign of some sort of omitted variables bias. Even though we consecutively explain more and more of the variation in the data, we are not necessarily any closer to a causal relationship.</span>
@@ -1121,11 +1341,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a>3.Lastly, we assumed that all the covariates entered linearly and did not interact. What if what really matters is the interaction of nitrogen and precipitation? How do we capture that? We could include interactions and quadratics, or splines, but at some point, the number of covariates will exceed our sample size and nothing is identified.</span>
 <span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">style</span><span class="ot">=</span><span class="st">"background-color: #c5cae9"</span><span class="kw">&gt;</span></span>
+<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a>&lt;div style="background-color: #c5cae9"&gt;</span>
 <span id="cb8-188"><a href="#cb8-188" aria-hidden="true" tabindex="-1"></a>TAKEAWAY: </span>
 <span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a>It is hard to assume the we observe and correctly control for all confounding variables when analyzing cross-sectional data</span>
-<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a>&lt;/div&gt;</span>
 <span id="cb8-192"><a href="#cb8-192" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-193"><a href="#cb8-193" aria-hidden="true" tabindex="-1"></a><span class="fu"># Fixed Effects: Changing the Source of Variation</span></span>
 <span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a></span>
@@ -1140,11 +1360,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a>where we've added the term $\delta_p$. This represents a vector of plot-specific fixed effect---a dummy variable for each plot. We also add time fixed effects ($\mu_t$, a dummy for each year) to control for the common differences to all plots in a year (in a site). We'll touch on that more later, but really, the *plot fixed effects are of greatest consequence*.</span>
 <span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a>What does adding this vector of plot dummy variables do? Two big things. First, it controls for any and all time-invariant features of the plot, whether we observe them **or not**!!! To see this, imagine putting in a variable $x_p$ into the above equation linearly with the coefficient $\gamma$. We wouldn't actually be able to estimate $\gamma x_p$; it's already a component of $\delta_p$. Don't know what functional for you should use for $x_p$ or whether it should be interacted with another variable? That's fine, that's already included in $\delta_p$! We get a whole lot for the inclusion of this variable. Let's see our updated DAG: now we have removed confounding effects from plot-level attributes whether we can measure them or not! </span>
-<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;center&gt;</span></span>
-<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"https://i.imgur.com/xJHFsrw.png"</span> <span class="er">width</span><span class="ot">=</span><span class="st">"100%"</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/center&gt;</span>   </span>
+<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a>&lt;img src="https://i.imgur.com/xJHFsrw.png" width="100%" /&gt;</span>
+<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;   </span>
 <span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a>Second, and most importantly conceptually, is that we are no longer directly comparing different plots; we aren't using  cross-sectional variation any more. Instead, we are using variation in richness and productivity within the same plot *over time*. So, we're implicitly comparing a plot in year $t$ with this same plot in year $t+k$ for some $k$. Another way to see this is that we could write a very similar equation in differences (ignore the $\mu_t$ for a moment):</span>
 <span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a>\begin{equation}</span>
@@ -1166,46 +1386,46 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>Figures \@ref(fig:graphrawvary) and \@ref(fig:graphdeplotFE) illustrate graphically what the plot fixed effects do to the outcome variable (productivity). Figures \@ref(fig:graphrawvary) is just the raw data, and shows log(live mass) in four plots split between two sites (at the Sedgwick Reserve <span class="co">[</span><span class="ot">sedg.us</span><span class="co">]</span> and at the Sevilleta LTER <span class="co">[</span><span class="ot">sevi.us</span><span class="co">]</span>). Sedgwick has higher productivity on average. The productivity at these sites also appear to be following different trajectories through time (e.g., note the dip in productivity at Sevilleta in 2009). The plot fixed effects remove the average productivity in each site, as shown in Figure \@ref(fig:graphdeplotFE). They do not remove site-and-year specific sources of confounding variation (e.g., if a more extreme drought happened at Sevilleta than at Sedgwick in 2009 affecting both productivity and richness); we turn to eliminating site and year specific confounding variables below in \@ref(fig:graphdeplotsiteyearFE).</span>
 <span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE, warning=FALSE, echo=FALSE}</span></span>
-<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a><span class="co"># comb$site &lt;- comb$site_code</span></span>
-<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a><span class="co"># comb$plot = as.factor(comb$plot)</span></span>
-<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,dm.changerich:=changerich-mean(changerich, na.rm=T), by=.(site,year)]</span></span>
-<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,dm.changelive_mass:=changelive_mass-mean(changelive_mass, na.rm=T), by=.(site,year)]</span></span>
-<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,`:=`(log.rich=log(rich), log.live_mass=log(live_mass))]</span></span>
-<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[order(year), change.log.rich := log(rich)-shift(log(rich)), by =.(plot, site_code)]</span></span>
-<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[order(year), change.log.live_mass := log(live_mass)-shift(log(live_mass)), by =.(plot, site_code)]</span></span>
-<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,dm.change.log.rich:=change.log.rich-mean(change.log.rich, na.rm=T), by=.(site,year)]</span></span>
-<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,dm.change.log.live_mass:=change.log.live_mass-mean(change.log.live_mass, na.rm=T), by=.(site,year)]</span></span>
-<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,singledm.log.live_mass:=log.live_mass-mean(log.live_mass, na.rm=T), by=.(site, plot)]</span></span>
-<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,doubledm.log.live_mass:=singledm.log.live_mass-mean(singledm.log.live_mass, na.rm=T), by=.(site, year)]</span></span>
+<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a><span class="in"># comb$site &lt;- comb$site_code</span></span>
+<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a><span class="in"># comb$plot = as.factor(comb$plot)</span></span>
+<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,dm.changerich:=changerich-mean(changerich, na.rm=T), by=.(site,year)]</span></span>
+<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,dm.changelive_mass:=changelive_mass-mean(changelive_mass, na.rm=T), by=.(site,year)]</span></span>
+<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,`:=`(log.rich=log(rich), log.live_mass=log(live_mass))]</span></span>
+<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[order(year), change.log.rich := log(rich)-shift(log(rich)), by =.(plot, site_code)]</span></span>
+<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[order(year), change.log.live_mass := log(live_mass)-shift(log(live_mass)), by =.(plot, site_code)]</span></span>
+<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,dm.change.log.rich:=change.log.rich-mean(change.log.rich, na.rm=T), by=.(site,year)]</span></span>
+<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,dm.change.log.live_mass:=change.log.live_mass-mean(change.log.live_mass, na.rm=T), by=.(site,year)]</span></span>
+<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,singledm.log.live_mass:=log.live_mass-mean(log.live_mass, na.rm=T), by=.(site, plot)]</span></span>
+<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,doubledm.log.live_mass:=singledm.log.live_mass-mean(singledm.log.live_mass, na.rm=T), by=.(site, year)]</span></span>
 <span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a><span class="in">```{r graphrawvary, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Raw variation in live mass at four plots across two sites."}</span></span>
-<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a><span class="co"># # plot raw variation - no fixed effects</span></span>
-<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(comb[(site=="sedg.us" &amp; plot %in% c("1","17")) | (site=="sevi.us" &amp; plot %in% c("8","12")),],</span></span>
-<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a><span class="co">#        aes(x=year, y=log.live_mass, group=plot, linetype=plot, color = site)) + </span></span>
-<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_line() +   scale_color_manual(values=c('#999999','#E69F00')) +</span></span>
-<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("Raw Variation in log(live biomass)") + </span></span>
-<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_bw() + </span></span>
-<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylim(c(-1,7)) + labs(y = "log(Live biomass)") +  labs(x = "Year") + </span></span>
-<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +</span></span>
-<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.y = element_text(size = 14)) </span></span>
+<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a><span class="in"># # plot raw variation - no fixed effects</span></span>
+<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a><span class="in"># ggplot(comb[(site=="sedg.us" &amp; plot %in% c("1","17")) | (site=="sevi.us" &amp; plot %in% c("8","12")),],</span></span>
+<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a><span class="in">#        aes(x=year, y=log.live_mass, group=plot, linetype=plot, color = site)) + </span></span>
+<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_line() +   scale_color_manual(values=c('#999999','#E69F00')) +</span></span>
+<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a><span class="in">#   ggtitle("Raw Variation in log(live biomass)") + </span></span>
+<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme_bw() + </span></span>
+<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a><span class="in">#   ylim(c(-1,7)) + labs(y = "log(Live biomass)") +  labs(x = "Year") + </span></span>
+<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +</span></span>
+<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme(axis.text.y = element_text(size = 14)) </span></span>
 <span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-262"><a href="#cb8-262" aria-hidden="true" tabindex="-1"></a><span class="in">```{r graphdeplotFE, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Variation demaned by plot in live mass at four plots across two sites."}</span></span>
 <span id="cb8-263"><a href="#cb8-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(comb[site=="sedg.us" &amp; plot %in% c("1","17") | (site=="sevi.us" &amp; plot %in% c("8","12")), ],</span></span>
-<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a><span class="co">#        aes(x=year, y=singledm.log.live_mass, group=plot, linetype=plot, color = site)) + </span></span>
-<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_line() +    scale_color_manual(values=c('#999999','#E69F00')) +</span></span>
-<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("Variation in log(live biomass) after removing plot fixed effects") + </span></span>
-<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_bw() + </span></span>
-<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylim(c(-5,7)) + labs(y = "log(Live biomass)") +  labs(x = "Year") + </span></span>
-<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +</span></span>
-<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.y = element_text(size = 14)) </span></span>
+<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a><span class="in"># ggplot(comb[site=="sedg.us" &amp; plot %in% c("1","17") | (site=="sevi.us" &amp; plot %in% c("8","12")), ],</span></span>
+<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a><span class="in">#        aes(x=year, y=singledm.log.live_mass, group=plot, linetype=plot, color = site)) + </span></span>
+<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_line() +    scale_color_manual(values=c('#999999','#E69F00')) +</span></span>
+<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a><span class="in">#   ggtitle("Variation in log(live biomass) after removing plot fixed effects") + </span></span>
+<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme_bw() + </span></span>
+<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a><span class="in">#   ylim(c(-5,7)) + labs(y = "log(Live biomass)") +  labs(x = "Year") + </span></span>
+<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +</span></span>
+<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme(axis.text.y = element_text(size = 14)) </span></span>
 <span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a></span>
@@ -1217,40 +1437,40 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a>Because what happens at one site in a year is probably very different from what happens at a different site in the same year, we estimate these separately for each site. This will make the point estimates for each site less precise (especially because we're clustering by plot), but this is just for illustration's sake.</span>
 <span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE, warning=FALSE}</span></span>
-<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotFE_1 &lt;- comb %&gt;%</span></span>
-<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(site_code=="cdcr.us") %&gt;%</span></span>
-<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a><span class="co">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
-<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotFE_2 &lt;- comb %&gt;%</span></span>
-<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(site_code=="cdpt.us") %&gt;%</span></span>
-<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a><span class="co">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
-<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotFE_3 &lt;- comb %&gt;%</span></span>
-<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(site_code=="koffler.ca") %&gt;%</span></span>
-<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a><span class="co">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
-<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotFE_4 &lt;- comb %&gt;%</span></span>
-<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(site_code=="sedg.us") %&gt;%</span></span>
-<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a><span class="co">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
-<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotFE_5 &lt;- comb %&gt;%</span></span>
-<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(site_code=="sier.us") %&gt;%</span></span>
-<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a><span class="co">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
-<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-303"><a href="#cb8-303" aria-hidden="true" tabindex="-1"></a><span class="co"># etable(SimpleCorrAll, PlotFE_1, PlotFE_2, PlotFE_3, PlotFE_4, PlotFE_5,</span></span>
-<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a><span class="co">#           cluster = "newplotid", </span></span>
-<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a><span class="co">#           drop = "!rich", </span></span>
-<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a><span class="co">#           subtitles = c("Data All Years","US - CDCR", "US - CDPT", "CA - Koffler", "US - SEDG", "US - SIER" )) </span></span>
+<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a><span class="in"># PlotFE_1 &lt;- comb %&gt;%</span></span>
+<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a><span class="in">#   filter(site_code=="cdcr.us") %&gt;%</span></span>
+<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a><span class="in">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
+<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a><span class="in"># PlotFE_2 &lt;- comb %&gt;%</span></span>
+<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a><span class="in">#   filter(site_code=="cdpt.us") %&gt;%</span></span>
+<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a><span class="in">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
+<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a><span class="in"># PlotFE_3 &lt;- comb %&gt;%</span></span>
+<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a><span class="in">#   filter(site_code=="koffler.ca") %&gt;%</span></span>
+<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a><span class="in">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
+<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a><span class="in"># PlotFE_4 &lt;- comb %&gt;%</span></span>
+<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a><span class="in">#   filter(site_code=="sedg.us") %&gt;%</span></span>
+<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a><span class="in">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
+<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a><span class="in"># PlotFE_5 &lt;- comb %&gt;%</span></span>
+<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a><span class="in">#   filter(site_code=="sier.us") %&gt;%</span></span>
+<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a><span class="in">#   feols(log(live_mass) ~ log(rich) | newplotid + year, ., cluster = "newplotid")</span></span>
+<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-303"><a href="#cb8-303" aria-hidden="true" tabindex="-1"></a><span class="in"># etable(SimpleCorrAll, PlotFE_1, PlotFE_2, PlotFE_3, PlotFE_4, PlotFE_5,</span></span>
+<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a><span class="in">#           cluster = "newplotid", </span></span>
+<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a><span class="in">#           drop = "!rich", </span></span>
+<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a><span class="in">#           subtitles = c("Data All Years","US - CDCR", "US - CDPT", "CA - Koffler", "US - SEDG", "US - SIER" )) </span></span>
 <span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a>We again show the bivariate correlation on all sites first (SimpleCorrAll), and then the estimate for each site. **Whoa!** Now we're getting some negative coefficients (though mostly insignificant due to smaller effective sample sizes). We're controlling for lots and lots of things that we couldn't control for before, either because we didn't think to include them or we couldn't collect data on them. The R-squared values confirm that this is the case; we're generally explaining much more of the data than before (but note: R-squared values are NOT important for causal interpretations generally). *Note that, with the plot fixed effects, we do not have much statistical power estimating sites individually.*</span>
 <span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">style</span><span class="ot">=</span><span class="st">"background-color: #c5cae9"</span><span class="kw">&gt;</span></span>
+<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a>&lt;div style="background-color: #c5cae9"&gt;</span>
 <span id="cb8-313"><a href="#cb8-313" aria-hidden="true" tabindex="-1"></a>TAKEAWAY: </span>
 <span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a>Using unit fixed effects in panel data shifts the identifying variation from across units to within units over time.</span>
-<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a>&lt;/div&gt;</span>
 <span id="cb8-317"><a href="#cb8-317" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bringing it all Together with Site-by-Year Fixed Effects</span></span>
 <span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a></span>
@@ -1266,21 +1486,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-329"><a href="#cb8-329" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-330"><a href="#cb8-330" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-331"><a href="#cb8-331" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE, warning=FALSE, echo=FALSE}</span></span>
-<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,doubledm.log.live_mass:=singledm.log.live_mass-mean(singledm.log.live_mass, na.rm=T), by=.(site, year)]</span></span>
+<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,doubledm.log.live_mass:=singledm.log.live_mass-mean(singledm.log.live_mass, na.rm=T), by=.(site, year)]</span></span>
 <span id="cb8-333"><a href="#cb8-333" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-335"><a href="#cb8-335" aria-hidden="true" tabindex="-1"></a><span class="in">```{r graphdeplotsiteyearFE, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Variation demaned by plot and site-by-year effects in live mass at four plots across two sites."}</span></span>
-<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a><span class="co"># sitebyyear = ggplot(comb[site=="sedg.us" &amp; plot %in% c("1","17") | (site=="sevi.us" &amp; plot %in% c("8","12")),],</span></span>
-<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a><span class="co">#        aes(x=year, y=doubledm.log.live_mass, group=plot, linetype=plot, color = site)) + </span></span>
-<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_line() +   scale_color_manual(values=c('#999999','#E69F00')) +</span></span>
-<span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("Variation in log(live biomass) after removing plot fixed and site by year effects") +</span></span>
-<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_bw() +  </span></span>
-<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylim(c(-5,7)) </span></span>
-<span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a><span class="co"># sitebyyear +</span></span>
-<span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(y = "log(Live biomass)") +  labs(x = "Year") + </span></span>
-<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a><span class="co">#    theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +</span></span>
-<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.y = element_text(size = 14)) </span></span>
+<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a><span class="in"># sitebyyear = ggplot(comb[site=="sedg.us" &amp; plot %in% c("1","17") | (site=="sevi.us" &amp; plot %in% c("8","12")),],</span></span>
+<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a><span class="in">#        aes(x=year, y=doubledm.log.live_mass, group=plot, linetype=plot, color = site)) + </span></span>
+<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_line() +   scale_color_manual(values=c('#999999','#E69F00')) +</span></span>
+<span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a><span class="in">#   ggtitle("Variation in log(live biomass) after removing plot fixed and site by year effects") +</span></span>
+<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme_bw() +  </span></span>
+<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a><span class="in">#   ylim(c(-5,7)) </span></span>
+<span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a><span class="in"># sitebyyear +</span></span>
+<span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a><span class="in">#   labs(y = "log(Live biomass)") +  labs(x = "Year") + </span></span>
+<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a><span class="in">#    theme(axis.title.y= element_text(size=14)) + theme(axis.title.x= element_text(size=14)) +</span></span>
+<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme(axis.text.y = element_text(size = 14)) </span></span>
 <span id="cb8-347"><a href="#cb8-347" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-348"><a href="#cb8-348" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-349"><a href="#cb8-349" aria-hidden="true" tabindex="-1"></a></span>
@@ -1288,35 +1508,35 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-351"><a href="#cb8-351" aria-hidden="true" tabindex="-1"></a>To provide confidence that the results are robust, we will also include a couple of time-varying controls, evenness and lagged richness. NB: To make sure we don't drop locations with values of zero evenness, we use the inverse hyperbolic sine instead of the natural log. Note that we don't need to worry about that for productivity or richness because they never take a zero value.</span>
 <span id="cb8-352"><a href="#cb8-352" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE, warning=FALSE}</span></span>
 <span id="cb8-353"><a href="#cb8-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a><span class="co"># ihs &lt;- function(x) {</span></span>
-<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a><span class="co">#   y &lt;- log(x+sqrt(x^2 + 1))</span></span>
-<span id="cb8-356"><a href="#cb8-356" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
-<span id="cb8-357"><a href="#cb8-357" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-358"><a href="#cb8-358" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-359"><a href="#cb8-359" aria-hidden="true" tabindex="-1"></a><span class="co"># MainMod_Rich     &lt;- feols(log(live_mass) ~ log(rich)  | newplotid + site.by.yeardummy, comb) </span></span>
-<span id="cb8-360"><a href="#cb8-360" aria-hidden="true" tabindex="-1"></a><span class="co"># MainMod_RichEven &lt;- feols(log(live_mass) ~ log(rich) + ihs(even) | newplotid + site.by.yeardummy, comb) </span></span>
-<span id="cb8-361"><a href="#cb8-361" aria-hidden="true" tabindex="-1"></a><span class="co"># MainMod_RichLag  &lt;- feols(log(live_mass) ~ log(rich) + log(laggedrich) | newplotid + site.by.yeardummy, comb) </span></span>
-<span id="cb8-362"><a href="#cb8-362" aria-hidden="true" tabindex="-1"></a><span class="co"># MainMod_RichEvenLag &lt;- feols(log(live_mass) ~ log(rich) + log(laggedrich) + ihs(even) | newplotid + site.by.yeardummy, comb)</span></span>
-<span id="cb8-363"><a href="#cb8-363" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-364"><a href="#cb8-364" aria-hidden="true" tabindex="-1"></a><span class="co"># etable(MainMod_Rich, MainMod_RichEven, MainMod_RichLag, MainMod_RichEvenLag,</span></span>
-<span id="cb8-365"><a href="#cb8-365" aria-hidden="true" tabindex="-1"></a><span class="co">#           cluster = "newplotid")</span></span>
+<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a><span class="in"># ihs &lt;- function(x) {</span></span>
+<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a><span class="in">#   y &lt;- log(x+sqrt(x^2 + 1))</span></span>
+<span id="cb8-356"><a href="#cb8-356" aria-hidden="true" tabindex="-1"></a><span class="in"># }</span></span>
+<span id="cb8-357"><a href="#cb8-357" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-358"><a href="#cb8-358" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-359"><a href="#cb8-359" aria-hidden="true" tabindex="-1"></a><span class="in"># MainMod_Rich     &lt;- feols(log(live_mass) ~ log(rich)  | newplotid + site.by.yeardummy, comb) </span></span>
+<span id="cb8-360"><a href="#cb8-360" aria-hidden="true" tabindex="-1"></a><span class="in"># MainMod_RichEven &lt;- feols(log(live_mass) ~ log(rich) + ihs(even) | newplotid + site.by.yeardummy, comb) </span></span>
+<span id="cb8-361"><a href="#cb8-361" aria-hidden="true" tabindex="-1"></a><span class="in"># MainMod_RichLag  &lt;- feols(log(live_mass) ~ log(rich) + log(laggedrich) | newplotid + site.by.yeardummy, comb) </span></span>
+<span id="cb8-362"><a href="#cb8-362" aria-hidden="true" tabindex="-1"></a><span class="in"># MainMod_RichEvenLag &lt;- feols(log(live_mass) ~ log(rich) + log(laggedrich) + ihs(even) | newplotid + site.by.yeardummy, comb)</span></span>
+<span id="cb8-363"><a href="#cb8-363" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-364"><a href="#cb8-364" aria-hidden="true" tabindex="-1"></a><span class="in"># etable(MainMod_Rich, MainMod_RichEven, MainMod_RichLag, MainMod_RichEvenLag,</span></span>
+<span id="cb8-365"><a href="#cb8-365" aria-hidden="true" tabindex="-1"></a><span class="in">#           cluster = "newplotid")</span></span>
 <span id="cb8-366"><a href="#cb8-366" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-367"><a href="#cb8-367" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-368"><a href="#cb8-368" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-369"><a href="#cb8-369" aria-hidden="true" tabindex="-1"></a>As you can see, estimate on log richness are relatively stable across different specifications. Of special note: the coefficient on lagged richness (richness from the year before) is small and insignificant, given us confidence that our results reflect *contemporaneous* movement in richness, and not some factor that is also correlated with last year's richness.</span>
 <span id="cb8-370"><a href="#cb8-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-371"><a href="#cb8-371" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">style</span><span class="ot">=</span><span class="st">"background-color: #c5cae9"</span><span class="kw">&gt;</span></span>
+<span id="cb8-371"><a href="#cb8-371" aria-hidden="true" tabindex="-1"></a>&lt;div style="background-color: #c5cae9"&gt;</span>
 <span id="cb8-372"><a href="#cb8-372" aria-hidden="true" tabindex="-1"></a>TAKEAWAY: </span>
 <span id="cb8-373"><a href="#cb8-373" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-374"><a href="#cb8-374" aria-hidden="true" tabindex="-1"></a>Fixed effects can alter the research design and control for a wide variety of potentially confounding factors!</span>
-<span id="cb8-375"><a href="#cb8-375" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb8-375"><a href="#cb8-375" aria-hidden="true" tabindex="-1"></a>&lt;/div&gt;</span>
 <span id="cb8-376"><a href="#cb8-376" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-377"><a href="#cb8-377" aria-hidden="true" tabindex="-1"></a>Our updated DAG, including both plot and site-by-year fixed effects, show that we can control more flexibly for a broader set of confounding variables in space and time -- critically, whether they are measured or not! </span>
-<span id="cb8-378"><a href="#cb8-378" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;center&gt;</span></span>
-<span id="cb8-379"><a href="#cb8-379" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-380"><a href="#cb8-380" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"https://i.imgur.com/pf8QmGi.png"</span> <span class="er">width</span><span class="ot">=</span><span class="st">"100%"</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-381"><a href="#cb8-381" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-382"><a href="#cb8-382" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/center&gt;</span>   </span>
+<span id="cb8-378"><a href="#cb8-378" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb8-379"><a href="#cb8-379" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-380"><a href="#cb8-380" aria-hidden="true" tabindex="-1"></a>&lt;img src="https://i.imgur.com/pf8QmGi.png" width="100%" /&gt;</span>
+<span id="cb8-381"><a href="#cb8-381" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-382"><a href="#cb8-382" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;   </span>
 <span id="cb8-383"><a href="#cb8-383" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-384"><a href="#cb8-384" aria-hidden="true" tabindex="-1"></a><span class="fu"># Graphical Depictions of Fixed Effects</span></span>
 <span id="cb8-385"><a href="#cb8-385" aria-hidden="true" tabindex="-1"></a></span>
@@ -1325,48 +1545,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-388"><a href="#cb8-388" aria-hidden="true" tabindex="-1"></a>Figure \@ref(fig:RawBivariate) just shows the raw bivariate correlation, and is somewhat positive. Notice the range of variation across productivity and richness.</span>
 <span id="cb8-389"><a href="#cb8-389" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-390"><a href="#cb8-390" aria-hidden="true" tabindex="-1"></a><span class="in">```{r RawBivariate, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="The bivariate relationship with no controls."}</span></span>
-<span id="cb8-391"><a href="#cb8-391" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-sectional analog - ignoring fixed effects and any other covariates</span></span>
-<span id="cb8-392"><a href="#cb8-392" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,`:=`(log.rich=log(rich), log.live_mass=log(live_mass))]</span></span>
-<span id="cb8-393"><a href="#cb8-393" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(comb[!is.na(log.rich) &amp; !is.na(log.live_mass),], </span></span>
-<span id="cb8-394"><a href="#cb8-394" aria-hidden="true" tabindex="-1"></a><span class="co">#        aes(x=log.rich, </span></span>
-<span id="cb8-395"><a href="#cb8-395" aria-hidden="true" tabindex="-1"></a><span class="co">#            y=log.live_mass)) + </span></span>
-<span id="cb8-396"><a href="#cb8-396" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(method="lm", se=T) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + </span></span>
-<span id="cb8-397"><a href="#cb8-397" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_bw() +</span></span>
-<span id="cb8-398"><a href="#cb8-398" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point()</span></span>
+<span id="cb8-391"><a href="#cb8-391" aria-hidden="true" tabindex="-1"></a><span class="in"># Cross-sectional analog - ignoring fixed effects and any other covariates</span></span>
+<span id="cb8-392"><a href="#cb8-392" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,`:=`(log.rich=log(rich), log.live_mass=log(live_mass))]</span></span>
+<span id="cb8-393"><a href="#cb8-393" aria-hidden="true" tabindex="-1"></a><span class="in"># ggplot(comb[!is.na(log.rich) &amp; !is.na(log.live_mass),], </span></span>
+<span id="cb8-394"><a href="#cb8-394" aria-hidden="true" tabindex="-1"></a><span class="in">#        aes(x=log.rich, </span></span>
+<span id="cb8-395"><a href="#cb8-395" aria-hidden="true" tabindex="-1"></a><span class="in">#            y=log.live_mass)) + </span></span>
+<span id="cb8-396"><a href="#cb8-396" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_smooth(method="lm", se=T) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + </span></span>
+<span id="cb8-397"><a href="#cb8-397" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme_bw() +</span></span>
+<span id="cb8-398"><a href="#cb8-398" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_point()</span></span>
 <span id="cb8-399"><a href="#cb8-399" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-400"><a href="#cb8-400" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-401"><a href="#cb8-401" aria-hidden="true" tabindex="-1"></a>Figure \@ref(fig:plotFixedEffects) shows the relationship conditional on plot fixed effects. Note that this collapses the range of variation substantially. Recall that the plot fixed effects remove factors that are time-invariant and plot-specific. However, this graph still reflects the variation in sites across years.</span>
 <span id="cb8-402"><a href="#cb8-402" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-403"><a href="#cb8-403" aria-hidden="true" tabindex="-1"></a><span class="in">```{r plotFixedEffects, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Controlling for only plot-level attributes that do not change through time"}</span></span>
-<span id="cb8-404"><a href="#cb8-404" aria-hidden="true" tabindex="-1"></a><span class="co"># # Plot FE only</span></span>
-<span id="cb8-405"><a href="#cb8-405" aria-hidden="true" tabindex="-1"></a><span class="co"># # We'll also do (double) demeaning of logged values to mimic </span></span>
-<span id="cb8-406"><a href="#cb8-406" aria-hidden="true" tabindex="-1"></a><span class="co"># # what's done in log-log model</span></span>
-<span id="cb8-407"><a href="#cb8-407" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[order(year), change.log.rich := log(rich)-shift(log(rich)), by =.(plot, site_code)]</span></span>
-<span id="cb8-408"><a href="#cb8-408" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[order(year), change.log.live_mass := log(live_mass)-shift(log(live_mass)), by =.(plot, site_code)]</span></span>
-<span id="cb8-409"><a href="#cb8-409" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-410"><a href="#cb8-410" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(comb[!is.na(change.log.rich) &amp; !is.na(change.log.live_mass),], </span></span>
-<span id="cb8-411"><a href="#cb8-411" aria-hidden="true" tabindex="-1"></a><span class="co">#        aes(x=change.log.rich, </span></span>
-<span id="cb8-412"><a href="#cb8-412" aria-hidden="true" tabindex="-1"></a><span class="co">#            y=change.log.live_mass)) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + </span></span>
-<span id="cb8-413"><a href="#cb8-413" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(method="lm", se=F) + </span></span>
-<span id="cb8-414"><a href="#cb8-414" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_bw() +</span></span>
-<span id="cb8-415"><a href="#cb8-415" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point()</span></span>
+<span id="cb8-404"><a href="#cb8-404" aria-hidden="true" tabindex="-1"></a><span class="in"># # Plot FE only</span></span>
+<span id="cb8-405"><a href="#cb8-405" aria-hidden="true" tabindex="-1"></a><span class="in"># # We'll also do (double) demeaning of logged values to mimic </span></span>
+<span id="cb8-406"><a href="#cb8-406" aria-hidden="true" tabindex="-1"></a><span class="in"># # what's done in log-log model</span></span>
+<span id="cb8-407"><a href="#cb8-407" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[order(year), change.log.rich := log(rich)-shift(log(rich)), by =.(plot, site_code)]</span></span>
+<span id="cb8-408"><a href="#cb8-408" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[order(year), change.log.live_mass := log(live_mass)-shift(log(live_mass)), by =.(plot, site_code)]</span></span>
+<span id="cb8-409"><a href="#cb8-409" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-410"><a href="#cb8-410" aria-hidden="true" tabindex="-1"></a><span class="in"># ggplot(comb[!is.na(change.log.rich) &amp; !is.na(change.log.live_mass),], </span></span>
+<span id="cb8-411"><a href="#cb8-411" aria-hidden="true" tabindex="-1"></a><span class="in">#        aes(x=change.log.rich, </span></span>
+<span id="cb8-412"><a href="#cb8-412" aria-hidden="true" tabindex="-1"></a><span class="in">#            y=change.log.live_mass)) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + </span></span>
+<span id="cb8-413"><a href="#cb8-413" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_smooth(method="lm", se=F) + </span></span>
+<span id="cb8-414"><a href="#cb8-414" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme_bw() +</span></span>
+<span id="cb8-415"><a href="#cb8-415" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_point()</span></span>
 <span id="cb8-416"><a href="#cb8-416" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-417"><a href="#cb8-417" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-418"><a href="#cb8-418" aria-hidden="true" tabindex="-1"></a>Figure \@ref(fig:siteyrplotFixedEffects) continues to control for plot fixed effects, but also removes site-by-year variation via site-by-year fixed effects. This shifts the variation negative as factors that are common to sites within years no longer confound the relationship.</span>
 <span id="cb8-419"><a href="#cb8-419" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-420"><a href="#cb8-420" aria-hidden="true" tabindex="-1"></a><span class="in">```{r siteyrplotFixedEffects, message=F, warning=F, echo=F, out.width = '60%', fig.align = "center", fig.cap="Controlling for plot attributes and attributes of sites that change through time"}</span></span>
-<span id="cb8-421"><a href="#cb8-421" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,dm.changerich:=changerich-mean(changerich, na.rm=T), by=.(site,year)]</span></span>
-<span id="cb8-422"><a href="#cb8-422" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,dm.changelive_mass:=changelive_mass-mean(changelive_mass, na.rm=T), by=.(site,year)]</span></span>
-<span id="cb8-423"><a href="#cb8-423" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,dm.change.log.rich:=change.log.rich-mean(change.log.rich, na.rm=T), by=.(site,year)]</span></span>
-<span id="cb8-424"><a href="#cb8-424" aria-hidden="true" tabindex="-1"></a><span class="co"># comb[,dm.change.log.live_mass:=change.log.live_mass-mean(change.log.live_mass, na.rm=T), by=.(site,year)]</span></span>
-<span id="cb8-425"><a href="#cb8-425" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-426"><a href="#cb8-426" aria-hidden="true" tabindex="-1"></a><span class="co"># # Panel analog (plot FE and site-year effects)</span></span>
-<span id="cb8-427"><a href="#cb8-427" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(comb[!is.na(dm.change.log.rich) &amp; !is.na(dm.change.log.live_mass),], </span></span>
-<span id="cb8-428"><a href="#cb8-428" aria-hidden="true" tabindex="-1"></a><span class="co">#        aes(x=dm.change.log.rich, </span></span>
-<span id="cb8-429"><a href="#cb8-429" aria-hidden="true" tabindex="-1"></a><span class="co">#            y=dm.change.log.live_mass)) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + </span></span>
-<span id="cb8-430"><a href="#cb8-430" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(method="lm", se=F) +</span></span>
-<span id="cb8-431"><a href="#cb8-431" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_bw() +</span></span>
-<span id="cb8-432"><a href="#cb8-432" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point()</span></span>
+<span id="cb8-421"><a href="#cb8-421" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,dm.changerich:=changerich-mean(changerich, na.rm=T), by=.(site,year)]</span></span>
+<span id="cb8-422"><a href="#cb8-422" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,dm.changelive_mass:=changelive_mass-mean(changelive_mass, na.rm=T), by=.(site,year)]</span></span>
+<span id="cb8-423"><a href="#cb8-423" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,dm.change.log.rich:=change.log.rich-mean(change.log.rich, na.rm=T), by=.(site,year)]</span></span>
+<span id="cb8-424"><a href="#cb8-424" aria-hidden="true" tabindex="-1"></a><span class="in"># comb[,dm.change.log.live_mass:=change.log.live_mass-mean(change.log.live_mass, na.rm=T), by=.(site,year)]</span></span>
+<span id="cb8-425"><a href="#cb8-425" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-426"><a href="#cb8-426" aria-hidden="true" tabindex="-1"></a><span class="in"># # Panel analog (plot FE and site-year effects)</span></span>
+<span id="cb8-427"><a href="#cb8-427" aria-hidden="true" tabindex="-1"></a><span class="in"># ggplot(comb[!is.na(dm.change.log.rich) &amp; !is.na(dm.change.log.live_mass),], </span></span>
+<span id="cb8-428"><a href="#cb8-428" aria-hidden="true" tabindex="-1"></a><span class="in">#        aes(x=dm.change.log.rich, </span></span>
+<span id="cb8-429"><a href="#cb8-429" aria-hidden="true" tabindex="-1"></a><span class="in">#            y=dm.change.log.live_mass)) + labs(y = "log(Live biomass)") + labs(x = "log(Richness)") + </span></span>
+<span id="cb8-430"><a href="#cb8-430" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_smooth(method="lm", se=F) +</span></span>
+<span id="cb8-431"><a href="#cb8-431" aria-hidden="true" tabindex="-1"></a><span class="in">#   theme_bw() +</span></span>
+<span id="cb8-432"><a href="#cb8-432" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_point()</span></span>
 <span id="cb8-433"><a href="#cb8-433" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-434"><a href="#cb8-434" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-435"><a href="#cb8-435" aria-hidden="true" tabindex="-1"></a></span>
@@ -1387,21 +1607,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-450"><a href="#cb8-450" aria-hidden="true" tabindex="-1"></a>Check out how the results below change (or not) in response to fixed effects (references for more details on the mathematics behind this are listed later on). First, consider the two linear models (without random effects) with different sets of soil variables:</span>
 <span id="cb8-451"><a href="#cb8-451" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE, warning=FALSE}</span></span>
 <span id="cb8-452"><a href="#cb8-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-453"><a href="#cb8-453" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Linear Model with Soil Covariates</span></span>
-<span id="cb8-454"><a href="#cb8-454" aria-hidden="true" tabindex="-1"></a><span class="co"># SoilCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
-<span id="cb8-455"><a href="#cb8-455" aria-hidden="true" tabindex="-1"></a><span class="co">#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B, </span></span>
-<span id="cb8-456"><a href="#cb8-456" aria-hidden="true" tabindex="-1"></a><span class="co">#                     comb, cluster = "newplotid") </span></span>
-<span id="cb8-457"><a href="#cb8-457" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-458"><a href="#cb8-458" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Linear Model with More Soil Covariates</span></span>
-<span id="cb8-459"><a href="#cb8-459" aria-hidden="true" tabindex="-1"></a><span class="co"># SoilCovars_More &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
-<span id="cb8-460"><a href="#cb8-460" aria-hidden="true" tabindex="-1"></a><span class="co">#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +</span></span>
-<span id="cb8-461"><a href="#cb8-461" aria-hidden="true" tabindex="-1"></a><span class="co">#                       pH + PercentSand + PercentSilt + PercentClay, </span></span>
-<span id="cb8-462"><a href="#cb8-462" aria-hidden="true" tabindex="-1"></a><span class="co">#                     comb, cluster = "newplotid") </span></span>
-<span id="cb8-463"><a href="#cb8-463" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-464"><a href="#cb8-464" aria-hidden="true" tabindex="-1"></a><span class="co"># etable(SoilCovars, SoilCovars_More,</span></span>
-<span id="cb8-465"><a href="#cb8-465" aria-hidden="true" tabindex="-1"></a><span class="co">#           cluster = "newplotid", </span></span>
-<span id="cb8-466"><a href="#cb8-466" aria-hidden="true" tabindex="-1"></a><span class="co">#           drop = "!rich", </span></span>
-<span id="cb8-467"><a href="#cb8-467" aria-hidden="true" tabindex="-1"></a><span class="co">#           subtitles = c("Some soil covariates","More soil covariates")) </span></span>
+<span id="cb8-453"><a href="#cb8-453" aria-hidden="true" tabindex="-1"></a><span class="in"># ## Linear Model with Soil Covariates</span></span>
+<span id="cb8-454"><a href="#cb8-454" aria-hidden="true" tabindex="-1"></a><span class="in"># SoilCovars &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
+<span id="cb8-455"><a href="#cb8-455" aria-hidden="true" tabindex="-1"></a><span class="in">#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B, </span></span>
+<span id="cb8-456"><a href="#cb8-456" aria-hidden="true" tabindex="-1"></a><span class="in">#                     comb, cluster = "newplotid") </span></span>
+<span id="cb8-457"><a href="#cb8-457" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-458"><a href="#cb8-458" aria-hidden="true" tabindex="-1"></a><span class="in"># ## Linear Model with More Soil Covariates</span></span>
+<span id="cb8-459"><a href="#cb8-459" aria-hidden="true" tabindex="-1"></a><span class="in"># SoilCovars_More &lt;- feols(log(live_mass) ~ log(rich) +</span></span>
+<span id="cb8-460"><a href="#cb8-460" aria-hidden="true" tabindex="-1"></a><span class="in">#                       pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +</span></span>
+<span id="cb8-461"><a href="#cb8-461" aria-hidden="true" tabindex="-1"></a><span class="in">#                       pH + PercentSand + PercentSilt + PercentClay, </span></span>
+<span id="cb8-462"><a href="#cb8-462" aria-hidden="true" tabindex="-1"></a><span class="in">#                     comb, cluster = "newplotid") </span></span>
+<span id="cb8-463"><a href="#cb8-463" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-464"><a href="#cb8-464" aria-hidden="true" tabindex="-1"></a><span class="in"># etable(SoilCovars, SoilCovars_More,</span></span>
+<span id="cb8-465"><a href="#cb8-465" aria-hidden="true" tabindex="-1"></a><span class="in">#           cluster = "newplotid", </span></span>
+<span id="cb8-466"><a href="#cb8-466" aria-hidden="true" tabindex="-1"></a><span class="in">#           drop = "!rich", </span></span>
+<span id="cb8-467"><a href="#cb8-467" aria-hidden="true" tabindex="-1"></a><span class="in">#           subtitles = c("Some soil covariates","More soil covariates")) </span></span>
 <span id="cb8-468"><a href="#cb8-468" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-469"><a href="#cb8-469" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-470"><a href="#cb8-470" aria-hidden="true" tabindex="-1"></a></span>
@@ -1411,24 +1631,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-474"><a href="#cb8-474" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-475"><a href="#cb8-475" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE, warning=FALSE}</span></span>
 <span id="cb8-476"><a href="#cb8-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-477"><a href="#cb8-477" aria-hidden="true" tabindex="-1"></a><span class="co"># ## First, characteristics of soil influence both productivity and richness. We use covariates that characterize several aspects of the soil fertility and nutrients. We include plot and site random effects.</span></span>
-<span id="cb8-478"><a href="#cb8-478" aria-hidden="true" tabindex="-1"></a><span class="co"># MixedMod_Rich_soil &lt;- lmer(log(live_mass) ~ log(rich) + </span></span>
-<span id="cb8-479"><a href="#cb8-479" aria-hidden="true" tabindex="-1"></a><span class="co">#                              pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +   (1|site_code), comb, REML = F)</span></span>
-<span id="cb8-480"><a href="#cb8-480" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(MixedMod_Rich_soil)</span></span>
-<span id="cb8-481"><a href="#cb8-481" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-482"><a href="#cb8-482" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-483"><a href="#cb8-483" aria-hidden="true" tabindex="-1"></a><span class="co"># ## We now bring in management variables, and retain the plot and site random effects.</span></span>
-<span id="cb8-484"><a href="#cb8-484" aria-hidden="true" tabindex="-1"></a><span class="co"># MixedMod_Rich2 &lt;- lmer(log(live_mass) ~ log(rich) + </span></span>
-<span id="cb8-485"><a href="#cb8-485" aria-hidden="true" tabindex="-1"></a><span class="co">#                          managed + burned + grazed + anthropogenic + </span></span>
-<span id="cb8-486"><a href="#cb8-486" aria-hidden="true" tabindex="-1"></a><span class="co">#                          pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +                             (1|site_code), comb, REML = F)</span></span>
-<span id="cb8-487"><a href="#cb8-487" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(MixedMod_Rich2 )</span></span>
-<span id="cb8-488"><a href="#cb8-488" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-489"><a href="#cb8-489" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb8-490"><a href="#cb8-490" aria-hidden="true" tabindex="-1"></a><span class="co"># ## we also can bring in controls for country, habitat, and year, again retaining the plot and site random effects. </span></span>
-<span id="cb8-491"><a href="#cb8-491" aria-hidden="true" tabindex="-1"></a><span class="co"># MixedMod_Rich &lt;- lmer(log(live_mass) ~ log(rich) + as.factor(country) + as.factor(habitat) + as.factor(year) + </span></span>
-<span id="cb8-492"><a href="#cb8-492" aria-hidden="true" tabindex="-1"></a><span class="co">#                         elevation + managed + burned + grazed + anthropogenic + </span></span>
-<span id="cb8-493"><a href="#cb8-493" aria-hidden="true" tabindex="-1"></a><span class="co">#                         TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 +                            TEMP_COLD_Q_v2 +   pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +            ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +                             (1|site_code), comb, REML = F)</span></span>
-<span id="cb8-494"><a href="#cb8-494" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(MixedMod_Rich )</span></span>
+<span id="cb8-477"><a href="#cb8-477" aria-hidden="true" tabindex="-1"></a><span class="in"># ## First, characteristics of soil influence both productivity and richness. We use covariates that characterize several aspects of the soil fertility and nutrients. We include plot and site random effects.</span></span>
+<span id="cb8-478"><a href="#cb8-478" aria-hidden="true" tabindex="-1"></a><span class="in"># MixedMod_Rich_soil &lt;- lmer(log(live_mass) ~ log(rich) + </span></span>
+<span id="cb8-479"><a href="#cb8-479" aria-hidden="true" tabindex="-1"></a><span class="in">#                              pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +   (1|site_code), comb, REML = F)</span></span>
+<span id="cb8-480"><a href="#cb8-480" aria-hidden="true" tabindex="-1"></a><span class="in"># summary(MixedMod_Rich_soil)</span></span>
+<span id="cb8-481"><a href="#cb8-481" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-482"><a href="#cb8-482" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-483"><a href="#cb8-483" aria-hidden="true" tabindex="-1"></a><span class="in"># ## We now bring in management variables, and retain the plot and site random effects.</span></span>
+<span id="cb8-484"><a href="#cb8-484" aria-hidden="true" tabindex="-1"></a><span class="in"># MixedMod_Rich2 &lt;- lmer(log(live_mass) ~ log(rich) + </span></span>
+<span id="cb8-485"><a href="#cb8-485" aria-hidden="true" tabindex="-1"></a><span class="in">#                          managed + burned + grazed + anthropogenic + </span></span>
+<span id="cb8-486"><a href="#cb8-486" aria-hidden="true" tabindex="-1"></a><span class="in">#                          pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +  ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +                             (1|site_code), comb, REML = F)</span></span>
+<span id="cb8-487"><a href="#cb8-487" aria-hidden="true" tabindex="-1"></a><span class="in"># summary(MixedMod_Rich2 )</span></span>
+<span id="cb8-488"><a href="#cb8-488" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-489"><a href="#cb8-489" aria-hidden="true" tabindex="-1"></a><span class="in"># </span></span>
+<span id="cb8-490"><a href="#cb8-490" aria-hidden="true" tabindex="-1"></a><span class="in"># ## we also can bring in controls for country, habitat, and year, again retaining the plot and site random effects. </span></span>
+<span id="cb8-491"><a href="#cb8-491" aria-hidden="true" tabindex="-1"></a><span class="in"># MixedMod_Rich &lt;- lmer(log(live_mass) ~ log(rich) + as.factor(country) + as.factor(habitat) + as.factor(year) + </span></span>
+<span id="cb8-492"><a href="#cb8-492" aria-hidden="true" tabindex="-1"></a><span class="in">#                         elevation + managed + burned + grazed + anthropogenic + </span></span>
+<span id="cb8-493"><a href="#cb8-493" aria-hidden="true" tabindex="-1"></a><span class="in">#                         TEMP_VAR_v2 + MIN_TEMP_v2 + MAX_TEMP_v2 + TEMP_WET_Q_v2 + TEMP_DRY_Q_v2 + TEMP_WARM_Q_v2 +                            TEMP_COLD_Q_v2 +   pct_C + pct_N + ppm_P + ppm_K + ppm_Na + ppm_Mg + ppm_S + ppm_Na + ppm_Zn +            ppm_Mn +  ppm_Fe + ppm_Cu + ppm_B +   pH + PercentSand + PercentSilt + PercentClay +    (1|newplotid) +                             (1|site_code), comb, REML = F)</span></span>
+<span id="cb8-494"><a href="#cb8-494" aria-hidden="true" tabindex="-1"></a><span class="in"># summary(MixedMod_Rich )</span></span>
 <span id="cb8-495"><a href="#cb8-495" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-496"><a href="#cb8-496" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-497"><a href="#cb8-497" aria-hidden="true" tabindex="-1"></a></span>
@@ -1441,9 +1661,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-504"><a href="#cb8-504" aria-hidden="true" tabindex="-1"></a>A hallmark of modern approaches to causal inference is to probe the robustness of results to potential violations in the assumptions used to infer causality from correlation.</span>
 <span id="cb8-505"><a href="#cb8-505" aria-hidden="true" tabindex="-1"></a>Using four approaches, we use different assumptions than made in our Main Design (the two-way fixed effects estimator -- in Figure 2A) and assess how the conclusions change (see SM). Causal inference in each approach requires causal assumptions, but each approach makes different assumptions. In other words, each approach can detect hidden biases in our design (i.e., threats to internal validity) under different conditions. Our causal interpretations in the paper are strengthened by the robustness of our inferences to changes in the causal assumptions. In other words, it’s not hard to knock one of the analyses as having limitations, but it’s harder to come up with a story that explains the pattern we observe across all of the analyses (including the complementary analyses about species richness as a heterogeneous treatment in Figs 4 and 5). The results are shown in Figure 3 of the main text and the analyses are described in detail in the SM. </span>
 <span id="cb8-506"><a href="#cb8-506" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-507"><a href="#cb8-507" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">style</span><span class="ot">=</span><span class="st">"background-color: #c5cae9"</span><span class="kw">&gt;</span></span>
+<span id="cb8-507"><a href="#cb8-507" aria-hidden="true" tabindex="-1"></a>&lt;div style="background-color: #c5cae9"&gt;</span>
 <span id="cb8-508"><a href="#cb8-508" aria-hidden="true" tabindex="-1"></a>TAKEAWAY: The best way to view all of the analyses described in Figure 3 is that each analysis uses different causal assumptions yet comes to the same conclusion. That pattern is the source of our paper’s strength of evidence: the results of each individual analysis could be explained by a different rival explanation, but it is hard to come up with a coherent set of rival explanations that could explain them all. And, if so, the analyses and rival explanation point to a clear direction for future studies to examine.</span>
-<span id="cb8-509"><a href="#cb8-509" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb8-509"><a href="#cb8-509" aria-hidden="true" tabindex="-1"></a>&lt;/div&gt;</span>
 <span id="cb8-510"><a href="#cb8-510" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-511"><a href="#cb8-511" aria-hidden="true" tabindex="-1"></a>We provide some examples of the types of confounding variables addressed by these additional analysis designs. These examples are illustrative, not intended to be exhaustive: </span>
 <span id="cb8-512"><a href="#cb8-512" aria-hidden="true" tabindex="-1"></a></span>
@@ -1468,66 +1688,66 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-531"><a href="#cb8-531" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-532"><a href="#cb8-532" aria-hidden="true" tabindex="-1"></a>The assumptions for each design are laid out in simple form in Figure 3 in the main text (and see below), and at length in the Supplemental Materials (also see Figure S4, S5, S6, S7, and S8 for visuals).</span>
 <span id="cb8-533"><a href="#cb8-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-534"><a href="#cb8-534" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;center&gt;</span></span>
-<span id="cb8-535"><a href="#cb8-535" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-536"><a href="#cb8-536" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"https://i.imgur.com/Ho4yWS6.png"</span> <span class="er">width</span><span class="ot">=</span><span class="st">"100%"</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-537"><a href="#cb8-537" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;</span></span>
-<span id="cb8-538"><a href="#cb8-538" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/center&gt;</span>   </span>
+<span id="cb8-534"><a href="#cb8-534" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb8-535"><a href="#cb8-535" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-536"><a href="#cb8-536" aria-hidden="true" tabindex="-1"></a>&lt;img src="https://i.imgur.com/Ho4yWS6.png" width="100%" /&gt;</span>
+<span id="cb8-537"><a href="#cb8-537" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;</span>
+<span id="cb8-538"><a href="#cb8-538" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;   </span>
 <span id="cb8-539"><a href="#cb8-539" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-540"><a href="#cb8-540" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-541"><a href="#cb8-541" aria-hidden="true" tabindex="-1"></a><span class="fu"># Glossary</span></span>
 <span id="cb8-542"><a href="#cb8-542" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-543"><a href="#cb8-543" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"bias"</span><span class="kw">&gt;</span><span class="co">[</span><span class="ot">Bias and Hidden Bias</span><span class="co">](#crosssectinalback)</span><span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-543"><a href="#cb8-543" aria-hidden="true" tabindex="-1"></a>&lt;a name="bias"&gt;<span class="co">[</span><span class="ot">Bias and Hidden Bias</span><span class="co">](#crosssectinalback)</span>&lt;/a&gt;</span>
 <span id="cb8-544"><a href="#cb8-544" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-545"><a href="#cb8-545" aria-hidden="true" tabindex="-1"></a>: Bias is a property of an estimator of a causal effect: it captures the difference between the estimator's expected value and the true value of the causal effect being estimated <span class="co">[</span><span class="ot">@wooldridge2015introductory</span><span class="co">]</span>. The phrase "hidden bias" (also called "unobserved heterogeneity") is often used to describe the potential sources of bias in a study design (e.g., an omitted third variable that affects both biodiversity and productivity). Hidden bias is thus a rival explanation for detecting or failing to detect a correlation between a purported causal variable and its outcome using observable data <span class="co">[</span><span class="ot">@ferraro2014advances</span><span class="co">]</span>.  The goal of causal analysis is to choose data and a design so that an actual causal effect would be visibly different from the most plausible hidden biases. Note: sampling variability ("noise") is different from hidden bias; sampling variability is not a source of bias. Reviewed in  <span class="co">[</span><span class="ot">@larsen2019causal</span><span class="co">]</span> for ecologists.</span>
 <span id="cb8-546"><a href="#cb8-546" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-547"><a href="#cb8-547" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"clusterse"</span><span class="kw">&gt;</span><span class="co">[</span><span class="ot">Cluster standard errors</span><span class="co">](#clusterseback)</span><span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-547"><a href="#cb8-547" aria-hidden="true" tabindex="-1"></a>&lt;a name="clusterse"&gt;<span class="co">[</span><span class="ot">Cluster standard errors</span><span class="co">](#clusterseback)</span>&lt;/a&gt;</span>
 <span id="cb8-548"><a href="#cb8-548" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-549"><a href="#cb8-549" aria-hidden="true" tabindex="-1"></a>: Standard errors that are robust to arbitrary correlation and heteroskedasticity within groups ("cluster"). A standard tool for inference with panel data. See <span class="co">[</span><span class="ot">@wooldridge2010econometric</span><span class="co">]</span> and <span class="co">[</span><span class="ot">@Cameron2015</span><span class="co">]</span>.</span>
 <span id="cb8-550"><a href="#cb8-550" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-551"><a href="#cb8-551" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"conditioning"</span><span class="kw">&gt;</span><span class="co">[</span><span class="ot">Conditioning on Observables</span><span class="co">](#selectionobservback)</span><span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-551"><a href="#cb8-551" aria-hidden="true" tabindex="-1"></a>&lt;a name="conditioning"&gt;<span class="co">[</span><span class="ot">Conditioning on Observables</span><span class="co">](#selectionobservback)</span>&lt;/a&gt;</span>
 <span id="cb8-552"><a href="#cb8-552" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-553"><a href="#cb8-553" aria-hidden="true" tabindex="-1"></a>: Typically used as a synonym for "controlling" for, i.e., a model that conditions on set of observables typically means that it has included those observables linearly as control variables.</span>
 <span id="cb8-554"><a href="#cb8-554" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-555"><a href="#cb8-555" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-556"><a href="#cb8-556" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"confounders"</span><span class="kw">&gt;</span>Confounding Variables (or "confounders")<span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-556"><a href="#cb8-556" aria-hidden="true" tabindex="-1"></a>&lt;a name="confounders"&gt;Confounding Variables (or "confounders")&lt;/a&gt;</span>
 <span id="cb8-557"><a href="#cb8-557" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-558"><a href="#cb8-558" aria-hidden="true" tabindex="-1"></a>: In this study, we use the term "confounding variable" to describe variables that are systematically correlated with the causal variable (e.g., biodiversity) and the outcome variable (e.g., productivity), and thus can mask or mimic a causal effect. Confounding variables are a potential source of bias in a **non-experimental** study design.</span>
 <span id="cb8-559"><a href="#cb8-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-560"><a href="#cb8-560" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"crosssectional"</span><span class="kw">&gt;</span><span class="co">[</span><span class="ot">Cross-sectional Data</span><span class="co">](#crosssectinalback)</span><span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-560"><a href="#cb8-560" aria-hidden="true" tabindex="-1"></a>&lt;a name="crosssectional"&gt;<span class="co">[</span><span class="ot">Cross-sectional Data</span><span class="co">](#crosssectinalback)</span>&lt;/a&gt;</span>
 <span id="cb8-561"><a href="#cb8-561" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-562"><a href="#cb8-562" aria-hidden="true" tabindex="-1"></a>: Data without repeated measures taken from a sample. Instead, one measure is taken from each unit of analysis (e.g., plot). For example, analyses of the effect of biodiversity on productivity in cross-sectional data have only one observation per plot. It is is hard to assume the we observe and correctly control for all confounding variables when analyzing cross-sectional data. </span>
 <span id="cb8-563"><a href="#cb8-563" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-564"><a href="#cb8-564" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"dag"</span><span class="kw">&gt;</span><span class="co">[</span><span class="ot">Direct Acyclic Graph</span><span class="co">](#dagback)</span><span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-564"><a href="#cb8-564" aria-hidden="true" tabindex="-1"></a>&lt;a name="dag"&gt;<span class="co">[</span><span class="ot">Direct Acyclic Graph</span><span class="co">](#dagback)</span>&lt;/a&gt;</span>
 <span id="cb8-565"><a href="#cb8-565" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-566"><a href="#cb8-566" aria-hidden="true" tabindex="-1"></a>: Generally, a directed graph (a network with connections in which the direction of flow matters) with no directed cycles (no repeating loops). When working with observational data, a tool used to understand potential confoudning pathways, see e.g., <span class="co">[</span><span class="ot">this tutorial</span><span class="co">](https://imai.fas.harvard.edu/teaching/files/DAG.pdf)</span>.</span>
 <span id="cb8-567"><a href="#cb8-567" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-568"><a href="#cb8-568" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"endogeneity"</span><span class="kw">&gt;</span><span class="co">[</span><span class="ot">Endogeniety</span><span class="co">](#endogeneityback)</span><span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-568"><a href="#cb8-568" aria-hidden="true" tabindex="-1"></a>&lt;a name="endogeneity"&gt;<span class="co">[</span><span class="ot">Endogeniety</span><span class="co">](#endogeneityback)</span>&lt;/a&gt;</span>
 <span id="cb8-569"><a href="#cb8-569" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-570"><a href="#cb8-570" aria-hidden="true" tabindex="-1"></a>: Broadly, situations in which the variable of interest is correlated with the error term. The goal of causal analysis using observational data is typically to reduce or remove endogeneity. See <span class="co">[</span><span class="ot">@wooldridge2015introductory</span><span class="co">]</span>; reviewed in <span class="co">[</span><span class="ot">@larsen2019causal</span><span class="co">]</span> and <span class="co">[</span><span class="ot">@kendall2015statistical</span><span class="co">]</span> for ecologists, also</span>
 <span id="cb8-571"><a href="#cb8-571" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">this video</span><span class="co">](https://www.youtube.com/watch?v=_sRlvKws7F8)</span></span>
 <span id="cb8-572"><a href="#cb8-572" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-573"><a href="#cb8-573" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"errors"</span><span class="kw">&gt;</span>Errors versus Residuals<span class="kw">&lt;/a&gt;</span>:</span>
+<span id="cb8-573"><a href="#cb8-573" aria-hidden="true" tabindex="-1"></a>&lt;a name="errors"&gt;Errors versus Residuals&lt;/a&gt;:</span>
 <span id="cb8-574"><a href="#cb8-574" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-575"><a href="#cb8-575" aria-hidden="true" tabindex="-1"></a>: The error term is part of the *true* data generating process. In contrast, residuals are the difference between the regression line and the observed data points. Residuals cannot be used to assess potential bias in an estimation procedure. </span>
 <span id="cb8-576"><a href="#cb8-576" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-577"><a href="#cb8-577" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"identification"</span><span class="kw">&gt;</span>Identification<span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-577"><a href="#cb8-577" aria-hidden="true" tabindex="-1"></a>&lt;a name="identification"&gt;Identification&lt;/a&gt;</span>
 <span id="cb8-578"><a href="#cb8-578" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-579"><a href="#cb8-579" aria-hidden="true" tabindex="-1"></a>: Formally, a parameter is point identified if it can be uniquely determined from data (usually via a research design). Commonly used to denote whether an estimator of a parameter converges in probability to the value the researcher is seeking; e.g., "Under these three assumptions, $\beta$ is identified" (meaning it reflects the the value of interest, like a causal effect). See <span class="co">[</span><span class="ot">@larsen2019causal</span><span class="co">]</span> for a review for ecologists </span>
 <span id="cb8-580"><a href="#cb8-580" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-581"><a href="#cb8-581" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"instrumental"</span><span class="kw">&gt;</span>Instrumental Variable<span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-581"><a href="#cb8-581" aria-hidden="true" tabindex="-1"></a>&lt;a name="instrumental"&gt;Instrumental Variable&lt;/a&gt;</span>
 <span id="cb8-582"><a href="#cb8-582" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-583"><a href="#cb8-583" aria-hidden="true" tabindex="-1"></a>: This term is defined in in Figure 1B as variable Z, a variable that affects the treatment variable (in our study, “species richness”) but has no direct effect on the outcome variable (in our study, “above-ground biomass”) except through its effect on the treatment. In a randomized experiment, the instrumental variable is the randomization procedure. To read more, see <span class="co">[</span><span class="ot">@imbens2014instrumental;@kendall2015statistical</span><span class="co">]</span> and our SM. </span>
 <span id="cb8-584"><a href="#cb8-584" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-585"><a href="#cb8-585" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"panel"</span><span class="kw">&gt;</span>Panel Data<span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-585"><a href="#cb8-585" aria-hidden="true" tabindex="-1"></a>&lt;a name="panel"&gt;Panel Data&lt;/a&gt;</span>
 <span id="cb8-586"><a href="#cb8-586" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-587"><a href="#cb8-587" aria-hidden="true" tabindex="-1"></a>: Panel data are longitudinal data comprising repeated measures taken from a sample of cases (e.g., plots, sites, regions). Such data are also sometimes referred to as longitudinal multilevel data. See our SM section S3 for more detail on this panel data. For an excellent introduction to approaches using panel data, see <span class="co">[</span><span class="ot">@angrist2008mostly</span><span class="co">]</span>.</span>
 <span id="cb8-588"><a href="#cb8-588" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-589"><a href="#cb8-589" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span><span class="ot">=</span><span class="st">"rivalexplanations"</span><span class="kw">&gt;</span><span class="co">[</span><span class="ot">Rival Explanations</span><span class="co">](#rivalexplanationsback)</span><span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-589"><a href="#cb8-589" aria-hidden="true" tabindex="-1"></a>&lt;a name="rivalexplanations"&gt;<span class="co">[</span><span class="ot">Rival Explanations</span><span class="co">](#rivalexplanationsback)</span>&lt;/a&gt;</span>
 <span id="cb8-590"><a href="#cb8-590" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-591"><a href="#cb8-591" aria-hidden="true" tabindex="-1"></a>: Alternative narratives that can explain estimated relationships but that do not violate identification. </span>
 <span id="cb8-592"><a href="#cb8-592" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-593"><a href="#cb8-593" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">name</span> <span class="ot">=</span> <span class="st">"selectionobserv"</span><span class="kw">&gt;</span><span class="co">[</span><span class="ot">Selection on Observables" Assumption</span><span class="co">](#selectionobservback)</span><span class="kw">&lt;/a&gt;</span></span>
+<span id="cb8-593"><a href="#cb8-593" aria-hidden="true" tabindex="-1"></a>&lt;a name = "selectionobserv"&gt;<span class="co">[</span><span class="ot">Selection on Observables" Assumption</span><span class="co">](#selectionobservback)</span>&lt;/a&gt;</span>
 <span id="cb8-594"><a href="#cb8-594" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-595"><a href="#cb8-595" aria-hidden="true" tabindex="-1"></a>: Informally, this assumption implies that confounding variables that could introduce bias into a design are known and observable to the researcher. The bias they introduce into an estimator can thus be eliminated (controlled, blocked) by conditioning strategies, such as regression, matching or stratification methods. To read more, see <span class="co">[</span><span class="ot">@morganCounterfactualsCausalInference2014</span><span class="co">]</span>.</span>
 <span id="cb8-596"><a href="#cb8-596" aria-hidden="true" tabindex="-1"></a></span>
@@ -1539,10 +1759,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-602"><a href="#cb8-602" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-603"><a href="#cb8-603" aria-hidden="true" tabindex="-1"></a><span class="fu"># References</span></span>
 <span id="cb8-604"><a href="#cb8-604" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-605"><a href="#cb8-605" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">id</span><span class="ot">=</span><span class="st">"refs"</span><span class="kw">&gt;&lt;/div&gt;</span></span>
-<span id="cb8-606"><a href="#cb8-606" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-605"><a href="#cb8-605" aria-hidden="true" tabindex="-1"></a>&lt;div id="refs"&gt;&lt;/div&gt;</span>
+<span id="cb8-606"><a href="#cb8-606" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
+
 
 
 

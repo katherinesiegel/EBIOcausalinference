@@ -1,1 +1,1 @@
-Sitemap: https://github.com/katherinesiegel/EBIOcausalinference/sitemap.xml
+Sitemap: https://katherinesiegel.github.io/EBIOcausalinference/sitemap.xml
